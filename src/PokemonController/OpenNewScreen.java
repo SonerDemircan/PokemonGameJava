@@ -13,6 +13,8 @@ import java.io.IOException;
 // fxmlFilename is de nieuwe fxml die geopend moet worden
 // currentStage is het actieve scherm wat dan moet worden gesloten
 
+//dit is een test van daniel
+
 public class OpenNewScreen {
     public void openNewScreen(String fxmlFilename, Stage currentStage) throws IOException {
         Stage stage = new Stage();
