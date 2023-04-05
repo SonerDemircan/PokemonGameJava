@@ -15,12 +15,15 @@ import java.io.IOException;
 
 //dit is een test van daniel
 
+//Dit is een test van Soner
+// TEST TEST TEST
+
 public class OpenNewScreen {
     public void openNewScreen(String fxmlFilename, Stage currentStage) throws IOException {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/fmxl/" + fxmlFilename + ".fxml"));
         stage.setTitle("New Scene");
-        stage.setScene(new Scene(root, 300, 275));
+        stage.setScene(new Scene(root, 900, 275));
         stage.show();
         currentStage.close();
     }
