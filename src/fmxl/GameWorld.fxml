@@ -34,7 +34,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView id="myCharacterUp" fx:id="myCharacterUp" fitHeight="60.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                <ImageView id="myCharacterUp" fx:id="myCharacterUp" fitHeight="60.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
                     <image>
                         <Image url="@../ImagesAndSprites/SpriteBack.png" />
                     </image>

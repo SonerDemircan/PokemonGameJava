@@ -1,5 +1,8 @@
 package PokemonGame;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Player {
 
     private String name;
@@ -10,6 +13,11 @@ public class Player {
     private Item[] items;           //items zoals pokéballs, potions etc
     private int experience;        //te gebruiken om levelUp en/of aankoop items
     private int catchCount;         //aantal gevangen pokemon
+    private Image frontView;
+    private Image backView;
+    private Image leftView;
+    private Image rightView;
+
 
     public Player(String playerName, char playerGender) {
         this.name = playerName;
@@ -20,7 +28,41 @@ public class Player {
         this.pokemons = new Pokemon[20];
         this.items = new Item[10];
         this.experience = 0;
+
+        this.frontView = new Image("ImagesAndSprites\\SpriteFront.png");
+        this.backView = new Image("ImagesAndSprites\\SpriteBack.png");
+        this.leftView = new Image("ImagesAndSprites\\SpriteLeft.png");
+        this.rightView = new Image("ImagesAndSprites\\SpriteRight.png");
     }
+
+    public ImageView frontViewCharacter() {
+        ImageView imageView = new ImageView(frontView);
+        imageView.setY(this.charYpos);
+        imageView.setX(this.charXpos);
+        return imageView;
+    }
+
+    public ImageView backViewCharacter() {
+        ImageView imageView = new ImageView(backView);
+        imageView.setY(this.charYpos);
+        imageView.setX(this.charXpos);
+        return imageView;
+    }
+
+    public ImageView leftViewCharacter() {
+        ImageView imageView = new ImageView(leftView);
+        imageView.setY(this.charYpos);
+        imageView.setX(this.charXpos);
+        return imageView;
+    }
+
+    public ImageView rightViewCharacter() {
+        ImageView imageView = new ImageView(rightView);
+        imageView.setY(this.charYpos);
+        imageView.setX(this.charXpos);
+        return imageView;
+    }
+
 
     public int getCharXpos() {
         return charXpos;
@@ -31,10 +73,10 @@ public class Player {
     }
 
     public void setCharXpos(int charXpos) {
-        this.charXpos += charXpos;
+        this.charXpos = charXpos;
     }
 
     public void setCharYpos(int charYpos) {
-        this.charYpos += charYpos;
+        this.charYpos = charYpos;
     }
 }

@@ -39,10 +39,10 @@ private ImageView myCharacterLeft;
     public void keyboardUp(KeyCode e) {
         System.out.println(e.getCode());
         switch (e.getCode()) {
-            case 87:
+            case 90:
                 up(null);
                 break;
-            case 65:
+            case 81:
                 left(null);
                 break;
             case 68:
@@ -70,12 +70,13 @@ private ImageView myCharacterLeft;
         //col = character.getCharYpos();
 
         if (player.getCharXpos() > 0) {
-            myCharacterLeft.setVisible(false);
+           /* myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(true);
             myCharacterDown.setVisible(false);
-            myCharacterRight.setVisible(false);
+            myCharacterRight.setVisible(false);*/
+            player.backViewCharacter();
             player.setCharXpos(player.getCharXpos()-1);
-            GridPane.setConstraints(myCharacterUp, player.getCharYpos(), player.getCharXpos());
+            GridPane.setConstraints(player.backViewCharacter(), player.getCharYpos(), player.getCharXpos());
         }
     }
 
@@ -91,12 +92,13 @@ private ImageView myCharacterLeft;
         //int row = GridPane.getRowIndex(myCharacter);
         //int col = GridPane.getColumnIndex(myCharacter);
         if (player.getCharXpos() < 6) {
-            myCharacterLeft.setVisible(false);
+            /*myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterRight.setVisible(false);
-            myCharacterDown.setVisible(true);
+            myCharacterDown.setVisible(true);*/
+            player.frontViewCharacter();
             player.setCharXpos(player.getCharXpos()+1);
-            GridPane.setConstraints(myCharacterDown, player.getCharYpos(), player.getCharXpos());
+            GridPane.setConstraints(player.frontViewCharacter(), player.getCharYpos(), player.getCharXpos());
         }
     }
 
@@ -108,12 +110,13 @@ private ImageView myCharacterLeft;
         //int row = GridPane.getRowIndex(myCharacter);
         //int col = GridPane.getColumnIndex(myCharacter);
         if (player.getCharYpos() > 0) {
-            myCharacterLeft.setVisible(true);
+           /* myCharacterLeft.setVisible(true);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);
-            myCharacterRight.setVisible(false);
-            player.setCharYpos(player.getCharYpos() - 1);
-            GridPane.setConstraints(myCharacterLeft, player.getCharYpos(), player.getCharXpos());
+            myCharacterRight.setVisible(false);*/
+            player.leftViewCharacter();
+            player.setCharYpos(player.getCharYpos()-1);
+            GridPane.setConstraints(player.leftViewCharacter(), player.getCharYpos(), player.getCharXpos());
         }
     }
 
@@ -126,12 +129,13 @@ private ImageView myCharacterLeft;
         //int row = GridPane.getRowIndex(myCharacter);
         //int col = GridPane.getColumnIndex(myCharacter);
         if (player.getCharYpos() < 6) {
-            myCharacterLeft.setVisible(false);
+           /* myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);
-            myCharacterRight.setVisible(true);
-            player.setCharYpos(player.getCharYpos() + 1);
-            GridPane.setConstraints(myCharacterRight, player.getCharYpos(), player.getCharXpos());
+            myCharacterRight.setVisible(true);*/
+            player.rightViewCharacter();
+            player.setCharYpos(player.getCharYpos()+1);
+            GridPane.setConstraints(player.rightViewCharacter(), player.getCharYpos(), player.getCharXpos());
         }
     }
 }
