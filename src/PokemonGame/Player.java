@@ -42,6 +42,10 @@ public class Player {
         return imageView;
     }
 
+
+
+
+
     public ImageView backViewCharacter() {
         ImageView imageView = new ImageView(backView);
         imageView.setY(this.charYpos);
@@ -62,6 +66,12 @@ public class Player {
         imageView.setX(this.charXpos);
         return imageView;
     }
+
+
+
+
+
+
 
 
     public int getCharXpos() {
