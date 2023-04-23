@@ -3,7 +3,7 @@ package PokemonGame;
 public class Player {
 
     private String name;
-    private boolean gender;
+    private char gender;
     private int charXpos;
     private int charYpos;
     private Pokemon[] pokemons;     //gevangen pokemons, 1ste 6 in party
@@ -11,7 +11,7 @@ public class Player {
     private int experience;        //te gebruiken om levelUp en/of aankoop items
     private int catchCount;         //aantal gevangen pokemon
 
-    public Player(String playerName, boolean playerGender) {
+    public Player(String playerName, char playerGender) {
         this.name = playerName;
         this.gender = playerGender;
         this.charXpos = 3;
