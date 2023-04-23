@@ -22,6 +22,14 @@ public class Player {
         this.experience = 0;
     }
 
+    public int getCharXpos() {
+        return charXpos;
+    }
+
+    public int getCharYpos() {
+        return charYpos;
+    }
+
     public void setCharXpos(int charXpos) {
         this.charXpos += charXpos;
     }
