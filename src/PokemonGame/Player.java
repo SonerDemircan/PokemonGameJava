@@ -29,6 +29,8 @@ public class Player {
         this.items = new Item[10];
         this.experience = 0;
 
+        //WERKEN MET INHERITANCE
+
         this.frontView = new Image("ImagesAndSprites\\SpriteFront.png");
         this.backView = new Image("ImagesAndSprites\\SpriteBack.png");
         this.leftView = new Image("ImagesAndSprites\\SpriteLeft.png");
