@@ -33,7 +33,7 @@ public class GameworldController {
     int row;
     int col;
 
-    Player player = new Player("Soner",'M');
+    Character player = new Character("Soner",'M');
 
     //Kijken om enum te gebruiken
     public void keyboardUp(KeyCode e) {

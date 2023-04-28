@@ -3,7 +3,7 @@ package PokemonGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Player {
+public class Character {
 
     private String name;
     private char gender;
@@ -19,7 +19,7 @@ public class Player {
     private Image rightView;
 
 
-    public Player(String playerName, char playerGender) {
+    public Character(String playerName, char playerGender) {
         this.name = playerName;
         this.gender = playerGender;
         this.charXpos = 3;
