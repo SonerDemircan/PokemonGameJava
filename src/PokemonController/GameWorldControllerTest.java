@@ -1,10 +1,12 @@
 package PokemonController;
 
+import PokemonGame.World;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class GameWorldControllerTest {
+
     @FXML
     private Pane centerPane;
 

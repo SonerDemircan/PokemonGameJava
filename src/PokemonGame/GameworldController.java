@@ -2,13 +2,22 @@ package PokemonGame;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
 public class GameworldController {
+
+    @FXML
+    private World world;
 
     @FXML
     private AnchorPane scene;
@@ -33,29 +42,51 @@ public class GameworldController {
     int row;
     int col;
 
-    Character player = new Character("Soner",'M');
+
+    @FXML
+    void moveUp(ActionEvent event){
+        world.moveUp();
+    }
+
+    @FXML
+    void moveLeft(ActionEvent event){
+        world.moveLeft();
+    }
+
+    @FXML
+    void moveRight(ActionEvent event){
+        world.moveRight();
+    }
+
+    @FXML
+    void moveDown(ActionEvent event){
+        world.moveDown();
+    }
+
 
     //Kijken om enum te gebruiken
-    public void keyboardUp(KeyCode e) {
+    public void keyboardUp(KeyEvent e) {
         System.out.println(e.getCode());
         switch (e.getCode()) {
-            case 90:
+            case Z:
                 up(null);
                 break;
-            case 81:
+            case Q:
                 left(null);
                 break;
-            case 68:
+            case D:
                 right(null);
                 break;
-            case 83:
-                down(null);
+            case S:
+                down();
                 break;
             default:
         }
     }
 
     //Aparte method maken voor de if-statement
+
+
 
     public void up(ActionEvent e) {
     /*currentY = myCharacter.getLayoutY();
@@ -69,18 +100,20 @@ public class GameworldController {
         //row = character.getCharXpos();
         //col = character.getCharYpos();
 
-        if (player.getCharXpos() > 0) {
+
+
+
+        if (world.player.getCharXpos() > 0) {
            /* myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(true);
             myCharacterDown.setVisible(false);
             myCharacterRight.setVisible(false);*/
-            player.backViewCharacter();
-            player.setCharXpos(player.getCharXpos()-1);
-            GridPane.setConstraints(player.backViewCharacter(), player.getCharYpos(), player.getCharXpos());
+
+            world.moveUp();
         }
     }
 
-    public void down(ActionEvent e) {
+    public void down() {
     /*currentY = myCharacter.getLayoutY();
     newY = currentY + 10;
     myCharacter.setLayoutY(newY);*/
@@ -89,16 +122,13 @@ public class GameworldController {
     newY = currentY + 10;
     myCharacter.setTranslateY(newY);*/
 
-        //int row = GridPane.getRowIndex(myCharacter);
-        //int col = GridPane.getColumnIndex(myCharacter);
-        if (player.getCharXpos() < 6) {
+        if (world.player.getCharXpos() < 6) {
             /*myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterRight.setVisible(false);
             myCharacterDown.setVisible(true);*/
-            player.frontViewCharacter();
-            player.setCharXpos(player.getCharXpos()+1);
-            GridPane.setConstraints(player.frontViewCharacter(), player.getCharYpos(), player.getCharXpos());
+
+
         }
     }
 
@@ -107,16 +137,11 @@ public class GameworldController {
     newX = currentX - 10;
     myCharacter.setLayoutX(newX);*/
 
-        //int row = GridPane.getRowIndex(myCharacter);
-        //int col = GridPane.getColumnIndex(myCharacter);
-        if (player.getCharYpos() > 0) {
+        if (world.player.getCharYpos() > 0) {
            /* myCharacterLeft.setVisible(true);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);
             myCharacterRight.setVisible(false);*/
-            player.leftViewCharacter();
-            player.setCharYpos(player.getCharYpos()-1);
-            GridPane.setConstraints(player.leftViewCharacter(), player.getCharYpos(), player.getCharXpos());
         }
     }
 
@@ -126,16 +151,11 @@ public class GameworldController {
     myCharacter.setLayoutX(newX);
 }*/
 
-        //int row = GridPane.getRowIndex(myCharacter);
-        //int col = GridPane.getColumnIndex(myCharacter);
-        if (player.getCharYpos() < 6) {
+        if (world.player.getCharYpos() < 6) {
            /* myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);
             myCharacterRight.setVisible(true);*/
-            player.rightViewCharacter();
-            player.setCharYpos(player.getCharYpos()+1);
-            GridPane.setConstraints(player.rightViewCharacter(), player.getCharYpos(), player.getCharXpos());
         }
     }
 }
