@@ -65,20 +65,31 @@ public class GameworldController {
 
 
     //Kijken om enum te gebruiken
-    public void keyboardUp(KeyEvent e) {
+    @FXML
+    public void keyboardMove(KeyEvent e) {
         System.out.println(e.getCode());
         switch (e.getCode()) {
-            case Z:
-                up(null);
+            case W :
+                if (world.player.getCharYpos() >= 0) {
+                    world.moveUp();
+                }
                 break;
-            case Q:
-                left(null);
+            case A:
+                if (world.player.getCharXpos() >= 0) {
+                    world.moveLeft();
+                }
                 break;
             case D:
-                right(null);
+                if (world.player.getCharXpos() < 745) {
+                    world.moveRight();
+                    System.out.println(world.player.getCharXpos());
+                }
                 break;
             case S:
-                down();
+                if (world.player.getCharYpos() < 790) {
+                    world.moveDown();
+                    System.out.println(world.player.getCharYpos());
+                }
                 break;
             default:
         }
@@ -123,6 +134,7 @@ public class GameworldController {
     myCharacter.setTranslateY(newY);*/
 
         if (world.player.getCharXpos() < 6) {
+            world.moveDown();
             /*myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterRight.setVisible(false);
@@ -138,6 +150,7 @@ public class GameworldController {
     myCharacter.setLayoutX(newX);*/
 
         if (world.player.getCharYpos() > 0) {
+            world.moveLeft();
            /* myCharacterLeft.setVisible(true);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);
@@ -152,6 +165,7 @@ public class GameworldController {
 }*/
 
         if (world.player.getCharYpos() < 6) {
+            world.moveRight();
            /* myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);

@@ -12,6 +12,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("../fxml/HomeScreen.fxml"));
+
+
+
+
         Parent root = fxmlLoader.load();
 
         primaryStage.setTitle("Welcome to the world of Pokémon");
@@ -20,8 +24,13 @@ public class Main extends Application {
         Scene scene = new Scene(root);
 
 
+
+
         primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true);
+
+
+
+        //primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 

@@ -45,7 +45,7 @@ public class Intro {
         OpenNewScene newScene = new OpenNewScene();
 
         try {
-            newScene.openNewScene("GameWorld", currentStage,"Intro");
+            newScene.openNewSceneKeyevent("GameWorld", currentStage,"Intro");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

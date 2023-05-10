@@ -13,9 +13,6 @@ public class World extends Pane {
         this.player = player;
     }
 
-
-
-
     public void moveUp() {
         getChildren().clear();
         getChildren().add(player.moveUp());

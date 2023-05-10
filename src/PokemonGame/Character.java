@@ -37,10 +37,10 @@ public class Character {
 
         //WERKEN MET INHERITANCE
 
-        this.characterView[0] = new Image("ImagesAndSprites\\SpriteFront.png",45,45,false,false);
-        this.characterView[1] =  new Image("ImagesAndSprites\\SpriteBack.png",45,45,false,false);
-        this.characterView[2] =  new Image("ImagesAndSprites\\SpriteLeft.png",45,45,false,false);
-        this.characterView[3] =  new Image("ImagesAndSprites\\SpriteRight.png",45,45,false,false);
+        this.characterView[0] = new Image("ImagesAndSprites/SpriteFront.png",45,45,false,false);
+        this.characterView[1] =  new Image("ImagesAndSprites/SpriteBack.png",45,45,false,false);
+        this.characterView[2] =  new Image("ImagesAndSprites/SpriteLeft.png",45,45,false,false);
+        this.characterView[3] =  new Image("ImagesAndSprites/SpriteRight.png",45,45,false,false);
     }
 
     public ImageView moveDown() {
