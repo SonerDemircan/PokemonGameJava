@@ -28,6 +28,11 @@ public class CSVReader {
             FileReader file = new FileReader(parameters.getFilePath());
             BufferedReader bufferedReader = new BufferedReader(file);
 
+            if (parameters.isHasHeader()) {
+                line = bufferedReader.readLine();
+                line = null;
+            }
+
             while ((line = bufferedReader.readLine()) != null) {
 
                 recordsList.add(line);

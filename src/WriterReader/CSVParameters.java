@@ -10,26 +10,19 @@ public class CSVParameters
     private String filePath;
     private int amountOfFields;
     private String delimiter;
-    private boolean readHeader;
+    private boolean hasHeader;
 
-    public CSVParameters(String filePath, int amountOfFields, String delimiter) {
+    public CSVParameters(String filePath, int amountOfFields, String delimiter, boolean hasHeader) {
         this.filePath = filePath;
         this.amountOfFields = amountOfFields;
         this.delimiter = delimiter;
-    }
-
-
-    public boolean is_ReadHeader() {
-        return readHeader;
-    }
-
-    public void set_ReadHeader(boolean readHeader) {
-        this.readHeader = readHeader;
+        this.hasHeader = hasHeader;
     }
 
 
     public String getDelimiter() { return this.delimiter; }
-    public String getFilePath() { return  this.filePath; }
+    public String getFilePath() { return this.filePath; }
     public int getAmountOfFields() { return this.amountOfFields; }
+    public boolean isHasHeader() { return this.hasHeader; }
 
 }
