@@ -4,8 +4,12 @@ import java.io.FileReader;
 
 public class CSVParameters
 {
-    //filename, filepath, splitby...
-    //alle parameters wat de reader moet weten wordt hier een object
+    /*klasse om eender welk CSV file in te lezen en in een 2D array terug te sturen zodat hiervan objecten gemaakt kunnen worden.
+    filePath is het path naar de CSV file.
+    amountOfFiels is het aantal kolommen.
+    delimiter is de scheiding.
+    hasHeader is als de CSV een hoofding heeft. indien true schrijft hij de eerste regel niet weg in de 2Darray
+     */
 
     private String filePath;
     private int amountOfFields;

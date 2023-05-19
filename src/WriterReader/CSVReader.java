@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CSVReader {
 
-    private List<String> x = new ArrayList<>();
     private CSVParameters csvParameters;
 
     public CSVReader(CSVParameters parameters) {
@@ -52,23 +51,6 @@ public class CSVReader {
             }
 
             return array;
-
-                /*
-                if (i > 0) {
-                    String[] lineContent = line.split(splitBy);
-
-                    content = new String[lineContent.length][3];
-
-                    //pokemon = new Pokemon(Integer.parseInt(lineContent[0]), lineContent[1], lineContent[2],Integer.parseInt(lineContent[3]),Integer.parseInt(lineContent[4]),Integer.parseInt(lineContent[5]),Integer.parseInt(lineContent[6]),Integer.parseInt(lineContent[7]));
-                    //pokemonList.add(pokemon);
-
-                    for(int j = 0; j < lineContent.length; j++) {
-                        content[i][j] = lineContent[j];
-                    }
-                }
-                i++;
-
-                 */
 
         } catch (Exception e) {
             throw new RuntimeException(e);
