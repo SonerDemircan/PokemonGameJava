@@ -1,0 +1,26 @@
+moveId,name,power,accuracy,pp
+1,Tackle,40,100,35
+2,Water Gun,40,100,25
+3,Tail Whip,0,100,30
+4,Swift,60,101,20
+5,Splash,0,0,40
+6,Scratch,40,100,35
+7,Razor Leaf,55,95,25
+8,Quick Attack,40,100,30
+9,Pound,40,100,35
+10,Peck,35,100,35
+11,Lick,30,100,30
+12,Ember,40,100,25
+13,Bubble,40,100,30
+14,Body Slam,85,100,15
+15,Bite,60,100,25
+16,Flame Wheel,60,100,25
+17,Mud Slap,20,100,10
+18,Rock Smash,40,100,15
+19,Spark,65,100,25
+20,Ice Ball,30,90,20
+21,Magical Leaf,60,101,20
+22,Secret Power,70,100,20
+23,Shock Wave,60,100,20
+24,Tickle,0,100,20
+25,Water Pulse,60,100,20
