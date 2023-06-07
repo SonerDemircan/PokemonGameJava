@@ -11,14 +11,16 @@ public class CSVWriter implements ICSVWriter {
 
     BufferedWriter writer;
 
+
+    //fileName is naam van de CSV file waarom de savegame komt
     @Override
-    public void writeFile(List<String> input) {
+    public void writeFile(List<String> input,String fileName ) {
 
         int size = input.size();
 
         try {
 
-            writer = new BufferedWriter(new FileWriter("src/CSV/output.csv"));
+            writer = new BufferedWriter(new FileWriter("src/CSV/" + fileName + ".csv"));
 
             for (int i = 0; i < size; i++) {
                 writer.write(input.get(i));
