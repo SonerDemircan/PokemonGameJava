@@ -1,5 +1,6 @@
 package PokemonGame;
 
+import PokemonController.GameWorldController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -9,7 +10,7 @@ public class Character {
     private char gender;
     protected double charXpos;
     protected double charYpos;
-    private Pokemon[] pokemons;     //gevangen pokemons, 1ste 6 in party
+    private Pokemon[] playerPokemon;     //gevangen pokemons, 1ste 6 in party
     private Item[] items;           //items zoals pokéballs, potions etc
     private int experience;        //te gebruiken om levelUp en/of aankoop items
     private int catchCount;         //aantal gevangen pokemon
@@ -31,7 +32,7 @@ public class Character {
         this.charXpos = 250;
         this.charYpos = 250;
         this.catchCount = 0;
-        this.pokemons = new Pokemon[20];
+        this.playerPokemon = new Pokemon[20];
         this.items = new Item[10];
         this.experience = 0;
 
@@ -66,7 +67,6 @@ public class Character {
 
     public ImageView moveLeft() {
         ImageView imageView = new ImageView();
-
         imageView.setX(this.charXpos-step);
         imageView.setY(this.charYpos);
 
@@ -78,9 +78,9 @@ public class Character {
 
     public ImageView moveRight() {
         ImageView imageView = new ImageView();
-
         imageView.setX(this.charXpos+step);
         imageView.setY(this.charYpos);
+
         this.charXpos = imageView.getX();
 
         imageView.setImage(characterView[3]);
@@ -105,4 +105,21 @@ public class Character {
     }
 
 
+    //Om deze methode aan te roepen in de controller moeten we als world paramater "this" invullen
+    public void addPokemonToPlayerParty(int pokemonId, World world) {
+
+        pokemonId--;
+        int i = 0;
+
+        while(playerPokemon[i] != null) {
+            i++;
+        }
+        playerPokemon[i] = world.pokemon.get(pokemonId);
+    }
+
+    public void changePositionInParty(int firstPokemonPosition, int secondPokemonPosition, World world) {
+        Pokemon pokemon = playerPokemon[firstPokemonPosition];
+        playerPokemon[firstPokemonPosition] = playerPokemon[secondPokemonPosition];
+        playerPokemon[secondPokemonPosition] = pokemon;
+    }
 }
