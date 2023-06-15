@@ -1,5 +1,9 @@
 package PokemonController;
 
+import PokemonGame.Pokemon;
+import PokemonGame.World;
+import WriterReader.CSVParameters;
+import WriterReader.CSVReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -7,7 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Intro {
     private String [] introText = {"Hi! Sorry to keep you waiting! Welcome to the world of Pokémon! My name is Oak. But everyone calls me the Pokémon Professor. "
@@ -18,6 +25,7 @@ public class Intro {
             ,"NOG MEEEEEEEEEEER"
             ,"EINDE TEKST"};
 
+    private World world;
     @FXML
     private Label lblIntroText;
 
@@ -38,17 +46,40 @@ public class Intro {
 
     @FXML
     private ImageView pngPokeballs;
+    Pokemon pokemon;
 
     @FXML
     public void btnContinue(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         OpenNewScene newScene = new OpenNewScene();
 
+        world = new World();
+
+        //CSV Moves lezen en van elke attackmove een object maken die in een lijst komt
+        CSVParameters moveParameters = new CSVParameters("src/CSV/Moves.csv",5,",",true);
+        CSVReader moveReader = new CSVReader(moveParameters);
+        String[][] moveList = moveReader.CSVTo2DArray(moveParameters);
+        world.createMoves(moveList);
+
+
+        //CSV voor new game lezen
+        CSVParameters pokemonParameters = new CSVParameters("src/CSV/Pokemon.csv",12,",", true);
+        CSVReader pokemonReader = new CSVReader(pokemonParameters);
+
+        String[][] pokemonList = pokemonReader.CSVTo2DArray(pokemonParameters);
+
+
+
+        world.createPokemon(pokemonList);
+        world.addMoveToPokemon();
+
         try {
-            newScene.openNewScene("GameWorld", currentStage,"Intro");
+            newScene.openNewSceneWithParam("GameWorld", currentStage,"Intro",world);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+
     }
 
     // Switchen tussen tekst
@@ -89,6 +120,9 @@ public class Intro {
             currentIntroIndex++;
             updateIntroText();
         }
+
+
+
     }
 
     // Idem als btnNext, enkel wordt hier de currentIntroIndex verlaagd
