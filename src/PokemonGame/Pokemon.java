@@ -2,26 +2,23 @@ package PokemonGame;
 
 public class Pokemon {
 
-    private int pokemonId;
-    private String name;
-    private String type;
-    private int level;
-    private int hitPoints;
-    private int attack;
-    private int defense;
-    private int speed;
+    public int pokemonId;
+    public String name;
+    protected String type;
+    protected int level;
+    protected int hitPoints;
+    protected int attack;
+    protected int defense;
+    protected int speed;
     private boolean isCaught;
+    protected int moveOne;
+    protected int moveTwo;
+    protected int moveThree;
+    protected int moveFour;
+    protected Attack[] moveSet = new Attack[4];
 
-    private Pokemon[] pokéDex;
 
-    public Pokemon(String pokemonName, String type,int level,int hitPoints, int attack, int defense, int speed) {
-        this.name = pokemonName;
-        this.type = type;
-        this.level = level;
-        this.hitPoints = hitPoints;
-        this.attack = attack;
-        this.defense = defense;
-        this.speed = speed;
-        this.isCaught = false;
+    public Pokemon() {
+
     }
 }
