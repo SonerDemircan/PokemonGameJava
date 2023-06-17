@@ -28,9 +28,9 @@ public class OpenNewScene {
     //om onze world object door te geven aan de volgende scene, zo kunnen we de objecten aangemaakt in deze controller aanspreken in andere controllers
     public void openNewSceneWithParam(String fxmlFilename, Stage currentStage, String stageTitle, World world) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameWorld.fxml"));
-        GameWorldController controller = new GameWorldController(world);
-        loader.setController(controller);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFilename + ".fxml"));
+        //GameWorldController controller = new GameWorldController(world);
+        //loader.setController(controller);
         Parent root = loader.load();
 
 

@@ -1,3 +1,4 @@
+/*
 package PokemonController;
 
 import PokemonGame.World;
@@ -100,3 +101,4 @@ public class GameWorldController implements Initializable {
 
     }
 }
+*/

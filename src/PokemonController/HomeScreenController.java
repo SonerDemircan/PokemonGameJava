@@ -51,6 +51,7 @@ public class HomeScreenController {
 
         // Werken met een try-catch (bv. als de fmxl file verkeerd is of niet bestaat)
         try {
+            //newScene.openNewScene("Intro", currentStage,"Welcome to the world of Pokémon!");
             newScene.openNewScene("Intro", currentStage,"Welcome to the world of Pokémon!");
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -1,4 +1,4 @@
-package PokemonGame;
+/*package PokemonGame;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,9 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,7 +21,30 @@ import java.util.ResourceBundle;
 public class GameworldController {
 
     @FXML
+    private BorderPane borderPaneIntro;
+
+    @FXML
+    private Pane gamePane;
+
+    @FXML
     private World world;
+
+    public GameworldController() {
+        this.world = new World();
+    }
+
+    // Wereld wordt aangemaakt & wordt toegevoegd aan de pane gamePane
+    public void initialize() {
+        world = new World();
+        gamePane = new Pane();
+        gamePane.getChildren().add(world);
+        //gamePane.requestFocus();
+
+        //String musicFile = "/Users/wutangclan/Downloads/Pokémon Sun & Moon- Guzma Battle Music (Highest Quality).mp3";
+        //Media sound = new Media(new File(musicFile).toURI().toString());
+        //MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        //mediaPlayer.play();
+    }
 
     @FXML
     private AnchorPane scene;
@@ -67,46 +94,47 @@ public class GameworldController {
     //Kijken om enum te gebruiken
     @FXML
     public void keyboardMove(KeyEvent e) {
-        System.out.println(e.getCode());
         switch (e.getCode()) {
             case W :
-                if (world.player.getCharYpos() >= 0) {
-                    world.moveUp();
-                }
+                world.moveUp();
+                //if (world.player.getCharYpos() >= 0) {
+                  //  world.moveUp();
+                //}
                 break;
             case A:
-                if (world.player.getCharXpos() >= 0) {
-                    world.moveLeft();
-                }
+                world.moveLeft();
+                //if (world.player.getCharXpos() >= 0) {
+                  //  world.moveLeft();
+                //}
                 break;
             case D:
-                if (world.player.getCharXpos() < 745) {
-                    world.moveRight();
-                    System.out.println(world.player.getCharXpos());
-                }
+                world.moveRight();
+                //if (world.player.getCharXpos() < 745) {
+                  //  world.moveRight();
+                //}
                 break;
             case S:
-                if (world.player.getCharYpos() < 790) {
-                    world.moveDown();
-                    System.out.println(world.player.getCharYpos());
-                }
+                world.moveDown();
+                //if (world.player.getCharYpos() < 790) {
+                  //  world.moveDown();
+                //}
                 break;
             default:
         }
     }
 
+
+
     //Aparte method maken voor de if-statement
 
-
-
-    public void up(ActionEvent e) {
-    /*currentY = myCharacter.getLayoutY();
+    /*public void up(ActionEvent e) {
+    currentY = myCharacter.getLayoutY();
     newY = currentY - 10;
-    myCharacter.setLayoutY(newY);*/
+    myCharacter.setLayoutY(newY);
 
-    /*currentY = myCharacter.getTranslateY();
+    currentY = myCharacter.getTranslateY();
     newY = currentY - 10;
-    myCharacter.setTranslateY(newY);*/
+    myCharacter.setTranslateY(newY);
 
         //row = character.getCharXpos();
         //col = character.getCharYpos();
@@ -115,61 +143,61 @@ public class GameworldController {
 
 
         if (world.player.getCharXpos() > 0) {
-           /* myCharacterLeft.setVisible(false);
+            myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(true);
             myCharacterDown.setVisible(false);
-            myCharacterRight.setVisible(false);*/
+            myCharacterRight.setVisible(false);
 
             world.moveUp();
         }
     }
 
     public void down() {
-    /*currentY = myCharacter.getLayoutY();
+    currentY = myCharacter.getLayoutY();
     newY = currentY + 10;
-    myCharacter.setLayoutY(newY);*/
+    myCharacter.setLayoutY(newY);
 
-    /*currentY = myCharacter.getTranslateY();
+    currentY = myCharacter.getTranslateY();
     newY = currentY + 10;
-    myCharacter.setTranslateY(newY);*/
+    myCharacter.setTranslateY(newY);
 
         if (world.player.getCharXpos() < 6) {
             world.moveDown();
-            /*myCharacterLeft.setVisible(false);
+            myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterRight.setVisible(false);
-            myCharacterDown.setVisible(true);*/
+            myCharacterDown.setVisible(true);
 
 
         }
     }
 
     public void left(ActionEvent e) {
-    /*currentX = myCharacter.getLayoutX();
+    currentX = myCharacter.getLayoutX();
     newX = currentX - 10;
-    myCharacter.setLayoutX(newX);*/
+    myCharacter.setLayoutX(newX);
 
         if (world.player.getCharYpos() > 0) {
             world.moveLeft();
-           /* myCharacterLeft.setVisible(true);
+            myCharacterLeft.setVisible(true);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);
-            myCharacterRight.setVisible(false);*/
+            myCharacterRight.setVisible(false);
         }
     }
 
     public void right(ActionEvent e) {
-    /*currentX = myCharacter.getLayoutX();
+    currentX = myCharacter.getLayoutX();
     newX = currentX + 10;
     myCharacter.setLayoutX(newX);
-}*/
+}
 
         if (world.player.getCharYpos() < 6) {
             world.moveRight();
-           /* myCharacterLeft.setVisible(false);
+            myCharacterLeft.setVisible(false);
             myCharacterUp.setVisible(false);
             myCharacterDown.setVisible(false);
-            myCharacterRight.setVisible(true);*/
+            myCharacterRight.setVisible(true);
         }
     }
-}
+}*/

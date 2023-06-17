@@ -30,7 +30,7 @@ public class Intro {
     private Label lblIntroText;
 
     @FXML
-    private ImageView gifHaxorus;
+    private ImageView gifPangoro;
 
     @FXML
     private ImageView pngBag;
@@ -46,7 +46,60 @@ public class Intro {
 
     @FXML
     private ImageView pngPokeballs;
+
     Pokemon pokemon;
+
+
+
+    // Switchen tussen tekst
+    // Index moet op 0 staan, anders komen we nooit in de String array
+    private int currentIntroIndex = 0;
+
+    // Als we in de intro scene komen moet er in de label al een start tekst staan
+    @FXML
+    public void initialize() {
+        lblIntroText.setText(introText[currentIntroIndex]);
+        btnContinue.setVisible(false);
+    }
+
+    private void updateIntroText() {
+        //Initialize kunnen we hier gebruiken omdat deze altijd de tekst van de huidige index in de String array teruggeeft
+        initialize();
+
+        // Als Oak over Pokémon begint, zien we een pokémon: in dit geval Haxorus
+        if (currentIntroIndex > 0) {
+            gifPangoro.setVisible(true);
+        } else {
+            gifPangoro.setVisible(false);
+        }
+
+        // Button continue verschijnt pas als de speler de volledige tekst heeft gelezen
+        if (currentIntroIndex == 6) {
+            btnContinue.setVisible(true);
+        } else {
+            btnContinue.setVisible(false);
+        }
+    }
+
+    // -1 om te starten met index 0
+    // currentIntroIndex wordt verhoogd zodat we kunnen loopen door de String array
+    // ActionEvent event is overbodig omdat we die nooit gebruiken, maar heb ik toch laten staan (als we bv. met de keycontrols gaan werken ofzo)
+    @FXML
+    public void btnNext(/*ActionEvent event*/) {
+        if (currentIntroIndex < introText.length - 1) {
+            currentIntroIndex++;
+            updateIntroText();
+        }
+    }
+
+    // Idem als btnNext, enkel wordt hier de currentIntroIndex verlaagd
+    @FXML
+    public void btnPrevious(/*ActionEvent event*/) {
+        if (currentIntroIndex > 0) {
+            currentIntroIndex--;
+            updateIntroText();
+        }
+    }
 
     @FXML
     public void btnContinue(ActionEvent event) {
@@ -74,63 +127,9 @@ public class Intro {
         world.addMoveToPokemon();
 
         try {
-            newScene.openNewSceneWithParam("GameWorld", currentStage,"Intro",world);
+            newScene.openNewSceneWithParam("World", currentStage,"Intro",world);
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-
-
-    }
-
-    // Switchen tussen tekst
-    // Index moet op 0 staan, anders komen we nooit in de String array
-    private int currentIntroIndex = 0;
-
-    // Als we in de intro scene komen moet er in de label al een start tekst staan
-    @FXML
-    public void initialize() {
-        lblIntroText.setText(introText[currentIntroIndex]);
-    }
-
-    private void updateIntroText() {
-        //Initialize kunnen we hier gebruiken omdat deze altijd de tekst van de huidige index in de String array teruggeeft
-        initialize();
-
-        // Als Oak over Pokémon begint, zien we een pokémon: in dit geval Haxorus
-        if (currentIntroIndex > 0) {
-            gifHaxorus.setVisible(true);
-        } else {
-            gifHaxorus.setVisible(false);
-        }
-
-        // Button continue verschijnt pas als de speler de volledige tekst heeft gelezen
-        if (currentIntroIndex == 6) {
-            btnContinue.setVisible(true);
-        } else {
-            btnContinue.setVisible(false);
-        }
-    }
-
-    // -1 om te starten met index 0
-    // currentIntroIndex wordt verhoogd zodat we kunnen loopen door de String array
-    // ActionEvent event is overbodig omdat we die nooit gebruiken, maar heb ik toch laten staan (als we bv. met de keycontrols gaan werken ofzo)
-    @FXML
-    public void btnNext(/*ActionEvent event*/) {
-        if (currentIntroIndex < introText.length - 1) {
-            currentIntroIndex++;
-            updateIntroText();
-        }
-
-
-
-    }
-
-    // Idem als btnNext, enkel wordt hier de currentIntroIndex verlaagd
-    @FXML
-    public void btnPrevious(/*ActionEvent event*/) {
-        if (currentIntroIndex > 0) {
-            currentIntroIndex--;
-            updateIntroText();
         }
     }
 }
