@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PokemonController.HomeScreenController">
+<AnchorPane prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PokemonController.HomeScreenController">
    <Button fx:id="btnStartGame" layoutX="369.0" layoutY="787.0" mnemonicParsing="false" onAction="#btnStartGame" text="START">
       <font>
          <Font size="25.0" />
@@ -21,4 +21,9 @@
    <ImageView fx:id="imgPokeballs" fitHeight="570.0" fitWidth="1000.0" layoutY="2.0" pickOnBounds="true">
       <Image url="@../ImagesAndSprites/Pokeballs.jpeg" />
    </ImageView>
+   <Button fx:id="btnContinuGame1" layoutX="369.0" layoutY="865.0" mnemonicParsing="false" onAction="#btnContinuGame" text="CONTINU">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Button>
 </AnchorPane>
