@@ -86,13 +86,6 @@ public class HomeScreenController {
         world.createPokemon(pokemonList);
         world.addMoveToPokemon();
 
-        //test als pokemon object word aangemaakt
-        for (int i  = 0; i < pokemonList.length; i++) {
-            for (int j = 0; j < pokemonList[i].length; j++) {
-                System.out.print(pokemonList[i][j]);
-            }
-            System.out.println();
-        }
 
         //test writer 100-102
         /*
@@ -102,7 +95,7 @@ public class HomeScreenController {
          */
 
         try {
-            newScene.openNewSceneWithParam("GameWorld", currentStage,"Intro",world);
+            newScene.openNewSceneWithParam("World", currentStage,"Intro",world);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
