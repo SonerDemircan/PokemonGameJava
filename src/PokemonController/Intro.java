@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class Intro {
             ,"EINDE TEKST"};
 
     private World world;
+
     @FXML
     private Label lblIntroText;
 
@@ -124,8 +126,9 @@ public class Intro {
         //world.createPokemon(pokemonList);
         //world.addMoveToPokemon();
 
+        // CODE HIERONDER WERKT NIET OM WORLD.FXML TE OPENEN
         try {
-            newScene.openNewSceneWithParam("World", currentStage,"Intro",world);
+            newScene.openNewSceneWithParam("World", currentStage,"Gameworld",world);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
