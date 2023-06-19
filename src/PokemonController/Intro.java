@@ -112,7 +112,7 @@ public class Intro {
         CSVParameters moveParameters = new CSVParameters("src/CSV/Moves.csv",5,",",true);
         CSVReader moveReader = new CSVReader(moveParameters);
         String[][] moveList = moveReader.CSVTo2DArray(moveParameters);
-        world.createMoves(moveList);
+        //world.createMoves(moveList);
 
 
         //CSV voor new game lezen
@@ -121,10 +121,8 @@ public class Intro {
 
         String[][] pokemonList = pokemonReader.CSVTo2DArray(pokemonParameters);
 
-
-
-        world.createPokemon(pokemonList);
-        world.addMoveToPokemon();
+        //world.createPokemon(pokemonList);
+        //world.addMoveToPokemon();
 
         try {
             newScene.openNewSceneWithParam("World", currentStage,"Intro",world);

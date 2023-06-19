@@ -1,5 +1,4 @@
-/*
-package PokemonController;
+/*package PokemonController;
 
 import PokemonGame.World;
 import WriterReader.CSVParameters;
@@ -11,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 import java.io.Reader;
 import java.net.URL;
@@ -21,17 +21,11 @@ import java.util.ResourceBundle;
 public class GameWorldController implements Initializable {
 
     @FXML
-    public Button btnUp;
-    @FXML
-    public Button btnLeft;
-    @FXML
-    public Button btnRight;
-    @FXML
-    public Button btnDown;
+    private GridPane gridPane;
+
     @FXML
     private World _world;
-    @FXML
-    private AnchorPane scene;
+
     @FXML
     private ImageView myCharacterUp;
     @FXML
@@ -93,12 +87,9 @@ public class GameWorldController implements Initializable {
         _world.moveDown();
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("In de initialize");
 
     }
-}
-*/
+}*/

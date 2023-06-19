@@ -66,13 +66,13 @@ public class HomeScreenController {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         OpenNewScene newScene = new OpenNewScene();
 
-        world = new World();
+        //world = new World();
 
         //CSV Moves lezen en van elke attackmove een object maken die in een lijst komt
         CSVParameters moveParameters = new CSVParameters("src/CSV/Moves.csv",5,",",true);
         CSVReader moveReader = new CSVReader(moveParameters);
         String[][] moveList = moveReader.CSVTo2DArray(moveParameters);
-        world.createMoves(moveList);
+        //world.createMoves(moveList);
 
 
         //CSV SaveGame lezen
@@ -83,8 +83,8 @@ public class HomeScreenController {
 
 
 
-        world.createPokemon(pokemonList);
-        world.addMoveToPokemon();
+        //world.createPokemon(pokemonList);
+        //world.addMoveToPokemon();
 
 
         //test writer 100-102
