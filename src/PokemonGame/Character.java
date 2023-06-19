@@ -1,18 +1,21 @@
 package PokemonGame;
 
+import PokemonGame.Item;
+import PokemonGame.Pokemon;
 import javafx.scene.image.Image;
 
 public class Character {
+
     protected String name;
     protected char gender;
     protected double charXpos;
     protected double charYpos;
-    protected Pokemon[] pokemons;
-    protected Item[] items;
-    protected int experience;
-    protected int catchCount;
+    protected Pokemon[] pokemons;     //gevangen pokemons, 1ste 6 in party
+    protected Item[] items;           //items zoals pokéballs, potions etc
+    protected int experience;        //te gebruiken om levelUp en/of aankoop items
+    protected int catchCount;         //aantal gevangen pokemon
     protected double step = 45;
-    protected Image[] characterView;
+    protected Image[] characterView = new Image[4];
 
     public Character(String playerName, char playerGender) {
         this.name = playerName;
@@ -35,6 +38,16 @@ public class Character {
         this.characterView[3] = new Image("ImagesAndSprites/SpriteRight.png", 45, 45, false, false);
     }
 
+    public void healPokemon(Pokemon pokemon) {
+        pokemon.battleHitPoints = pokemon.maxHitPoints;
+    }
+
+    public void healParty() {
+        for(Pokemon pokemon: pokemons) {
+            pokemon.battleHitPoints = pokemon.maxHitPoints;
+        }
+    }
+
     public int getCharRow() {
         return (int) (charYpos / 110);
     }
@@ -50,4 +63,5 @@ public class Character {
     public void setCharColumn(int column) {
         this.charXpos = column * 110;
     }
+
 }

@@ -10,9 +10,8 @@ public class PlayerCharacter extends Character {
     private GridPane gridPane;
     private ImageView characterImageView;
 
-    public PlayerCharacter(GridPane gridPane, String playerName, char playerGender) {
+    public PlayerCharacter(String playerName, char playerGender) {
         super(playerName, playerGender);
-        this.gridPane = gridPane;
     }
 
     // Keyboard controls om de speler te bewegen

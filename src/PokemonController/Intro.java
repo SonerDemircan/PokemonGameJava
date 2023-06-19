@@ -108,23 +108,6 @@ public class Intro {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         OpenNewScene newScene = new OpenNewScene();
 
-        world = new World();
-
-        //CSV Moves lezen en van elke attackmove een object maken die in een lijst komt
-        CSVParameters moveParameters = new CSVParameters("src/CSV/Moves.csv",5,",",true);
-        CSVReader moveReader = new CSVReader(moveParameters);
-        String[][] moveList = moveReader.CSVTo2DArray(moveParameters);
-        //world.createMoves(moveList);
-
-
-        //CSV voor new game lezen
-        CSVParameters pokemonParameters = new CSVParameters("src/CSV/Pokemon.csv",12,",", true);
-        CSVReader pokemonReader = new CSVReader(pokemonParameters);
-
-        String[][] pokemonList = pokemonReader.CSVTo2DArray(pokemonParameters);
-
-        //world.createPokemon(pokemonList);
-        //world.addMoveToPokemon();
 
         // CODE HIERONDER WERKT NIET OM WORLD.FXML TE OPENEN
         try {

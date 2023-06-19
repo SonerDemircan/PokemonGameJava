@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PokemonController.GameWorldController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PokemonController.GameWorldController">
     <left>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
@@ -34,12 +33,12 @@
                         <Image url="@../ImagesAndSprites/SpriteFront.png" />
                     </image>
                 </ImageView>
-                <Button mnemonicParsing="false" text="EXIT" focusTraversable="false"/>
+                <Button fx:id="btnExitGame" focusTraversable="false" mnemonicParsing="false" text="EXIT" />
             </children>
         </VBox>
     </left>
     <center>
-        <GridPane fx:id="gridPane" BorderPane.alignment="CENTER" focusTraversable="true">
+        <GridPane fx:id="gridPane" focusTraversable="true" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

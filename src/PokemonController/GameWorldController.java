@@ -1,31 +1,34 @@
 package PokemonController;
 
 import PokemonGame.World;
-import WriterReader.CSVParameters;
-import WriterReader.CSVReader;
-import WriterReader.CSVWriter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.Reader;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class GameWorldController implements Initializable {
 
     @FXML
+    private Button btnExitGame;
+
+    @FXML
     private GridPane gridPane;
     private World world;
     private Stage stage;
+
+
+
+    @FXML
+    void btnExit(ActionEvent event) {
+        world.battle(world.getPokemon().get(5), world.getPokemon().get(5) );
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

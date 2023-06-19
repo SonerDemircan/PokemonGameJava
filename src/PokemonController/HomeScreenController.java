@@ -57,8 +57,6 @@ public class HomeScreenController {
             ex.printStackTrace();
         }
 
-
-
     }
 
     @FXML
@@ -66,36 +64,8 @@ public class HomeScreenController {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         OpenNewScene newScene = new OpenNewScene();
 
-        //world = new World();
-
-        //CSV Moves lezen en van elke attackmove een object maken die in een lijst komt
-        CSVParameters moveParameters = new CSVParameters("src/CSV/Moves.csv",5,",",true);
-        CSVReader moveReader = new CSVReader(moveParameters);
-        String[][] moveList = moveReader.CSVTo2DArray(moveParameters);
-        //world.createMoves(moveList);
-
-
-        //CSV SaveGame lezen
-        CSVParameters pokemonParameters = new CSVParameters("src/CSV/SaveGamePokemon.csv",12,",", false);
-        CSVReader pokemonReader = new CSVReader(pokemonParameters);
-
-        String[][] pokemonList = pokemonReader.CSVTo2DArray(pokemonParameters);
-
-
-
-        //world.createPokemon(pokemonList);
-        //world.addMoveToPokemon();
-
-
-        //test writer 100-102
-        /*
-        List <String> savedPokemon = world.presentPokemon();
-        writer.writeFile(savedPokemon, "SaveGamePokemon");
-        System.out.println(world.getPokemon().get(0).pokemonId + world.getPokemon().get(0).name);
-         */
-
         try {
-            newScene.openNewSceneWithParam("World", currentStage,"Intro",world);
+            newScene.openNewScene("World", currentStage,"Intro");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

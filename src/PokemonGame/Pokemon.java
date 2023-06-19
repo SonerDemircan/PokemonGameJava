@@ -1,16 +1,19 @@
 package PokemonGame;
 
+import java.util.Random;
+
 public class Pokemon {
 
     public int pokemonId;
     public String name;
     protected String type;
     protected int level;
-    protected int hitPoints;
+    protected int maxHitPoints;
+    protected int battleHitPoints;
     protected int attack;
     protected int defense;
     protected int speed;
-    private boolean isCaught;
+    protected boolean isCaught;
     protected int moveOne;
     protected int moveTwo;
     protected int moveThree;
@@ -20,5 +23,26 @@ public class Pokemon {
 
     public Pokemon() {
 
+    }
+
+    public int attack(Pokemon trainerPokemon,int attackMove, Pokemon enemy) {
+        int damage = 0;
+        if (trainerPokemon.moveSet[attackMove].accuracy >= isHit()) {
+            damage = ((2 * trainerPokemon.level / 5 + 2) * trainerPokemon.moveSet[attackMove].power * (trainerPokemon.attack / enemy.defense) / 50 + 2);
+        } else {
+            System.out.println("That was a miss!");
+        }
+        trainerPokemon.moveSet[attackMove].pp--;
+
+        return damage;
+    }
+
+    private int isHit() {
+        Random random = new Random();
+        return random.nextInt(100);
+    }
+
+    public void healPokemon(Pokemon pokemon) {
+        this.battleHitPoints = maxHitPoints;
     }
 }
