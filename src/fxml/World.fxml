@@ -33,7 +33,7 @@
                         <Image url="@../ImagesAndSprites/SpriteFront.png" />
                     </image>
                 </ImageView>
-                <Button fx:id="btnExitGame" focusTraversable="false" mnemonicParsing="false" text="EXIT" />
+                <Button fx:id="btnExitGame" focusTraversable="false" onAction="#btnExit" mnemonicParsing="false" text="EXIT" />
             </children>
         </VBox>
     </left>
