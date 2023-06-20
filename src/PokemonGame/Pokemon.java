@@ -17,6 +17,47 @@ public class Pokemon {
     protected int moveOne;
     protected int moveTwo;
     protected int moveThree;
+
+    public int getPokemonId() {
+        return pokemonId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getMaxHitPoints() {
+        return maxHitPoints;
+    }
+
+    public int getBattleHitPoints() {
+        return battleHitPoints;
+    }
+    public void setBattleHitPoints(int battleHitPoints) {
+        this.battleHitPoints = battleHitPoints;
+    }
+
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public Attack[] getMoveSet() {
+        return moveSet;
+    }
+
     protected int moveFour;
     protected Attack[] moveSet = new Attack[4];
 
