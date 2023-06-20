@@ -8,4 +8,11 @@ public class Attack {
     protected int accuracy;
     protected int pp;
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPp() {
+        return pp;
+    }
 }
