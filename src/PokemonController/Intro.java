@@ -108,10 +108,8 @@ public class Intro {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         OpenNewScene newScene = new OpenNewScene();
 
-
-        // CODE HIERONDER WERKT NIET OM WORLD.FXML TE OPENEN
         try {
-            newScene.openNewSceneWithParam("World", currentStage,"Gameworld",world);
+            newScene.openNewScene("World", currentStage,"Gameworld");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

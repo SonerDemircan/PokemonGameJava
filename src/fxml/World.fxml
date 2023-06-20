@@ -30,7 +30,7 @@
                 </ImageView>
                 <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../ImagesAndSprites/SpriteFront.png" />
+                        <Image url="@../ImagesAndSprites/PlayerCharacterMale/SpriteFront0.png" />
                     </image>
                 </ImageView>
                 <Button fx:id="btnExitGame" focusTraversable="false" onAction="#btnExit" mnemonicParsing="false" text="EXIT" />

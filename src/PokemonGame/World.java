@@ -11,12 +11,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.*;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class World implements Initializable {
 
@@ -39,13 +36,9 @@ public class World implements Initializable {
         this.openNewScene = openNewScene;
         this.stage = stage;
         pokemon = new ArrayList<>();
-
         attackMoves = new ArrayList<>();
-
-
         initializeWorld();
     }
-
 
     public void initializeWorld() {
 
@@ -59,17 +52,24 @@ public class World implements Initializable {
                 ImageView imageView;
 
                 if (isTallgrass(row, column)) {
+                    // Tall grass
                     imageView = new ImageView(new Image("ImagesAndSprites/Tallgrass.png"));
-                } else if (isPath(row, column)) {
-                    imageView = new ImageView(new Image("ImagesAndSprites/Path.png"));
                 } else if (isWater(row, column)) {
+                    // Water
                     imageView = new ImageView(new Image("ImagesAndSprites/Water.png"));
+                } else if (isPath(row, column)) {
+                    // Path area
+                    imageView = new ImageView(new Image("ImagesAndSprites/Path.png"));
+                } else if (isSandPath(row, column)) {
+                    imageView = new ImageView(new Image("ImagesAndSprites/SandPath.png"));
                 } else {
+                    // Default grass area
                     imageView = new ImageView(new Image("ImagesAndSprites/Grass.png"));
                 }
 
-                imageView.setFitWidth(110);
-                imageView.setFitHeight(110);
+
+                imageView.setFitWidth(107);
+                imageView.setFitHeight(107);
                 gridPane.add(imageView, column, row);
             }
         }
@@ -85,13 +85,14 @@ public class World implements Initializable {
         player.setCharRow(characterRow);
         player.setCharColumn(characterColumn);
 
-        characterImageView = createImageView("ImagesAndSprites/SpriteFront.png", true);
+        characterImageView = createImageView("ImagesAndSprites/PlayerCharacterMale/SpriteFront0.png", true);
         characterImageView.setFitWidth(100);
         characterImageView.setFitHeight(100);
         gridPane.add(characterImageView, characterColumn, characterRow);
         player.setCharacterImageView(characterImageView);
 
         gridPane.setOnKeyPressed(this::handleKeyPressed);
+        gridPane.setOnKeyReleased(this::handleKeyReleased);
         gridPane.requestFocus();
 
         //CSV Moves lezen en van elke attackmove een object maken die in een lijst komt
@@ -114,19 +115,49 @@ public class World implements Initializable {
         player.addPokemonToPlayerParty(pokemon.get(2));
         player.addPokemonToPlayerParty(pokemon.get(1));
         player.addPokemonToPlayerParty(pokemon.get(11));
-
     }
 
+
     private boolean isTallgrass(int row, int column) {
-        return (row == 6 && column >= 1 && column <= 4) || (row >= 7 && row <= 8 && column >= 1 && column <= 4);
+        return (row >= 6 && row <= 8 && column >= 1 && column <= 4);
+    }
+
+    // Random encounter
+    private boolean pokemonSpawn() {
+        double spawnChance = 0.75;
+        double random = Math.random();
+        return random < spawnChance;
+    }
+
+    // GEEFT ERROR ALS SPELER IN TALL GRASS STAPT
+    private void checkWildPokemonEncounter() {
+        int playerRow = player.getCharRow();
+        int playerColumn = player.getCharColumn();
+
+        if (isTallgrass(playerRow, playerColumn) && pokemonSpawn()) {
+            try {
+                openNewScene.openNewScene("BattleScene", this.stage, "Pokemon Battle");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private boolean isPath(int row, int column) {
-        return (row == 7 && column >= 5 && column <= 7) || (row == 3 && column >= 0) || (column == 7 && row >= 4);
+        return (row >= 0 && row <= 3 && column == 0) || (row == 3 && column >= 1 && column <= 5) ||
+                (row >= 0 && row <= 2 && column == 5) || (row >= 3 && row <= 9 && column == 7) ||
+                (row >= 6 && row <= 9 && column == 0) || (row == 9 && column >= 1 && column <= 7) ||
+                (row == 3 && column == 6) || (row == 7 && column == 5) || (row == 8 && column == 5) ||
+                (row == 4 && column == 0) || (row == 5 && column == 0) || (row == 5 && column >= 1 && column <= 5) ||
+                (row == 6 && column == 5);
+    }
+
+    private boolean isSandPath(int row, int column) {
+        return (row >= 0 && row <= 3 && column >= 10 && column <= 14);
     }
 
     private boolean isWater(int row, int column) {
-        return (row == 0 && column >= 0 && column <= 4) || (row >= 1 && row <= 2 && column >= 0 && column <= 4);
+        return (row >= 0 && row <= 2 && column >= 1 && column <= 4);
     }
 
     private ImageView createImageView(String imagePath, boolean preserveRatio) {
@@ -140,11 +171,25 @@ public class World implements Initializable {
 
         switch (keyCode) {
             case UP:
-
             case DOWN:
             case LEFT:
             case RIGHT:
                 player.handleKeyPressed(event);
+                checkWildPokemonEncounter();
+                break;
+        }
+    }
+
+    public void handleKeyReleased(KeyEvent event) {
+        KeyCode keyCode = event.getCode();
+
+        switch (keyCode) {
+            case UP:
+            case DOWN:
+            case LEFT:
+            case RIGHT:
+                player.handleKeyReleased(event);
+                checkWildPokemonEncounter();
                 break;
         }
     }
@@ -152,7 +197,6 @@ public class World implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     public void createMoves(String[][] moves) {

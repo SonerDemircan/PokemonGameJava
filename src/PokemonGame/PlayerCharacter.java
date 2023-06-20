@@ -1,5 +1,6 @@
 package PokemonGame;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -10,18 +11,34 @@ public class PlayerCharacter extends Character {
     private GridPane gridPane;
     private ImageView characterImageView;
 
-    public PlayerCharacter(GridPane gridpane, String playerName, char playerGender) {
+    // Checken of de speler nog beweegt
+    private boolean isMoving;
+
+    // Checken welke richting de speler uitgaat voor de animatie
+    private int moveRow;
+
+    // Checken welke richting de speler uitgaat voor de animatie
+    private int moveColumn;
+
+    // Checken welke richting de speler uitgaat
+    private boolean isMovingUp;
+    private boolean isMovingDown;
+    private boolean isMovingLeft;
+    private boolean isMovingRight;
+
+
+    public PlayerCharacter(GridPane gridPane, String playerName, char playerGender) {
         super(playerName, playerGender);
-        this.gridPane = gridpane;
+        this.gridPane = gridPane;
+        this.isMoving = false;
+        this.moveRow = 0;
+        this.moveColumn = 0;
     }
 
     public void addPokemonToPlayerParty(Pokemon pokemon) {
-
         Pokemon pok = pokemon;
-
         int i = 0;
-
-        while(pokemons[i] != null) {
+        while (pokemons[i] != null) {
             i++;
         }
         pokemons[i] = pok;
@@ -33,64 +50,152 @@ public class PlayerCharacter extends Character {
         pokemons[secondPokemonPosition] = pokemon;
     }
 
-    // Keyboard controls om de speler te bewegen
+    // Keyboard controls voor movement
     public void handleKeyPressed(KeyEvent event) {
         KeyCode keyCode = event.getCode();
-        int moveRow = 0;
-        int moveColumn = 0;
 
-        switch (keyCode) {
-            case UP:
-                moveRow = -1;
-                break;
-            case DOWN:
-                moveRow = 1;
-                break;
-            case LEFT:
-                moveColumn = -1;
-                break;
-            case RIGHT:
-                moveColumn = 1;
-                break;
+        if (!isMoving) {
+            switch (keyCode) {
+                case UP:
+                    startMoving(-1, 0, "BackWalk");
+                    break;
+                case DOWN:
+                    startMoving(1, 0, "FrontWalk");
+                    break;
+                case LEFT:
+                    startMoving(0, -1, "LeftWalk");
+                    break;
+                case RIGHT:
+                    startMoving(0, 1, "RightWalk");
+                    break;
+            }
         }
-        moveCharacter(moveRow, moveColumn);
     }
 
-    // Method om de speler te bewegen
-    private void moveCharacter(int rowMove, int columnMove) {
+    // Keyboard controls om movement te stoppen
+    public void handleKeyReleased(KeyEvent event) {
+        KeyCode keyCode = event.getCode();
+
+        if (isMoving) {
+            switch (keyCode) {
+                case UP:
+                    isMovingUp = false;
+                    stopMoving();
+                    break;
+                case DOWN:
+                    isMovingDown = false;
+                    stopMoving();
+                    break;
+                case LEFT:
+                    isMovingLeft = false;
+                    stopMoving();
+                    break;
+                case RIGHT:
+                    isMovingRight = false;
+                    stopMoving();
+                    break;
+            }
+        }
+    }
+
+    private void startMoving(int rowMove, int columnMove, String spriteDirection) {
+        moveRow = rowMove;
+        moveColumn = columnMove;
+
+        String imagePath = getMovementImage(spriteDirection, 1);
+        characterImageView.setImage(new Image(imagePath, 100, 100, false, false));
+        isMoving = true;
+
+        // Animatie timer starten
+        AnimationTimer animationTimer = new AnimationTimer() {
+            private int spriteNumber = 1;
+            private long lastUpdate = 0;
+
+            @Override
+            public void handle(long now) {
+                if (now - lastUpdate >= 200_000_000) {
+                    String imagePath = getMovementImage(spriteDirection, spriteNumber);
+                    characterImageView.setImage(new Image(imagePath, 100, 100, false, false));
+                    spriteNumber++;
+                    if (spriteNumber > 2) {
+                        spriteNumber = 1;
+                    }
+                    lastUpdate = now;
+                }
+            }
+        };
+        animationTimer.start();
+
+        moveCharacter(rowMove, columnMove);
+
+        // Stopt de animatie wanneer de speler de key loslaat (dus locatie heeft bereikt)
+        AnimationTimer stopMovingAnimationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                int newRow = getCharRow() + rowMove;
+                int newColumn = getCharColumn() + columnMove;
+
+                if (!isMoving || (rowMove > 0 && getCharRow() >= newRow)
+                        || (rowMove < 0 && getCharRow() <= newRow)
+                        || (columnMove > 0 && getCharColumn() >= newColumn)
+                        || (columnMove < 0 && getCharColumn() <= newColumn)) {
+                    stopMoving();
+                    animationTimer.stop();
+                    this.stop();
+                }
+            }
+        };
+        stopMovingAnimationTimer.start();
+    }
+
+
+    public void stopMoving() {
+        // Checken welke richting de speler als laatste uitging & correcte sprite laten zien
+        String spriteDirection;
+        if (moveColumn > 0) {
+            spriteDirection = "Right";
+        } else if (moveColumn < 0) {
+            spriteDirection = "Left";
+        } else if (moveRow > 0) {
+            spriteDirection = "Front";
+        } else {
+            spriteDirection = "Back";
+        }
+
+        // Correcte sprite wordt getoond
+        String standingStillImage = getMovementImage(spriteDirection, 0);
+        characterImageView.setImage(new Image(standingStillImage, 100, 100, false, false));
+        isMoving = false;
+    }
+
+    // Speler laten bewegen
+    @Override
+    public void moveCharacter(int rowMove, int columnMove) {
         int newRow = getCharRow() + rowMove;
         int newColumn = getCharColumn() + columnMove;
 
         if (inBounds(newRow, newColumn)) {
 
-            // Speler wordt verwijderd op de huidige positie
+            // Speler verwijderen van huidige positie
             gridPane.getChildren().remove(characterImageView);
-
             setCharRow(newRow);
             setCharColumn(newColumn);
 
-            // Op basis van de richting waar de speler uitgaat verandert de sprite
-            String imagePath;
-            if (columnMove > 0) {
-                imagePath = "ImagesAndSprites/SpriteRight.png";
-            } else if (columnMove < 0) {
-                imagePath = "ImagesAndSprites/SpriteLeft.png";
-            } else if (rowMove < 0) {
-                imagePath = "ImagesAndSprites/SpriteBack.png";
-            } else {
-                imagePath = "ImagesAndSprites/SpriteFront.png";
-            }
-
-            // Sprite en positie van de speler wordt geüpdatet
-            characterImageView.setImage(new Image(imagePath, 100, 100, false, false));
+            // Positie updaten
             GridPane.setColumnIndex(characterImageView, newColumn);
             GridPane.setRowIndex(characterImageView, newRow);
 
-            // Speler wordt terug toegevoegd op de nieuwe positie
+            // Speler toevoegen op nieuwe positie
             gridPane.getChildren().add(characterImageView);
         }
     }
 
+    // Getter om de juiste sprite te tonen o.b.v. de richting die de speler uitkijkt
+    private String getMovementImage(String spriteDirection, int spriteNumber) {
+        return "ImagesAndSprites/PlayerCharacterMale/Sprite" + spriteDirection + spriteNumber + ".png";
+    }
+
+    // Bounds van de gamewereld checken
     private boolean inBounds(int row, int column) {
         return row >= 0 && row < gridPane.getRowConstraints().size() && column >= 0 && column < gridPane.getColumnConstraints().size();
     }

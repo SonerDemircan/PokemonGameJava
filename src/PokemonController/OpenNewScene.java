@@ -14,6 +14,11 @@ import java.io.IOException;
 // stageTitle (spreekt voor zich :D)
 public class OpenNewScene {
     public void openNewScene(String fxmlFilename, Stage currentStage, String stageTitle) throws IOException {
+
+        //CONSTRUCTOR MAKEN
+        //openNewScene (String fxmlFilename, Stage currentStage, String stageTitle)
+        //METHOD
+        //openNewScene
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/" + fxmlFilename + ".fxml"));
 
         Scene newScene = new Scene(root);
@@ -42,8 +47,5 @@ public class OpenNewScene {
         currentStage.setTitle(stageTitle);
 
         currentStage.show();
-
-
     }
-
 }
