@@ -29,8 +29,8 @@ public class OpenNewScene {
     public void openNewSceneWithParam(String fxmlFilename, Stage currentStage, String stageTitle, World world) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFilename + ".fxml"));
-        //GameWorldController controller = new GameWorldController(world);
-        //loader.setController(controller);
+        BattleSceneController controller = new BattleSceneController(world);
+        loader.setController(controller);
         Parent root = loader.load();
 
 
