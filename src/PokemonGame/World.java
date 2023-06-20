@@ -75,7 +75,7 @@ public class World implements Initializable {
         }
 
         // Speler wordt aangemaakt
-        player = new PlayerCharacter("Soner", 'M');
+        player = new PlayerCharacter(gridPane,"Soner", 'M');
 
         // Startpositie van de speler
         characterRow = 9;
@@ -109,6 +109,12 @@ public class World implements Initializable {
 
         createPokemon(pokemonList);
         addMoveToPokemon();
+
+        player.addPokemonToPlayerParty(pokemon.get(4));
+        player.addPokemonToPlayerParty(pokemon.get(2));
+        player.addPokemonToPlayerParty(pokemon.get(1));
+        player.addPokemonToPlayerParty(pokemon.get(11));
+
     }
 
     private boolean isTallgrass(int row, int column) {
@@ -134,6 +140,7 @@ public class World implements Initializable {
 
         switch (keyCode) {
             case UP:
+
             case DOWN:
             case LEFT:
             case RIGHT:
