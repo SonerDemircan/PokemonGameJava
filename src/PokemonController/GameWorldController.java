@@ -4,12 +4,14 @@ import PokemonGame.World;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,7 +29,16 @@ public class GameWorldController implements Initializable {
 
     @FXML
     void btnExit(ActionEvent event) {
-        world.battle(world.getPokemon().get(5), world.getPokemon().get(5) );
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        OpenNewScene newScene = new OpenNewScene();
+
+        //BattleSceneController battleSceneController = new BattleSceneController(world);
+        // CODE HIERONDER WERKT NIET OM WORLD.FXML TE OPENEN
+        try {
+            newScene.openNewSceneWithParam("BattleScene", currentStage,"Gameworld",world);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
