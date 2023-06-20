@@ -10,8 +10,27 @@ public class PlayerCharacter extends Character {
     private GridPane gridPane;
     private ImageView characterImageView;
 
-    public PlayerCharacter(String playerName, char playerGender) {
+    public PlayerCharacter(GridPane gridpane, String playerName, char playerGender) {
         super(playerName, playerGender);
+        this.gridPane = gridpane;
+    }
+
+    public void addPokemonToPlayerParty(Pokemon pokemon) {
+
+        Pokemon pok = pokemon;
+
+        int i = 0;
+
+        while(pokemons[i] != null) {
+            i++;
+        }
+        pokemons[i] = pok;
+    }
+
+    public void changePositionInParty(int firstPokemonPosition, int secondPokemonPosition, World world) {
+        Pokemon pokemon = pokemons[firstPokemonPosition];
+        pokemons[firstPokemonPosition] = pokemons[secondPokemonPosition];
+        pokemons[secondPokemonPosition] = pokemon;
     }
 
     // Keyboard controls om de speler te bewegen
