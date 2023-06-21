@@ -126,7 +126,7 @@ public class BattleSceneController {
     }
 
     private Pokemon randomPokemon() {
-        return _world.getPokemon().get(random.nextInt(18));
+        return _world.getPokemon().get(random.nextInt(17));
     }
 
     public boolean isPokemonDefeated(Pokemon pokemon) {
