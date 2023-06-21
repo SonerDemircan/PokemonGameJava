@@ -82,6 +82,10 @@ public abstract class Character {
         }
     }
 
+    public Pokemon[] getPokemons() {
+        return pokemons;
+    }
+
     public int getCharRow() {
         return (int) (charYpos / 110);
     }
