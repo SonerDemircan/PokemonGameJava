@@ -82,7 +82,7 @@ public class BattleSceneController {
     @FXML
     void btnStartBattle(ActionEvent event) {
         enemy = randomPokemon();
-        trainerPokemon = _world.getPlayer().getPokemons()[2];
+        trainerPokemon = _world.getPlayer().getPokemons()[0];
 
         lblBattleScene.setText("You've encountered a Wild " + enemy.getName() + "!" + "\nLet's battle!");
         startBattle(trainerPokemon,enemy);

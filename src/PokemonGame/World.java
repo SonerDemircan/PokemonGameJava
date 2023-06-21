@@ -129,18 +129,17 @@ public class World implements Initializable {
         return random < spawnChance;
     }
 
-    // GEEFT ERROR ALS SPELER IN TALL GRASS STAPT
-    private void checkWildPokemonEncounter() {
+    public boolean checkWildPokemonEncounter() {
         int playerRow = player.getCharRow();
         int playerColumn = player.getCharColumn();
+        boolean bool = false;
 
         if (isTallgrass(playerRow, playerColumn) && pokemonSpawn()) {
-            try {
-                openNewScene.openNewScene("BattleScene", this.stage, "Pokemon Battle");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        bool = true;
+        } else {
+            bool = false;
         }
+        return bool;
     }
 
     private boolean isPath(int row, int column) {
@@ -175,7 +174,6 @@ public class World implements Initializable {
             case LEFT:
             case RIGHT:
                 player.handleKeyPressed(event);
-                checkWildPokemonEncounter();
                 break;
         }
     }
@@ -189,7 +187,6 @@ public class World implements Initializable {
             case LEFT:
             case RIGHT:
                 player.handleKeyReleased(event);
-                checkWildPokemonEncounter();
                 break;
         }
     }
@@ -247,37 +244,6 @@ public class World implements Initializable {
             savedPokemon.add(output);
         }
         return savedPokemon;
-    }
-
-    public void battle(Pokemon trainerPok, Pokemon enemy) {
-
-        Scanner scanner = new Scanner(System.in);
-
-        while(trainerPok.battleHitPoints > 0 && enemy.battleHitPoints > 0) {
-            System.out.println("It's " + trainerPok.name + " turn!");
-            System.out.println("pick a move: \n" + "0: " +  trainerPok.moveSet[0].name + " -- pp: " + trainerPok.moveSet[0].pp + "\n1: " + trainerPok.moveSet[1].name + " -- pp: " + trainerPok.moveSet[1].pp + "\n2: " + trainerPok.moveSet[2].name + " -- pp: " + trainerPok.moveSet[2].pp + "\n3: " + trainerPok.moveSet[3].name+ " -- pp: " + trainerPok.moveSet[3].pp);
-            int attackmove = scanner.nextInt();
-            enemy.battleHitPoints -= trainerPok.attack(trainerPok,attackmove,enemy);
-
-            if(isPokemonDefeated(enemy)) {
-                System.out.println("You and " + trainerPok.name + " won!");
-                continue;
-            }
-
-            System.out.println("It's " + enemy.name + " turn!");
-            System.out.println("pick a move: \n" + "0: " +  enemy.moveSet[0].name + " -- pp: " + enemy.moveSet[0].pp + "\n1: " + enemy.moveSet[1].name + " -- pp: " + enemy.moveSet[1].pp + "\n2: " + enemy.moveSet[2].name + " -- pp: " + enemy.moveSet[2].pp + "\n3: " + enemy.moveSet[3].name+ " -- pp: " + enemy.moveSet[3].pp );
-            attackmove = scanner.nextInt();
-            trainerPok.battleHitPoints -= enemy.attack(enemy,attackmove,trainerPok);
-
-            if(isPokemonDefeated(trainerPok)) {
-                System.out.println("the enemy and " + enemy.name + " won!");
-                continue;
-            }
-
-            System.out.println(trainerPok.name + " HP: " + trainerPok.maxHitPoints + "/" + trainerPok.battleHitPoints);
-            System.out.println(enemy.name + " HP: " + enemy.maxHitPoints + "/" + enemy.battleHitPoints);
-            System.out.println();
-        }
     }
 
     public boolean isPokemonDefeated(Pokemon pokemon) {
