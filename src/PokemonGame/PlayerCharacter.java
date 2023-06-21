@@ -6,9 +6,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 public class PlayerCharacter extends Character {
-    private GridPane gridPane;
     private ImageView characterImageView;
 
     // Checken of de speler nog beweegt
@@ -20,16 +20,18 @@ public class PlayerCharacter extends Character {
     // Checken welke richting de speler uitgaat voor de animatie
     private int moveColumn;
 
-    // Checken welke richting de speler uitgaat
-    private boolean isMovingUp;
-    private boolean isMovingDown;
-    private boolean isMovingLeft;
-    private boolean isMovingRight;
+    // Vertraging wanneer de speler beweegt
+    private final Duration MOVE_DELAY = Duration.millis(175);
+
+    // Zorgt ervoor dat de gif sprites worden afgespeeld
+    private AnimationTimer animationTimer;
+
+
+    private long lastMoveTime;
 
 
     public PlayerCharacter(GridPane gridPane, String playerName, char playerGender) {
-        super(playerName, playerGender);
-        this.gridPane = gridPane;
+        super(gridPane, playerName, playerGender);
         this.isMoving = false;
         this.moveRow = 0;
         this.moveColumn = 0;
@@ -45,12 +47,6 @@ public class PlayerCharacter extends Character {
         pokemons[i].isCaught = true;
     }
 
-    public void changePositionInParty(int firstPokemonPosition, int secondPokemonPosition, World world) {
-        Pokemon pokemon = pokemons[firstPokemonPosition];
-        pokemons[firstPokemonPosition] = pokemons[secondPokemonPosition];
-        pokemons[secondPokemonPosition] = pokemon;
-    }
-
     // Keyboard controls voor movement
     public void handleKeyPressed(KeyEvent event) {
         KeyCode keyCode = event.getCode();
@@ -58,16 +54,16 @@ public class PlayerCharacter extends Character {
         if (!isMoving) {
             switch (keyCode) {
                 case UP:
-                    startMoving(-1, 0, "BackWalk");
+                    startMoving(-1, 0, "Back");
                     break;
                 case DOWN:
-                    startMoving(1, 0, "FrontWalk");
+                    startMoving(1, 0, "Front");
                     break;
                 case LEFT:
-                    startMoving(0, -1, "LeftWalk");
+                    startMoving(0, -1, "Left");
                     break;
                 case RIGHT:
-                    startMoving(0, 1, "RightWalk");
+                    startMoving(0, 1, "Right");
                     break;
             }
         }
@@ -80,78 +76,65 @@ public class PlayerCharacter extends Character {
         if (isMoving) {
             switch (keyCode) {
                 case UP:
-                    isMovingUp = false;
+                    // Checken welke richting de speler uitgaat
                     stopMoving();
                     break;
                 case DOWN:
-                    isMovingDown = false;
                     stopMoving();
                     break;
                 case LEFT:
-                    isMovingLeft = false;
                     stopMoving();
                     break;
                 case RIGHT:
-                    isMovingRight = false;
                     stopMoving();
                     break;
             }
         }
     }
 
+    // Method start wanneer de speler beweegt, zorgt ervoor dat de animatie start
     private void startMoving(int rowMove, int columnMove, String spriteDirection) {
+
+        // Check om te zien of de speler al aan het bewegen is, als dit false is gaat die steeds een nieuwe animatie maken
+        if (isMoving) {
+            return;
+        }
         moveRow = rowMove;
         moveColumn = columnMove;
 
-        String imagePath = getMovementImage(spriteDirection, 1);
+
+        String imagePath = getMovementImage(spriteDirection);
         characterImageView.setImage(new Image(imagePath, 100, 100, false, false));
         isMoving = true;
 
-        // Animatie timer starten
-        AnimationTimer animationTimer = new AnimationTimer() {
-            private int spriteNumber = 1;
-            private long lastUpdate = 0;
+        // Check om te zien hoeveel tijd er zit tussen de movement
+        lastMoveTime = System.currentTimeMillis();
+
+        animationTimer = new AnimationTimer() {
 
             @Override
             public void handle(long now) {
-                if (now - lastUpdate >= 200_000_000) {
-                    String imagePath = getMovementImage(spriteDirection, spriteNumber);
-                    characterImageView.setImage(new Image(imagePath, 100, 100, false, false));
-                    spriteNumber++;
-                    if (spriteNumber > 2) {
-                        spriteNumber = 1;
-                    }
-                    lastUpdate = now;
+                long elapsedMillis = System.currentTimeMillis() - lastMoveTime;
+                if (elapsedMillis >= MOVE_DELAY.toMillis()) {
+
+                    // Speler kan bewegen als er genoeg tijd is gepasseerd
+                    moveCharacter(rowMove, columnMove);
+                    lastMoveTime = System.currentTimeMillis();
                 }
             }
         };
         animationTimer.start();
-
-        moveCharacter(rowMove, columnMove);
-
-        // Stopt de animatie wanneer de speler de key loslaat (dus locatie heeft bereikt)
-        AnimationTimer stopMovingAnimationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                int newRow = getCharRow() + rowMove;
-                int newColumn = getCharColumn() + columnMove;
-
-                if (!isMoving || (rowMove > 0 && getCharRow() >= newRow)
-                        || (rowMove < 0 && getCharRow() <= newRow)
-                        || (columnMove > 0 && getCharColumn() >= newColumn)
-                        || (columnMove < 0 && getCharColumn() <= newColumn)) {
-                    stopMoving();
-                    animationTimer.stop();
-                    this.stop();
-                }
-            }
-        };
-        stopMovingAnimationTimer.start();
     }
 
-
+    @Override
     public void stopMoving() {
         // Checken welke richting de speler als laatste uitging & correcte sprite laten zien
+        if (!isMoving) {
+            return;
+        }
+        animationTimer.stop();
+        animationTimer = null;
+
         String spriteDirection;
         if (moveColumn > 0) {
             spriteDirection = "Right";
@@ -164,7 +147,7 @@ public class PlayerCharacter extends Character {
         }
 
         // Correcte sprite wordt getoond
-        String standingStillImage = getMovementImage(spriteDirection, 0);
+        String standingStillImage = getMovementImage(spriteDirection);
         characterImageView.setImage(new Image(standingStillImage, 100, 100, false, false));
         isMoving = false;
     }
@@ -192,8 +175,8 @@ public class PlayerCharacter extends Character {
     }
 
     // Getter om de juiste sprite te tonen o.b.v. de richting die de speler uitkijkt
-    private String getMovementImage(String spriteDirection, int spriteNumber) {
-        return "ImagesAndSprites/PlayerCharacterMale/Sprite" + spriteDirection + spriteNumber + ".png";
+    private String getMovementImage(String spriteDirection) {
+        return "ImagesAndSprites/PlayerCharacterMale/Sprite" + spriteDirection + ".gif";
     }
 
     // Bounds van de gamewereld checken

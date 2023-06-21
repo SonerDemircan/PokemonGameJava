@@ -1,13 +1,26 @@
 package PokemonGame;
 
 import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
 public abstract class Character {
+    protected GridPane gridPane;
+    private boolean isMoving;
+
+    // Checken welke richting de speler uitgaat voor de animatie
+    private int moveRow;
+
+    // Checken welke richting de speler uitgaat voor de animatie
+    private int moveColumn;
+
+    // Zorgt ervoor dat de gif sprites worden afgespeeld
+    private AnimationTimer animationTimer;
     protected String name;
     protected char gender;
     protected double charXpos;
@@ -16,14 +29,10 @@ public abstract class Character {
     protected Item[] items;
     protected int experience;
     protected int catchCount;
-    protected Image[] characterView;
     private ImageView characterImageView;
 
-    protected Image[] walkAnimationFrames;
-    protected Timeline walkAnimationTimeline;
-    protected int currentFrameIndex;
-
-    public Character(String playerName, char playerGender) {
+    public Character(GridPane gridPane, String playerName, char playerGender) {
+        this.gridPane = gridPane;
         this.name = playerName;
         this.gender = playerGender;
         this.charXpos = 250;
@@ -32,44 +41,6 @@ public abstract class Character {
         this.pokemons = new Pokemon[20];
         this.items = new Item[10];
         this.experience = 0;
-
-        initializeCharacterView("ImagesAndSprites/PlayerCharacterMale");
-        initializeWalkAnimation();
-    }
-
-    // Sprites van de speler worden aangemaakt
-    public void initializeCharacterView(String imagePath) {
-        this.characterView = new Image[4];
-        String[] characterSprites = {"Front0", "Back0", "Left0", "Right0"};
-
-        for (int i = 0; i < this.characterView.length; i++) {
-            String characterSprite = imagePath + "/Sprite" + characterSprites[i] + ".png";
-            this.characterView[i] = new Image(characterSprite, 100, 100, false, false);
-        }
-    }
-
-    // Sprites van de speler die beweegt worden aangemaakt
-    protected void initializeWalkAnimation() {
-        walkAnimationFrames = new Image[] {
-                new Image("ImagesAndSprites/PlayerCharacterMale/SpriteFrontWalk1.png"),
-                new Image("ImagesAndSprites/PlayerCharacterMale/SpriteBackWalk1.png"),
-                new Image("ImagesAndSprites/PlayerCharacterMale/SpriteLeftWalk1.png"),
-                new Image("ImagesAndSprites/PlayerCharacterMale/SpriteRightWalk1.png"),
-        };
-
-        // Animatie logica
-        walkAnimationTimeline = new Timeline();
-        walkAnimationTimeline.setCycleCount(Animation.INDEFINITE);
-        walkAnimationTimeline.getKeyFrames().add(
-                new KeyFrame(Duration.millis(200), e -> {
-                    currentFrameIndex = (currentFrameIndex + 1) % walkAnimationFrames.length;
-
-                    // Richting van de speler wordt geüpdated
-                    for (int i = 0; i < characterView.length; i++) {
-                        characterView[i] = walkAnimationFrames[currentFrameIndex];
-                    }
-                })
-        );
     }
 
     public void healPokemon(Pokemon pokemon) {
@@ -102,7 +73,63 @@ public abstract class Character {
         this.charXpos = column * 110;
     }
 
-    public abstract void moveCharacter(int rowMove, int columnMove);
+    public void stopMoving() {
+        // Checken welke richting de speler als laatste uitging & correcte sprite laten zien
+        if (!isMoving) {
+            return;
+        }
+        animationTimer.stop();
+        animationTimer = null;
+
+        String pathToImage = "";
+
+        String spriteDirection;
+        if (moveColumn > 0) {
+            spriteDirection = "Right";
+        } else if (moveColumn < 0) {
+            spriteDirection = "Left";
+        } else if (moveRow > 0) {
+            spriteDirection = "Front";
+        } else {
+            spriteDirection = "Back";
+        }
+
+        // Correcte sprite wordt getoond
+        String standingStillImage = getMovementImage(pathToImage, spriteDirection);
+        characterImageView.setImage(new Image(standingStillImage, 100, 100, false, false));
+        isMoving = false;
+    }
+
+    // Speler laten bewegen
+    public void moveCharacter(int rowMove, int columnMove) {
+        int newRow = getCharRow() + rowMove;
+        int newColumn = getCharColumn() + columnMove;
+
+        if (inBounds(newRow, newColumn)) {
+
+            // Speler verwijderen van huidige positie
+            gridPane.getChildren().remove(characterImageView);
+            setCharRow(newRow);
+            setCharColumn(newColumn);
+
+            // Positie updaten
+            GridPane.setColumnIndex(characterImageView, newColumn);
+            GridPane.setRowIndex(characterImageView, newRow);
+
+            // Speler toevoegen op nieuwe positie
+            gridPane.getChildren().add(characterImageView);
+        }
+    }
+
+    // Getter om de juiste sprite te tonen o.b.v. de richting die de speler uitkijkt
+    public String getMovementImage(String imagePath, String spriteDirection) {
+        return "ImagesAndSprites/" + imagePath + "/Sprite" + spriteDirection + ".gif";
+    }
+
+    // Bounds van de gamewereld checken
+    private boolean inBounds(int row, int column) {
+        return row >= 0 && row < gridPane.getRowConstraints().size() && column >= 0 && column < gridPane.getColumnConstraints().size();
+    }
 
     public void setCharacterImageView(ImageView characterImageView) {
         this.characterImageView = characterImageView;
