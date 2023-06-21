@@ -1,11 +1,13 @@
 package PokemonGame;
 
+import Interfaces.IPokemon;
+
 import java.util.Random;
 
-public class Pokemon {
+public class Pokemon implements IPokemon {
 
-    public int pokemonId;
-    public String name;
+    protected int pokemonId;
+    protected String name;
     protected String type;
     protected int level;
     protected int maxHitPoints;
@@ -17,6 +19,7 @@ public class Pokemon {
     protected int moveOne;
     protected int moveTwo;
     protected int moveThree;
+    protected int moveFour;
 
     public int getPokemonId() {
         return pokemonId;
@@ -37,31 +40,19 @@ public class Pokemon {
     public int getBattleHitPoints() {
         return battleHitPoints;
     }
+
     public void setBattleHitPoints(int battleHitPoints) {
         this.battleHitPoints = battleHitPoints;
     }
 
 
-    public int getAttack() {
-        return attack;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
     public Attack[] getMoveSet() {
         return moveSet;
     }
 
-    protected int moveFour;
     protected Attack[] moveSet = new Attack[4];
 
-
+    @Override
     public int attack(Pokemon attackingPokemon,int attackMove, Pokemon pok) {
         int damage = 0;
         if(attackingPokemon.getMoveSet()[attackMove].power != 0) {
