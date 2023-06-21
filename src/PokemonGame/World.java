@@ -291,4 +291,7 @@ public class World implements Initializable {
     public List<Pokemon> getPokemon() {
         return pokemon;
     }
+    public PlayerCharacter getPlayer() {
+        return player;
+    }
 }
