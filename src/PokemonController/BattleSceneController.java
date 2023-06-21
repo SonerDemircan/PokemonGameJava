@@ -7,9 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-
 import java.util.Random;
-import java.util.Scanner;
 
 public class BattleSceneController {
 
@@ -51,12 +49,8 @@ public class BattleSceneController {
 
     @FXML
     private ProgressBar prgsYourPokemon;
-
     Random random = new Random();
-
     private World _world;
-
-    private String playerTurn = "It's your turn!";
     private int attack = 5;
     private Pokemon enemy;
     private Pokemon trainerPokemon;
@@ -90,7 +84,7 @@ public class BattleSceneController {
         enemy = randomPokemon();
         trainerPokemon = _world.getPlayer().getPokemons()[2];
 
-        lblBattleScene.setText("You've encountered a Wild " + enemy.name + "!" + "\nLet's battle!");
+        lblBattleScene.setText("You've encountered a Wild " + enemy.getName() + "!" + "\nLet's battle!");
         startBattle(trainerPokemon,enemy);
         btnStartBattle.setVisible(false);
     }
@@ -98,7 +92,7 @@ public class BattleSceneController {
     @FXML
     void btnNext(ActionEvent event) {
 
-        lblBattleScene.setText(enemy.name + " used " + enemy.getMoveSet()[enemyAttack()].getName());
+        lblBattleScene.setText(enemy.getName() + " used " + enemy.getMoveSet()[enemyAttack()].getName());
 
         if(isPokemonDefeated(trainerPokemon)) {
             lblBattleScene.setText("Enemy " + enemy.getName() + " has won the fight!");
@@ -112,9 +106,9 @@ public class BattleSceneController {
 
     public void startBattle(Pokemon trainerPok, Pokemon enemy) {
 
-        lblPlayerPokemon.setText(trainerPok.name);
+        lblPlayerPokemon.setText(trainerPok.getName());
         lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
-        lblEnemyPokemon.setText(enemy.name);
+        lblEnemyPokemon.setText(enemy.getName());
         lblEnemyHP.setText(updateEnemyHP());
 
         updateAttackButtons();
@@ -184,12 +178,10 @@ public class BattleSceneController {
         enemy.setBattleHitPoints(enemy.getMaxHitPoints());
     }
 
-
-
     public void yourattack(int attackNr) {
         trainerPokemonAttack(attackNr);
 
-        lblBattleScene.setText(trainerPokemon.name + " used " + trainerPokemon.getMoveSet()[attackNr].getName());
+        lblBattleScene.setText(trainerPokemon.getName() + " used " + trainerPokemon.getMoveSet()[attackNr].getName());
 
         lblEnemyHP.setText(updateEnemyHP());
         if(isPokemonDefeated(enemy)) {
@@ -201,6 +193,4 @@ public class BattleSceneController {
         }
         setAttackButtonsInvisible();
     }
-
-
 }
