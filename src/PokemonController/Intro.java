@@ -74,6 +74,8 @@ public class Intro {
 
         // Button continue verschijnt pas als de speler de volledige tekst heeft gelezen
         if (currentIntroIndex == 6) {
+            btnNext.setVisible(false);
+            btnPrevious.setVisible(false);
             btnContinue.setVisible(true);
         } else {
             btnContinue.setVisible(false);
