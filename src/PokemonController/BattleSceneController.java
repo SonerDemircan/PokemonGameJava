@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class BattleSceneController {
@@ -28,6 +29,9 @@ public class BattleSceneController {
     private Button btnStartBattle;
 
     @FXML
+    private Button btnNext;
+
+    @FXML
     private Label lblBattleScene;
 
     @FXML
@@ -37,84 +41,165 @@ public class BattleSceneController {
     private Label lblPlayerPokemon;
 
     @FXML
+    private Label lblEnemyHP;
+
+    @FXML
+    private Label lblTrainerPokemonHP;
+
+    @FXML
     private ProgressBar prgsEnemyHP;
 
     @FXML
     private ProgressBar prgsYourPokemon;
 
+    Random random = new Random();
+
     private World _world;
 
-    private String text = "It's your turn!";
+    private String playerTurn = "It's your turn!";
+    private int attack = 5;
+    private Pokemon enemy;
+    private Pokemon trainerPokemon;
 
     public BattleSceneController(World world) {
         this._world = world;
     }
 
-    public void battle(Pokemon trainerPok, Pokemon enemy) {
+    @FXML
+    void btnAttack1(ActionEvent event) {
+        yourattack(0);
+    }
 
-        Scanner scanner = new Scanner(System.in);
+    @FXML
+    void btnAttack2(ActionEvent event) {
+        yourattack(1);
+    }
 
-        while(trainerPok.getBattleHitPoints() > 0 && enemy.getBattleHitPoints() > 0) {
-            //System.out.println("It's " + trainerPok.name + " turn!");
-            lblBattleScene.setText(text);
-            btnAttack1.setText(trainerPok.getMoveSet()[0].getName() + " -- pp: " + trainerPok.getMoveSet()[0].getPp());
-            System.out.println("pick a move: \n" + "0: " +  trainerPok.getMoveSet()[0].getName() + " -- pp: " + trainerPok.getMoveSet()[0].getPp() + "\n1: " + trainerPok.getMoveSet()[1].getName() + " -- pp: " + trainerPok.getMoveSet()[1].getPp() + "\n2: " + trainerPok.getMoveSet()[2].getName() + " -- pp: " + trainerPok.getMoveSet()[2].getPp() + "\n3: " + trainerPok.getMoveSet()[3].getName()+ " -- pp: " + trainerPok.getMoveSet()[3].getPp());
-            int attackmove = scanner.nextInt();
-            enemy.setBattleHitPoints(-trainerPok.attack(trainerPok,attackmove,enemy));
+    @FXML
+    void btnAttack3(ActionEvent event) {
+        yourattack(2);
+    }
 
-            if(isPokemonDefeated(enemy)) {
-                System.out.println("You and " + trainerPok.name + " won!");
-                continue;
-            }
+    @FXML
+    void btnAttack4(ActionEvent event) {
+        yourattack(3);
+    }
 
-            System.out.println("It's " + enemy.name + " turn!");
-            System.out.println("pick a move: \n" + "0: " +  enemy.getMoveSet()[0].getName() + " -- pp: " + enemy.getMoveSet()[0].getPp() + "\n1: " + enemy.getMoveSet()[1].getName() + " -- pp: " + enemy.getMoveSet()[1].getPp() + "\n2: " + enemy.getMoveSet()[2].getName() + " -- pp: " + enemy.getMoveSet()[2].getPp() + "\n3: " + enemy.getMoveSet()[3].getPp()+ " -- pp: " + enemy.getMoveSet()[3].getPp() );
-            attackmove = scanner.nextInt();
-            trainerPok.setBattleHitPoints(-enemy.attack(enemy,attackmove,trainerPok));
+    @FXML
+    void btnStartBattle(ActionEvent event) {
+        enemy = randomPokemon();
+        trainerPokemon = _world.getPlayer().getPokemons()[2];
 
-            if(isPokemonDefeated(trainerPok)) {
-                System.out.println("the enemy and " + enemy.name + " won!");
-                continue;
-            }
+        lblBattleScene.setText("You've encountered a Wild " + enemy.name + "!" + "\nLet's battle!");
+        startBattle(trainerPokemon,enemy);
+        btnStartBattle.setVisible(false);
+    }
 
-            //System.out.println(trainerPok.name + " HP: " + trainerPok.maxHitPoints + "/" + trainerPok.battleHitPoints);
-            //System.out.println(enemy.name + " HP: " + enemy.maxHitPoints + "/" + enemy.battleHitPoints);
-            System.out.println();
+    @FXML
+    void btnNext(ActionEvent event) {
+
+        lblBattleScene.setText(enemy.name + " used " + enemy.getMoveSet()[enemyAttack()].getName());
+
+        if(isPokemonDefeated(trainerPokemon)) {
+            lblBattleScene.setText("Enemy " + enemy.getName() + " has won the fight!");
+            healPokemon(trainerPokemon,enemy);
+        } else if (!isPokemonDefeated(trainerPokemon)) {
+            setAttackButtonsVisible();
         }
+        lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
+        btnNext.setVisible(false);
+    }
+
+    public void startBattle(Pokemon trainerPok, Pokemon enemy) {
+
+        lblPlayerPokemon.setText(trainerPok.name);
+        lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
+        lblEnemyPokemon.setText(enemy.name);
+        lblEnemyHP.setText(updateEnemyHP());
+
+        updateAttackButtons();
+        setAttackButtonsVisible();
+    }
+
+    private void updateAttackButtons() {
+        btnAttack1.setText(trainerPokemon.getMoveSet()[0].getName() + "\npp: " + trainerPokemon.getMoveSet()[0].getPp());
+        btnAttack2.setText(trainerPokemon.getMoveSet()[1].getName() + "\npp: " + trainerPokemon.getMoveSet()[1].getPp());
+        btnAttack3.setText(trainerPokemon.getMoveSet()[2].getName() + "\npp: " + trainerPokemon.getMoveSet()[2].getPp());
+        btnAttack4.setText(trainerPokemon.getMoveSet()[3].getName() + "\npp: " + trainerPokemon.getMoveSet()[3].getPp());
+    }
+    private void trainerPokemonAttack(int attackNumber) {
+        enemy.setBattleHitPoints(enemy.getBattleHitPoints()-trainerPokemon.attack(trainerPokemon,attackNumber,enemy));
+    }
+
+    private Pokemon randomPokemon() {
+        return _world.getPokemon().get(random.nextInt(18));
     }
 
     public boolean isPokemonDefeated(Pokemon pokemon) {
         boolean defeat = false;
         if(pokemon.getBattleHitPoints() < 1) {
             defeat = true;
+            btnStartBattle.setVisible(true);
+            btnNext.setVisible(false);
+            setAttackButtonsInvisible();
+            pokemon.setBattleHitPoints(0);
         }
         return defeat;
     }
-
-
-    @FXML
-    void btnAttack1(ActionEvent event) {
-
+    private String updateEnemyHP() {
+        double progressBar = (double)enemy.getBattleHitPoints()/(double)enemy.getMaxHitPoints();
+        prgsEnemyHP.setProgress(progressBar);
+        return ("HP: " + enemy.getMaxHitPoints() + "/" + enemy.getBattleHitPoints());
     }
 
-    @FXML
-    void btnAttack2(ActionEvent event) {
-
+    private String updateTrainerPokemonHP() {
+        double progressBar = (double)trainerPokemon.getBattleHitPoints()/(double)trainerPokemon.getMaxHitPoints();
+        prgsYourPokemon.setProgress(progressBar);
+        return ("HP: " + trainerPokemon.getMaxHitPoints() + "/" + trainerPokemon.getBattleHitPoints());
     }
 
-    @FXML
-    void btnAttack3(ActionEvent event) {
-
+    private int enemyAttack() {
+        int attackNumber = random.nextInt(3);
+        trainerPokemon.setBattleHitPoints(trainerPokemon.getBattleHitPoints()-enemy.attack(enemy,attackNumber,trainerPokemon));
+        return attackNumber;
     }
 
-    @FXML
-    void btnAttack4(ActionEvent event) {
-
+    private void setAttackButtonsVisible() {
+        updateAttackButtons();
+        btnAttack1.setVisible(true);
+        btnAttack2.setVisible(true);
+        btnAttack3.setVisible(true);
+        btnAttack4.setVisible(true);
     }
 
-    @FXML
-    void btnStartBattle(ActionEvent event) {
-        battle(_world.getPokemon().get(5), _world.getPokemon().get(10));
+    private void setAttackButtonsInvisible() {
+        btnAttack1.setVisible(false);
+        btnAttack2.setVisible(false);
+        btnAttack3.setVisible(false);
+        btnAttack4.setVisible(false);
+    }
+
+    private void healPokemon(Pokemon trainerPokemon, Pokemon enemy) {
+        trainerPokemon.setBattleHitPoints(trainerPokemon.getMaxHitPoints());
+        enemy.setBattleHitPoints(enemy.getMaxHitPoints());
+    }
+
+
+
+    public void yourattack(int attackNr) {
+        trainerPokemonAttack(attackNr);
+
+        lblBattleScene.setText(trainerPokemon.name + " used " + trainerPokemon.getMoveSet()[attackNr].getName());
+
+        lblEnemyHP.setText(updateEnemyHP());
+        if(isPokemonDefeated(enemy)) {
+            lblBattleScene.setText("you've won!");
+            btnNext.setVisible(false);
+            healPokemon(trainerPokemon,enemy);
+        } else if (!isPokemonDefeated(enemy)) {
+            btnNext.setVisible(true);
+        }
+        setAttackButtonsInvisible();
     }
 
 

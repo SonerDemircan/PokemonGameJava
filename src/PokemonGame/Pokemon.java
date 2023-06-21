@@ -62,20 +62,17 @@ public class Pokemon {
     protected Attack[] moveSet = new Attack[4];
 
 
-    public Pokemon() {
-
-    }
-
-    public int attack(Pokemon trainerPokemon,int attackMove, Pokemon enemy) {
+    public int attack(Pokemon attackingPokemon,int attackMove, Pokemon pok) {
         int damage = 0;
-        if (trainerPokemon.moveSet[attackMove].accuracy >= isHit()) {
-            damage = ((2 * trainerPokemon.level / 5 + 2) * trainerPokemon.moveSet[attackMove].power * (trainerPokemon.attack / enemy.defense) / 50 + 2);
-        } else {
-            System.out.println("That was a miss!");
+        if(attackingPokemon.getMoveSet()[attackMove].power != 0) {
+            if (attackingPokemon.moveSet[attackMove].accuracy >= isHit()) {
+                damage = ((2 * attackingPokemon.level / 5 + 2) * attackingPokemon.moveSet[attackMove].power * (attackingPokemon.attack / pok.defense) / 50 + 2);
+            } else {
+                System.out.println("That was a miss!");
+            }
+            attackingPokemon.moveSet[attackMove].pp--;
         }
-        trainerPokemon.moveSet[attackMove].pp--;
-
-        return damage;
+            return damage;
     }
 
     private int isHit() {
