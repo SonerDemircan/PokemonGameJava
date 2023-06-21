@@ -3,6 +3,7 @@ package PokemonController;
 import PokemonGame.World;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -26,20 +27,9 @@ public class GameWorldController implements Initializable {
     private World world;
     private Stage stage;
 
-
-
     @FXML
     void btnExit(ActionEvent event) {
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        OpenNewScene newScene = new OpenNewScene();
 
-        //BattleSceneController battleSceneController = new BattleSceneController(world);
-        // CODE HIERONDER WERKT NIET OM WORLD.FXML TE OPENEN
-        try {
-            newScene.openNewSceneWithParam("BattleScene", currentStage,"Gameworld",world);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Override
@@ -72,7 +62,23 @@ public class GameWorldController implements Initializable {
             case LEFT:
             case RIGHT:
                 world.handleKeyReleased(event);
+                openBattleScene(event);
                 break;
         }
     }
+
+    private void openBattleScene(Event event) {
+        if(world.checkWildPokemonEncounter2()) {
+
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            OpenNewScene newScene = new OpenNewScene();
+
+            try {
+                newScene.openNewSceneWithParam("BattleScene", currentStage,"Gameworld",world);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }
