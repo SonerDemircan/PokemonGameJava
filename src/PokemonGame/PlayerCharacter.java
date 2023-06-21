@@ -42,6 +42,7 @@ public class PlayerCharacter extends Character {
             i++;
         }
         pokemons[i] = pok;
+        pokemons[i].isCaught = true;
     }
 
     public void changePositionInParty(int firstPokemonPosition, int secondPokemonPosition, World world) {
