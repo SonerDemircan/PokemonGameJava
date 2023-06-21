@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Intro {
-    private String [] introText = {"Hi! Sorry to keep you waiting! Welcome to the world of Pokémon! My name is Oak. But everyone calls me the Pokémon Professor. "
-            ,"This is what we call a \"Pokémon.\" This world is widely inhabited by creatures known as Pokémon. We humans live alongside Pokémon, at times as friendly playmates, and at times as cooperative workmates. And sometimes, we band together and battle others like us."
-            ,"But despite our closeness, we don't know everything about Pokémon. In fact, there are many, many secrets surrounding Pokémon. To unravel Pokémon mysteries, I've been undertaking research. That's what I do."
-            ,"BLA BLA BLA"
-            ,"NOG MEER BLA BLA"
-            ,"NOG MEEEEEEEEEEER"
-            ,"EINDE TEKST"};
+    private String [] introText = {"Hi! Sorry to keep you waiting! Welcome to the world of Pokémon! \nMy name is Oak. But everyone calls me the Pokémon Professor. "
+            ,"This is what we call a \"Pokémon.\" This world is widely inhabited by creatures known as Pokémon. \nWe humans live alongside Pokémon, at times as friendly playmates, \nand at times as cooperative workmates. \nAnd sometimes, we band together and battle others like us."
+            ,"But despite our closeness, we don't know everything about Pokémon. \nIn fact, there are many, many secrets surrounding Pokémon. To unravel Pokémon mysteries, \nI've been undertaking research. That's what I do."
+            ,"Your very own Pokemon adventure is about to unfold!"
+            ,"A world of dreams and adventures with pokemon awaits!"
+            ,"Let's go!"
+            ,"Door Soner en Daniel"};
 
     private World world;
 
@@ -48,9 +48,6 @@ public class Intro {
 
     @FXML
     private ImageView pngPokeballs;
-
-    Pokemon pokemon;
-
 
 
     // Switchen tussen tekst
