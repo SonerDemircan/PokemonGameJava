@@ -39,9 +39,6 @@ public class HomeScreenController {
     @FXML
     private ImageView imgPokeballs;
 
-    private Pokemon pokemon;
-    CSVWriter writer = new CSVWriter();
-
     @FXML
     void btnStartGame(ActionEvent event) {
         // Onderstaand heb ik moeten opzoeken, Stage currentStage zoekt & vindt de actieve stage
