@@ -43,16 +43,6 @@ public abstract class Character {
         this.experience = 0;
     }
 
-    public void healPokemon(Pokemon pokemon) {
-        pokemon.battleHitPoints = pokemon.maxHitPoints;
-    }
-
-    public void healParty() {
-        for (Pokemon pokemon : pokemons) {
-            pokemon.battleHitPoints = pokemon.maxHitPoints;
-        }
-    }
-
     public Pokemon[] getPokemons() {
         return pokemons;
     }
