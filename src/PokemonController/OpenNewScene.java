@@ -38,7 +38,6 @@ public class OpenNewScene {
         loader.setController(controller);
         Parent root = loader.load();
 
-
         Scene newScene = new Scene(root);
         currentStage.setMinWidth(1000);
         currentStage.setMinHeight(1000);

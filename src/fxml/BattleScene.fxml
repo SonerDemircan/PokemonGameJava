@@ -6,8 +6,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../CSS/BattleScene.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <ImageView fx:id="imgPokeballs" fitHeight="570.0" fitWidth="1000.0" layoutY="2.0" pickOnBounds="true">
+         <Image url="@../ImagesAndSprites/battleSceneBackGround.png" />
+      </ImageView>
       <Button fx:id="btnAttack1" layoutX="380.0" layoutY="272.0" mnemonicParsing="false" onAction="#btnAttack1" prefHeight="56.0" prefWidth="103.0" visible="false" />
       <Button fx:id="btnAttack2" layoutX="483.0" layoutY="272.0" mnemonicParsing="false" onAction="#btnAttack2" prefHeight="56.0" prefWidth="103.0" visible="false" />
       <Button fx:id="btnAttack4" layoutX="483.0" layoutY="328.0" mnemonicParsing="false" onAction="#btnAttack4" prefHeight="56.0" prefWidth="103.0" visible="false" />
