@@ -4,18 +4,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../CSS/BattleScene.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="btnAttack1" layoutX="380.0" layoutY="272.0" mnemonicParsing="false" onAction="#btnAttack1" prefHeight="56.0" prefWidth="103.0" visible="false" />
       <Button fx:id="btnAttack2" layoutX="483.0" layoutY="272.0" mnemonicParsing="false" onAction="#btnAttack2" prefHeight="56.0" prefWidth="103.0" visible="false" />
       <Button fx:id="btnAttack4" layoutX="483.0" layoutY="328.0" mnemonicParsing="false" onAction="#btnAttack4" prefHeight="56.0" prefWidth="103.0" visible="false" />
       <Button fx:id="btnAttack3" layoutX="380.0" layoutY="328.0" mnemonicParsing="false" onAction="#btnAttack3" prefHeight="56.0" prefWidth="103.0" visible="false" />
-      <Label fx:id="lblPlayerPokemon" layoutX="30.0" layoutY="335.0" prefHeight="31.0" prefWidth="109.0" text="your pokemon" />
-      <Label fx:id="lblEnemyPokemon" layoutX="386.0" layoutY="85.0" prefHeight="31.0" prefWidth="109.0" text="enemy pokemon" />
+      <Label fx:id="lblPlayerPokemon" layoutX="30.0" layoutY="335.0" prefHeight="31.0" prefWidth="109.0" text="your pokemon">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font></Label>
+      <Label fx:id="lblEnemyPokemon" layoutX="386.0" layoutY="85.0" prefHeight="31.0" prefWidth="109.0" text="enemy pokemon">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font></Label>
       <ProgressBar fx:id="prgsYourPokemon" layoutX="30.0" layoutY="366.0" prefWidth="200.0" progress="1.0" />
       <ProgressBar fx:id="prgsEnemyHP" layoutX="386.0" layoutY="116.0" prefWidth="200.0" progress="1.0" />
-      <Label fx:id="lblBattleScene" layoutX="14.0" layoutY="131.0" prefHeight="139.0" prefWidth="336.0" text="Label" />
+      <Label fx:id="lblBattleScene" layoutX="14.0" layoutY="131.0" prefHeight="139.0" prefWidth="336.0" text="Label">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font></Label>
       <Button fx:id="btnStartBattle" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnStartBattle" text="Start Battle" />
       <Label fx:id="lblEnemyHP" layoutX="486.0" layoutY="85.0" prefHeight="31.0" prefWidth="75.0" />
       <Label fx:id="lblTrainerPokemonHP" layoutX="130.0" layoutY="335.0" prefHeight="31.0" prefWidth="75.0" />

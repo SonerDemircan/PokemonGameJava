@@ -1,0 +1,8 @@
+#AnchorPane
+{
+    -fx-background-image:url("C:\Users\Danie\IdeaProjects\PokemonGameJava\src\ImagesAndSprites\battleSceneBackGround.jpeg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 800 500;
+    -fx-background-position: center 85;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
