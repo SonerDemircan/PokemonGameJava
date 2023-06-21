@@ -53,23 +53,19 @@ public class Pokemon implements IPokemon {
     protected Attack[] moveSet = new Attack[4];
 
     @Override
-    public int attack(Pokemon attackingPokemon,int attackMove, Pokemon pok) {
+    public int attack(Pokemon attackingPokemon,int attackMove, Pokemon pok, int isHit) {
         int damage = 0;
-        if(attackingPokemon.getMoveSet()[attackMove].power != 0) {
-            if (attackingPokemon.moveSet[attackMove].accuracy >= isHit()) {
+        if (attackingPokemon.getMoveSet()[attackMove].power != 0) {
+            if (attackingPokemon.moveSet[attackMove].accuracy >= isHit) {
                 damage = ((2 * attackingPokemon.level / 5 + 2) * attackingPokemon.moveSet[attackMove].power * (attackingPokemon.attack / pok.defense) / 50 + 2);
-            } else {
-                System.out.println("That was a miss!");
+
+                attackingPokemon.moveSet[attackMove].pp--;
             }
-            attackingPokemon.moveSet[attackMove].pp--;
+
         }
-            return damage;
+        return damage;
     }
 
-    private int isHit() {
-        Random random = new Random();
-        return random.nextInt(100);
-    }
 
     public void healPokemon(Pokemon pokemon) {
         this.battleHitPoints = maxHitPoints;
