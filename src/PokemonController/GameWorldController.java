@@ -68,7 +68,7 @@ public class GameWorldController implements Initializable {
     }
 
     private void openBattleScene(Event event) {
-        if(world.checkWildPokemonEncounter2()) {
+        if(world.checkWildPokemonEncounter()) {
 
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             OpenNewScene newScene = new OpenNewScene();
