@@ -4,9 +4,13 @@ import PokemonGame.Pokemon;
 import PokemonGame.World;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Random;
 
 public class BattleSceneController {
@@ -28,6 +32,9 @@ public class BattleSceneController {
 
     @FXML
     private Button btnNext;
+
+    @FXML
+    private Button btnRun;
 
     @FXML
     private Label lblBattleScene;
@@ -104,6 +111,18 @@ public class BattleSceneController {
         btnNext.setVisible(false);
     }
 
+    @FXML
+    void btnRun(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        OpenNewScene newScene = new OpenNewScene();
+
+        try {
+            newScene.openNewScene("World", currentStage,"Gameworld");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void startBattle(Pokemon trainerPok, Pokemon enemy) {
 
         lblPlayerPokemon.setText(trainerPok.getName());
@@ -122,7 +141,12 @@ public class BattleSceneController {
         btnAttack4.setText(trainerPokemon.getMoveSet()[3].getName() + "\npp: " + trainerPokemon.getMoveSet()[3].getPp());
     }
     private void trainerPokemonAttack(int attackNumber) {
-        enemy.setBattleHitPoints(enemy.getBattleHitPoints()-trainerPokemon.attack(trainerPokemon,attackNumber,enemy));
+
+        int damage = trainerPokemon.attack(trainerPokemon,attackNumber,enemy,isHit());
+        if(damage < 1) {
+            lblBattleScene.setText("That did nothing!");
+        }
+        enemy.setBattleHitPoints(enemy.getBattleHitPoints()-damage);
     }
 
     private Pokemon randomPokemon() {
@@ -154,7 +178,7 @@ public class BattleSceneController {
 
     private int enemyAttack() {
         int attackNumber = random.nextInt(3);
-        trainerPokemon.setBattleHitPoints(trainerPokemon.getBattleHitPoints()-enemy.attack(enemy,attackNumber,trainerPokemon));
+        trainerPokemon.setBattleHitPoints(trainerPokemon.getBattleHitPoints()-enemy.attack(enemy,attackNumber,trainerPokemon, isHit()));
         return attackNumber;
     }
 
@@ -193,4 +217,10 @@ public class BattleSceneController {
         }
         setAttackButtonsInvisible();
     }
+
+    private int isHit() {
+        Random random = new Random();
+        return random.nextInt(100);
+    }
+
 }
