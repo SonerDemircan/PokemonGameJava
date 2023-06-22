@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import java.util.Random;
 
 public class PlayerCharacter extends Character {
     private ImageView characterImageView;
@@ -26,9 +27,7 @@ public class PlayerCharacter extends Character {
     // Zorgt ervoor dat de gif sprites worden afgespeeld
     private AnimationTimer animationTimer;
 
-
     private long lastMoveTime;
-
 
     public PlayerCharacter(GridPane gridPane, String playerName, char playerGender) {
         super(gridPane, playerName, playerGender);
@@ -40,11 +39,24 @@ public class PlayerCharacter extends Character {
     public void addPokemonToPlayerParty(Pokemon pokemon) {
         Pokemon pok = pokemon;
         int i = 0;
-        while (pokemons[i] != null) {
+        while (trainerPokemons.get(i) != null) {
             i++;
         }
-        pokemons[i] = pok;
-        pokemons[i].isCaught = true;
+        trainerPokemons.get(i).isCaught = true;
+        trainerPokemons.add(pok);
+    }
+
+    public boolean catchPokemon(Pokemon pokemon) {
+        boolean catched = false;
+        Random random = new Random();
+        int catchRate = random.nextInt(pokemon.maxHitPoints/2);
+        if(pokemon.battleHitPoints < catchRate) {
+            Pokemon pok = pokemon;
+            pok.isCaught = true;
+            trainerPokemons.add(pok);
+            catched = true;
+        }
+        return catched;
     }
 
     // Keyboard controls voor movement

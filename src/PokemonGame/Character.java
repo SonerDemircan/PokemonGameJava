@@ -1,13 +1,11 @@
 package PokemonGame;
 
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Character {
     protected GridPane gridPane;
@@ -25,7 +23,7 @@ public abstract class Character {
     protected char gender;
     protected double charXpos;
     protected double charYpos;
-    protected Pokemon[] pokemons;
+    protected List<Pokemon> trainerPokemons;
     protected Item[] items;
     protected int experience;
     protected int catchCount;
@@ -38,13 +36,13 @@ public abstract class Character {
         this.charXpos = 250;
         this.charYpos = 250;
         this.catchCount = 0;
-        this.pokemons = new Pokemon[20];
+        this.trainerPokemons = new ArrayList<>();
         this.items = new Item[10];
         this.experience = 0;
     }
 
-    public Pokemon[] getPokemons() {
-        return pokemons;
+    public List<Pokemon> getPokemons() {
+        return trainerPokemons;
     }
 
     public int getCharRow() {

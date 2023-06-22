@@ -2,15 +2,17 @@ package PokemonController;
 
 import PokemonGame.Pokemon;
 import PokemonGame.World;
+import WriterReader.CSVWriter;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 public class BattleSceneController {
@@ -37,6 +39,9 @@ public class BattleSceneController {
     private Button btnRun;
 
     @FXML
+    private Button btnCatch;
+
+    @FXML
     private Label lblBattleScene;
 
     @FXML
@@ -58,9 +63,9 @@ public class BattleSceneController {
     private ProgressBar prgsYourPokemon;
     Random random = new Random();
     private World _world;
-    private int attack = 5;
     private Pokemon enemy;
     private Pokemon trainerPokemon;
+    private CSVWriter writer;
 
     public BattleSceneController(World world) {
         this._world = world;
@@ -89,11 +94,12 @@ public class BattleSceneController {
     @FXML
     void btnStartBattle(ActionEvent event) {
         enemy = randomPokemon();
-        trainerPokemon = _world.getPlayer().getPokemons()[0];
+        trainerPokemon = _world.getPlayer().getPokemons().get(0);
 
         lblBattleScene.setText("You've encountered a Wild " + enemy.getName() + "!" + "\nLet's battle!");
         startBattle(trainerPokemon,enemy);
         btnStartBattle.setVisible(false);
+        healPokemon(trainerPokemon,enemy);
     }
 
     @FXML
@@ -109,18 +115,28 @@ public class BattleSceneController {
         }
         lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
         btnNext.setVisible(false);
+        btnCatch.setVisible(false);
     }
 
     @FXML
     void btnRun(ActionEvent event) {
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        OpenNewScene newScene = new OpenNewScene();
+        saveCaughtPokemon();
 
-        try {
-            newScene.openNewScene("World", currentStage,"Gameworld");
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        openWorldScene(event);
+    }
+
+    @FXML
+    void btnCatch(ActionEvent event) {
+        boolean catched = _world.getPlayer().catchPokemon(enemy);
+        if(catched) {
+            lblBattleScene.setText("You've caught a " + enemy.getName() + "!\nIs added to your party.");
+        } else {
+            lblBattleScene.setText("Ohw, you didn't catch it!");
+            btnNext.setVisible(true);
         }
+        setAttackButtonsInvisible();
+        btnCatch.setVisible(false);
+        btnStartBattle.setVisible(true);
     }
 
     public void startBattle(Pokemon trainerPok, Pokemon enemy) {
@@ -132,6 +148,7 @@ public class BattleSceneController {
 
         updateAttackButtons();
         setAttackButtonsVisible();
+        btnCatch.setVisible(true);
     }
 
     private void updateAttackButtons() {
@@ -160,10 +177,10 @@ public class BattleSceneController {
             btnStartBattle.setVisible(true);
             btnNext.setVisible(false);
             setAttackButtonsInvisible();
-            pokemon.setBattleHitPoints(0);
         }
         return defeat;
     }
+
     private String updateEnemyHP() {
         double progressBar = (double)enemy.getBattleHitPoints()/(double)enemy.getMaxHitPoints();
         prgsEnemyHP.setProgress(progressBar);
@@ -211,16 +228,35 @@ public class BattleSceneController {
         if(isPokemonDefeated(enemy)) {
             lblBattleScene.setText("you've won!");
             btnNext.setVisible(false);
-            healPokemon(trainerPokemon,enemy);
+            enemy.setBattleHitPoints(0);
         } else if (!isPokemonDefeated(enemy)) {
             btnNext.setVisible(true);
         }
         setAttackButtonsInvisible();
+        btnCatch.setVisible(false);
     }
 
     private int isHit() {
         Random random = new Random();
         return random.nextInt(100);
+    }
+
+    private void saveCaughtPokemon() {
+        List<String> saveParty = _world.presentPokemon(_world.getPlayer().getPokemons());
+
+        writer = new CSVWriter();
+        writer.writeFile(saveParty,"SaveGamePokemon");
+    }
+
+    private void openWorldScene(Event event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        OpenNewScene newScene = new OpenNewScene();
+
+        try {
+            newScene.openNewScene("World", currentStage,"Gameworld");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

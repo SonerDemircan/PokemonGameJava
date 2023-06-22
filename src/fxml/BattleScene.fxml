@@ -54,8 +54,13 @@
          </font></Label>
       <Button fx:id="btnNext" layoutX="632.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnNext" prefHeight="56.0" prefWidth="103.0" text="Next" textFill="RED" visible="false">
          <font>
-            <Font size="13.0" />
+            <Font name="System Bold" size="13.0" />
          </font></Button>
       <Button fx:id="btnRun" layoutX="14.0" layoutY="51.0" mnemonicParsing="false" onAction="#btnRun" text="RUN" textFill="RED" />
+      <Button fx:id="btnCatch" layoutX="632.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnCatch" prefHeight="56.0" prefWidth="103.0" text="Catch!" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -11,7 +11,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 
@@ -27,8 +26,9 @@ public class World implements Initializable {
     private ImageView characterImageView;
     private OpenNewScene openNewScene;
     private Stage stage;
+    private List<String> trainerPokemon = new ArrayList<>();
     protected List<Pokemon> pokemon;
-    private List<String> savedPokemon;
+    //private List<Pokemon> trainerPokemons;
     private List<Attack> attackMoves;
 
     public World(GridPane gridPane, OpenNewScene openNewScene, Stage stage) {
@@ -68,7 +68,7 @@ public class World implements Initializable {
                 }
 
 
-                imageView.setFitWidth(107);
+                imageView.setFitWidth(119);
                 imageView.setFitHeight(107);
                 gridPane.add(imageView, column, row);
             }
@@ -102,21 +102,24 @@ public class World implements Initializable {
         createMoves(moveList);
 
 
-        //CSV SaveGame lezen
-        CSVParameters pokemonParameters = new CSVParameters("src/CSV/SaveGamePokemon.csv",12,",", false);
-        CSVReader pokemonReader = new CSVReader(pokemonParameters);
+        //CSV niet gevangen Pokemon lezen (kan nog in aparte methode gestoken worden
+        CSVParameters wildPokemonParameters = new CSVParameters("src/CSV/Pokemon.csv",12,",", true);
+        CSVReader pokemonReader = new CSVReader(wildPokemonParameters);
 
-        String[][] pokemonList = pokemonReader.CSVTo2DArray(pokemonParameters);
+        String[][] pokemonList = pokemonReader.CSVTo2DArray(wildPokemonParameters);
 
-        createPokemon(pokemonList);
+        createPokemon(pokemonList, pokemon);
+
+        CSVParameters trainerPokemonParameters = new CSVParameters("src/CSV/SaveGamePokemon.csv",12,",", false);
+        CSVReader trainerPokemonReader = new CSVReader(trainerPokemonParameters);
+
+        String[][] trainerPokemonList = trainerPokemonReader.CSVTo2DArray(trainerPokemonParameters);
+
+        createPokemon(trainerPokemonList,player.trainerPokemons);
+
         addMoveToPokemon();
 
-        player.addPokemonToPlayerParty(pokemon.get(4));
-        player.addPokemonToPlayerParty(pokemon.get(2));
-        player.addPokemonToPlayerParty(pokemon.get(1));
-        player.addPokemonToPlayerParty(pokemon.get(11));
     }
-
 
     private boolean isTallgrass(int row, int column) {
         return (row >= 6 && row <= 8 && column >= 1 && column <= 4);
@@ -208,7 +211,7 @@ public class World implements Initializable {
         }
     }
 
-    public void createPokemon(String[][] pokemonList) {
+    public void createPokemon(String[][] pokemonList, List<Pokemon> pok) {
         for (String[] strings : pokemonList) {
             Pokemon newPokemon = new Pokemon();
             newPokemon.pokemonId = Integer.parseInt(strings[0]);
@@ -224,7 +227,7 @@ public class World implements Initializable {
             newPokemon.moveTwo = Integer.parseInt(strings[9]);
             newPokemon.moveThree = Integer.parseInt(strings[10]);
             newPokemon.moveFour = Integer.parseInt(strings[11]);
-            pokemon.add(newPokemon);
+            pok.add(newPokemon);
         }
     }
 
@@ -235,23 +238,21 @@ public class World implements Initializable {
             pokemon1.moveSet[2] = attackMoves.get(pokemon1.moveThree-1);
             pokemon1.moveSet[3] = attackMoves.get(pokemon1.moveFour-1);
         }
+        for (Pokemon pokemon1 : player.trainerPokemons) {
+            pokemon1.moveSet[0] = attackMoves.get(pokemon1.moveOne-1);
+            pokemon1.moveSet[1] = attackMoves.get(pokemon1.moveTwo-1);
+            pokemon1.moveSet[2] = attackMoves.get(pokemon1.moveThree-1);
+            pokemon1.moveSet[3] = attackMoves.get(pokemon1.moveFour-1);
+        }
     }
 
-    public List<String> presentPokemon() {
+    public List<String> presentPokemon(List<Pokemon> pok) {
         String output = "";
-        for(Pokemon pokemon1: pokemon) {
+        for(Pokemon pokemon1: pok) {
             output = pokemon1.pokemonId + "," + pokemon1.name + "," + pokemon1.type + "," + pokemon1.level + "," + pokemon1.maxHitPoints + "," + pokemon1.attack + "," + pokemon1.defense + "," + pokemon1.speed + "," + pokemon1.moveOne + "," + pokemon1.moveTwo + "," + pokemon1.moveThree + "," + pokemon1.moveFour + "\n";
-            savedPokemon.add(output);
+            trainerPokemon.add(output);
         }
-        return savedPokemon;
-    }
-
-    public boolean isPokemonDefeated(Pokemon pokemon) {
-        boolean defeat = false;
-        if(pokemon.battleHitPoints < 1) {
-            defeat = true;
-        }
-        return defeat;
+        return trainerPokemon;
     }
 
     public List<Pokemon> getPokemon() {

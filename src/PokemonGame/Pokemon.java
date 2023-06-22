@@ -2,8 +2,6 @@ package PokemonGame;
 
 import Interfaces.IPokemon;
 
-import java.util.Random;
-
 public class Pokemon implements IPokemon {
 
     protected int pokemonId;
@@ -53,7 +51,7 @@ public class Pokemon implements IPokemon {
     protected Attack[] moveSet = new Attack[4];
 
     @Override
-    public int attack(Pokemon attackingPokemon,int attackMove, Pokemon pok, int isHit) {
+    public int attack(Pokemon attackingPokemon, int attackMove, Pokemon pok, int isHit) {
         int damage = 0;
         if (attackingPokemon.getMoveSet()[attackMove].power != 0) {
             if (attackingPokemon.moveSet[attackMove].accuracy >= isHit) {
@@ -64,10 +62,5 @@ public class Pokemon implements IPokemon {
 
         }
         return damage;
-    }
-
-
-    public void healPokemon(Pokemon pokemon) {
-        this.battleHitPoints = maxHitPoints;
     }
 }
