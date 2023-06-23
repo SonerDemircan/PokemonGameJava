@@ -70,7 +70,7 @@ public class BattleSceneController {
 
     @FXML
     private ImageView imgvTrainerPokemon;
-    Random random = new Random();
+    private Random random = new Random();
     private World _world;
     private Pokemon enemy;
     private Pokemon trainerPokemon;
@@ -105,32 +105,22 @@ public class BattleSceneController {
         enemy = randomPokemon();
         trainerPokemon = _world.getPlayer().getPokemons().get(0);
 
-        Image pokemon1 = new Image(getPokemonImagePath(trainerPokemon));
+        Image pokemon1 = new Image(trainerPokemon.getPokemonImagePath(trainerPokemon));
         imgvTrainerPokemon.setImage(pokemon1);
 
-        Image pokemon2 = new Image(getPokemonImagePath(enemy));
+        Image pokemon2 = new Image(enemy.getPokemonImagePath(enemy));
         imgvEnemy.setImage(pokemon2);
 
         lblBattleScene.setText("You've encountered a Wild " + enemy.getName() + "!" + "\nLet's battle!");
         startBattle(trainerPokemon,enemy);
         btnStartBattle.setVisible(false);
-        healPokemon(trainerPokemon,enemy);
+        trainerPokemon.healPokemon();
+        enemy.healPokemon();
     }
 
     @FXML
     void btnNext(ActionEvent event) {
-
-        lblBattleScene.setText(enemy.getName() + " used " + enemy.getMoveSet()[enemyAttack()].getName());
-
-        if(isPokemonDefeated(trainerPokemon)) {
-            lblBattleScene.setText("Enemy " + enemy.getName() + " has won the fight!");
-            healPokemon(trainerPokemon,enemy);
-        } else if (!isPokemonDefeated(trainerPokemon)) {
-            setAttackButtonsVisible();
-        }
-        lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
-        btnNext.setVisible(false);
-        btnCatch.setVisible(true);
+        enemyAttack();
     }
 
     @FXML
@@ -165,23 +155,55 @@ public class BattleSceneController {
         btnCatch.setVisible(true);
     }
 
-    private void updateAttackButtons() {
-        btnAttack1.setText(trainerPokemon.getMoveSet()[0].getName() + "\npp: " + trainerPokemon.getMoveSet()[0].getPp());
-        btnAttack2.setText(trainerPokemon.getMoveSet()[1].getName() + "\npp: " + trainerPokemon.getMoveSet()[1].getPp());
-        btnAttack3.setText(trainerPokemon.getMoveSet()[2].getName() + "\npp: " + trainerPokemon.getMoveSet()[2].getPp());
-        btnAttack4.setText(trainerPokemon.getMoveSet()[3].getName() + "\npp: " + trainerPokemon.getMoveSet()[3].getPp());
-    }
     private void trainerPokemonAttack(int attackNumber) {
 
         int damage = trainerPokemon.attack(trainerPokemon,attackNumber,enemy,isHit());
         if(damage < 1) {
             lblBattleScene.setText("That did nothing!");
         }
-        enemy.setBattleHitPoints(enemy.getBattleHitPoints()-damage);
+        enemy.setBattleHitPoints(enemy.getBattleHitPoints() - damage);
     }
 
-    private Pokemon randomPokemon() {
-        return _world.getPokemon().get(random.nextInt(17));
+    private void enemyAttack() {
+        int attackNumber = random.nextInt(3);
+        int damage = enemy.attack(enemy,attackNumber,trainerPokemon, isHit());
+        trainerPokemon.setBattleHitPoints(trainerPokemon.getBattleHitPoints() - damage);
+
+        lblBattleScene.setText(enemy.getName() + " used " + enemy.getMoveSet()[attackNumber].getName());
+
+        if(damage < 1) {
+            lblBattleScene.setText("That did nothing!");
+            setAttackButtonsVisible();
+        } else if (isPokemonDefeated(trainerPokemon)) {
+            lblBattleScene.setText("Enemy " + enemy.getName() + " has won the fight!");
+            trainerPokemon.setBattleHitPoints(0);
+            updateTrainerPokemonHP();
+            trainerPokemon.healPokemon();
+            enemy.healPokemon();
+        } else {
+            lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
+            btnNext.setVisible(false);
+            btnCatch.setVisible(true);
+            setAttackButtonsVisible();
+        }
+    }
+
+    public void yourattack(int attackNr) {
+        trainerPokemonAttack(attackNr);
+
+        lblBattleScene.setText(trainerPokemon.getName() + " used " + trainerPokemon.getMoveSet()[attackNr].getName());
+
+        lblEnemyHP.setText(updateEnemyHP());
+        if(isPokemonDefeated(enemy)) {
+            lblBattleScene.setText("you've won!");
+            btnNext.setVisible(false);
+            enemy.setBattleHitPoints(0);
+            updateEnemyHP();
+        } else if (!isPokemonDefeated(enemy)) {
+            btnNext.setVisible(true);
+        }
+        setAttackButtonsInvisible();
+        btnCatch.setVisible(false);
     }
 
     public boolean isPokemonDefeated(Pokemon pokemon) {
@@ -195,6 +217,10 @@ public class BattleSceneController {
         return defeat;
     }
 
+    private Pokemon randomPokemon() {
+        return _world.getPokemon().get(random.nextInt(17));
+    }
+
     private String updateEnemyHP() {
         double progressBar = (double)enemy.getBattleHitPoints()/(double)enemy.getMaxHitPoints();
         prgsEnemyHP.setProgress(progressBar);
@@ -205,49 +231,6 @@ public class BattleSceneController {
         double progressBar = (double)trainerPokemon.getBattleHitPoints()/(double)trainerPokemon.getMaxHitPoints();
         prgsYourPokemon.setProgress(progressBar);
         return ("HP: " + trainerPokemon.getMaxHitPoints() + "/" + trainerPokemon.getBattleHitPoints());
-    }
-
-    private int enemyAttack() {
-        int attackNumber = random.nextInt(3);
-        trainerPokemon.setBattleHitPoints(trainerPokemon.getBattleHitPoints()-enemy.attack(enemy,attackNumber,trainerPokemon, isHit()));
-        return attackNumber;
-    }
-
-    private void setAttackButtonsVisible() {
-        updateAttackButtons();
-        btnAttack1.setVisible(true);
-        btnAttack2.setVisible(true);
-        btnAttack3.setVisible(true);
-        btnAttack4.setVisible(true);
-    }
-
-    private void setAttackButtonsInvisible() {
-        btnAttack1.setVisible(false);
-        btnAttack2.setVisible(false);
-        btnAttack3.setVisible(false);
-        btnAttack4.setVisible(false);
-    }
-
-    private void healPokemon(Pokemon trainerPokemon, Pokemon enemy) {
-        trainerPokemon.setBattleHitPoints(trainerPokemon.getMaxHitPoints());
-        enemy.setBattleHitPoints(enemy.getMaxHitPoints());
-    }
-
-    public void yourattack(int attackNr) {
-        trainerPokemonAttack(attackNr);
-
-        lblBattleScene.setText(trainerPokemon.getName() + " used " + trainerPokemon.getMoveSet()[attackNr].getName());
-
-        lblEnemyHP.setText(updateEnemyHP());
-        if(isPokemonDefeated(enemy)) {
-            lblBattleScene.setText("you've won!");
-            btnNext.setVisible(false);
-            enemy.setBattleHitPoints(0);
-        } else if (!isPokemonDefeated(enemy)) {
-            btnNext.setVisible(true);
-        }
-        setAttackButtonsInvisible();
-        btnCatch.setVisible(false);
     }
 
     private int isHit() {
@@ -273,66 +256,26 @@ public class BattleSceneController {
         }
     }
 
-    private String getPokemonImagePath(Pokemon pok) {
-        int pokemonId = pok.getPokemonId();
-        String path = "";
-        switch (pokemonId) {
-            case 1:
-                path = "ImagesAndSprites/Venusaur.gif";
-                break;
-            case 2:
-                path = "ImagesAndSprites/Charizard.gif";
-                break;
-            case 3:
-                path = "ImagesAndSprites/Blastoise.gif";
-                break;
-            case 4:
-                path = "ImagesAndSprites/snorlax.gif";
-                break;
-            case 5:
-                path = "ImagesAndSprites/Pangoro.gif";
-                break;
-            case 6:
-                path = "ImagesAndSprites/Zoroark.gif";
-                break;
-            case 7:
-                path = "ImagesAndSprites/Mewtwo.gif";
-                break;
-            case 8:
-                path = "ImagesAndSprites/Haxorus.gif";
-                break;
-            case 9:
-                path = "ImagesAndSprites/sylveon.gif";
-                break;
-            case 10:
-                path = "ImagesAndSprites/lapras.gif";
-                break;
-            case 11:
-                path = "ImagesAndSprites/raichu.gif";
-                break;
-            case 12:
-                path = "ImagesAndSprites/krookodile.gif";
-                break;
-            case 13:
-                path = "ImagesAndSprites/scizor.gif";
-                break;
-            case 14:
-                path = "ImagesAndSprites/Aegislash.gif";
-                break;
-            case 15:
-                path = "ImagesAndSprites/Nidoking.gif";
-                break;
-            case 16:
-                path = "ImagesAndSprites/Tyranitar.gif";
-                break;
-            case 17:
-                path = "ImagesAndSprites/corviknight.gif";
-                break;
-            case 18:
-                path = "ImagesAndSprites/Gengar.gif";
-                break;
-        }
-        return path;
+    private void updateAttackButtons() {
+        btnAttack1.setText(trainerPokemon.getMoveSet()[0].getName() + "\npp: " + trainerPokemon.getMoveSet()[0].getPp());
+        btnAttack2.setText(trainerPokemon.getMoveSet()[1].getName() + "\npp: " + trainerPokemon.getMoveSet()[1].getPp());
+        btnAttack3.setText(trainerPokemon.getMoveSet()[2].getName() + "\npp: " + trainerPokemon.getMoveSet()[2].getPp());
+        btnAttack4.setText(trainerPokemon.getMoveSet()[3].getName() + "\npp: " + trainerPokemon.getMoveSet()[3].getPp());
+    }
+
+    private void setAttackButtonsVisible() {
+        updateAttackButtons();
+        btnAttack1.setVisible(true);
+        btnAttack2.setVisible(true);
+        btnAttack3.setVisible(true);
+        btnAttack4.setVisible(true);
+    }
+
+    private void setAttackButtonsInvisible() {
+        btnAttack1.setVisible(false);
+        btnAttack2.setVisible(false);
+        btnAttack3.setVisible(false);
+        btnAttack4.setVisible(false);
     }
 
 }

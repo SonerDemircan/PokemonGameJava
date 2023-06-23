@@ -1,11 +1,8 @@
 package PokemonGame;
 
-import PokemonController.OpenNewScene;
+import SwitchScenes.SwitchScene;
 import WriterReader.CSVParameters;
 import WriterReader.CSVReader;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -14,8 +11,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import java.util.*;
 import java.net.URL;
 
@@ -33,14 +28,14 @@ public class World implements Initializable {
     private int characterRow;
     private int characterColumn;
     private ImageView characterImageView;
-    private OpenNewScene openNewScene;
+    private SwitchScene openNewScene;
     private Stage stage;
     private List<String> trainerPokemon = new ArrayList<>();
     protected List<Pokemon> pokemon;
     //private List<Pokemon> trainerPokemons;
     private List<Attack> attackMoves;
 
-    public World(GridPane gridPane, OpenNewScene openNewScene, Stage stage) {
+    public World(GridPane gridPane, SwitchScene openNewScene, Stage stage) {
         this.gridPane = gridPane;
         this.openNewScene = openNewScene;
         this.stage = stage;

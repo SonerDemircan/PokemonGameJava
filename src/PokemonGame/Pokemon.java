@@ -18,6 +18,7 @@ public class Pokemon implements IPokemon {
     protected int moveTwo;
     protected int moveThree;
     protected int moveFour;
+    protected Attack[] moveSet = new Attack[4];
 
     public int getPokemonId() {
         return pokemonId;
@@ -43,12 +44,9 @@ public class Pokemon implements IPokemon {
         this.battleHitPoints = battleHitPoints;
     }
 
-
     public Attack[] getMoveSet() {
         return moveSet;
     }
-
-    protected Attack[] moveSet = new Attack[4];
 
     @Override
     public int attack(Pokemon attackingPokemon, int attackMove, Pokemon pok, int isHit) {
@@ -59,8 +57,73 @@ public class Pokemon implements IPokemon {
 
                 attackingPokemon.moveSet[attackMove].pp--;
             }
-
         }
         return damage;
+    }
+
+    public void healPokemon() {
+        battleHitPoints = maxHitPoints;
+    }
+
+    public String getPokemonImagePath(Pokemon pok) {
+        int pokemonId = pok.getPokemonId();
+        String path = "";
+        switch (pokemonId) {
+            case 1:
+                path = "ImagesAndSprites/Venusaur.gif";
+                break;
+            case 2:
+                path = "ImagesAndSprites/Charizard.gif";
+                break;
+            case 3:
+                path = "ImagesAndSprites/Blastoise.gif";
+                break;
+            case 4:
+                path = "ImagesAndSprites/snorlax.gif";
+                break;
+            case 5:
+                path = "ImagesAndSprites/Pangoro.gif";
+                break;
+            case 6:
+                path = "ImagesAndSprites/Zoroark.gif";
+                break;
+            case 7:
+                path = "ImagesAndSprites/Mewtwo.gif";
+                break;
+            case 8:
+                path = "ImagesAndSprites/Haxorus.gif";
+                break;
+            case 9:
+                path = "ImagesAndSprites/sylveon.gif";
+                break;
+            case 10:
+                path = "ImagesAndSprites/lapras.gif";
+                break;
+            case 11:
+                path = "ImagesAndSprites/raichu.gif";
+                break;
+            case 12:
+                path = "ImagesAndSprites/krookodile.gif";
+                break;
+            case 13:
+                path = "ImagesAndSprites/scizor.gif";
+                break;
+            case 14:
+                path = "ImagesAndSprites/Aegislash.gif";
+                break;
+            case 15:
+                path = "ImagesAndSprites/Nidoking.gif";
+                break;
+            case 16:
+                path = "ImagesAndSprites/Tyranitar.gif";
+                break;
+            case 17:
+                path = "ImagesAndSprites/corviknight.gif";
+                break;
+            case 18:
+                path = "ImagesAndSprites/Gengar.gif";
+                break;
+        }
+        return path;
     }
 }
