@@ -273,12 +273,6 @@ public class BattleSceneController {
         }
     }
 
-    private void generatePokemonImage() {
-        Image pok1 = new Image("ImagesAndSprites/Haxorus.gif");
-        imgvTrainerPokemon.setImage(pok1);
-
-    }
-
     private String getPokemonImagePath(Pokemon pok) {
         int pokemonId = pok.getPokemonId();
         String path = "";

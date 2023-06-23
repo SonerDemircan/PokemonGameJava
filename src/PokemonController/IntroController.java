@@ -1,23 +1,18 @@
 package PokemonController;
 
-import PokemonGame.Pokemon;
 import PokemonGame.World;
-import WriterReader.CSVParameters;
-import WriterReader.CSVReader;
+import SwitchScenes.SwitchScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Intro {
+public class IntroController {
     private String [] introText = {"Hi! Sorry to keep you waiting! Welcome to the world of Pokémon! \nMy name is Oak. But everyone calls me the Pokémon Professor. "
             ,"This is what we call a \"Pokémon.\" This world is widely inhabited by creatures known as Pokémon. \nWe humans live alongside Pokémon, at times as friendly playmates, \nand at times as cooperative workmates. \nAnd sometimes, we band together and battle others like us."
             ,"But despite our closeness, we don't know everything about Pokémon. \nIn fact, there are many, many secrets surrounding Pokémon. To unravel Pokémon mysteries, \nI've been undertaking research. That's what I do."
@@ -105,7 +100,7 @@ public class Intro {
     @FXML
     public void btnContinue(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        OpenNewScene newScene = new OpenNewScene();
+        SwitchScene newScene = new SwitchScene();
 
         try {
             newScene.openNewScene("World", currentStage,"Gameworld");

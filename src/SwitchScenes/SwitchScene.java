@@ -1,5 +1,6 @@
-package PokemonController;
+package SwitchScenes;
 
+import PokemonController.BattleSceneController;
 import PokemonGame.World;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +13,7 @@ import java.io.IOException;
 // fxmlFilename is de nieuwe fxml wat geopend moet worden
 // currentStage om te switchen tussen de scenes
 // stageTitle (spreekt voor zich :D)
-public class OpenNewScene {
+public class SwitchScene {
     public void openNewScene(String fxmlFilename, Stage currentStage, String stageTitle) throws IOException {
 
         //CONSTRUCTOR MAKEN

@@ -1,17 +1,16 @@
 package PokemonGame;
 
-import PokemonController.HomeScreenController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class PokemonApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("../fxml/HomeScreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(PokemonApplication.class.getResource("../fxml/HomeScreen.fxml"));
 
         Parent root = fxmlLoader.load();
 

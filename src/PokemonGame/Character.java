@@ -24,7 +24,6 @@ public abstract class Character {
     protected double charXpos;
     protected double charYpos;
     protected List<Pokemon> trainerPokemons;
-    protected Item[] items;
     protected int experience;
     protected int catchCount;
     private ImageView characterImageView;
@@ -37,7 +36,6 @@ public abstract class Character {
         this.charYpos = 250;
         this.catchCount = 0;
         this.trainerPokemons = new ArrayList<>();
-        this.items = new Item[10];
         this.experience = 0;
     }
 

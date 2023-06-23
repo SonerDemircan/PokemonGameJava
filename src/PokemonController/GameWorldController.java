@@ -1,7 +1,7 @@
 package PokemonController;
 
 import PokemonGame.World;
-import javafx.animation.AnimationTimer;
+import SwitchScenes.SwitchScene;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -27,14 +27,9 @@ public class GameWorldController implements Initializable {
     private World world;
     private Stage stage;
 
-    @FXML
-    void btnExit(ActionEvent event) {
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        world = new World(gridPane, new OpenNewScene(), stage);
+        world = new World(gridPane, new SwitchScene(), stage);
         gridPane.setOnKeyPressed(this::handleKeyPressed);
         gridPane.setOnKeyReleased(this::handleKeyReleased);
         gridPane.requestFocus();
@@ -71,7 +66,7 @@ public class GameWorldController implements Initializable {
         if(world.checkWildPokemonEncounter()) {
 
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            OpenNewScene newScene = new OpenNewScene();
+            SwitchScene newScene = new SwitchScene();
 
             try {
                 newScene.openNewSceneWithParam("BattleScene", currentStage,"Gameworld",world);
