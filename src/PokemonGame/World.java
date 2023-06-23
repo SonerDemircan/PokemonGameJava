@@ -3,6 +3,9 @@ package PokemonGame;
 import PokemonController.OpenNewScene;
 import WriterReader.CSVParameters;
 import WriterReader.CSVReader;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -11,6 +14,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.util.*;
 import java.net.URL;
 
@@ -20,6 +25,10 @@ public class World implements Initializable {
     @FXML
     private GridPane gridPane;
 
+    private NPC npc;
+    private int npcRow;
+    private int npcColumn;
+    private ImageView npcCharacterImageView;
     private PlayerCharacter player;
     private int characterRow;
     private int characterColumn;
@@ -58,12 +67,13 @@ public class World implements Initializable {
                     // Water
                     imageView = new ImageView(new Image("ImagesAndSprites/Water.png"));
                 } else if (isPath(row, column)) {
-                    // Path area
+                    // Path
                     imageView = new ImageView(new Image("ImagesAndSprites/Path.png"));
                 } else if (isSandPath(row, column)) {
+                    // Zand
                     imageView = new ImageView(new Image("ImagesAndSprites/SandPath.png"));
                 } else {
-                    // Default grass area
+                    // Al de overige tiles zijn grass
                     imageView = new ImageView(new Image("ImagesAndSprites/Grass.png"));
                 }
 
@@ -74,18 +84,37 @@ public class World implements Initializable {
             }
         }
 
+        // NPC wordt aangemaakt
+        npc = new NPC(gridPane, "Rocco",'M');
+
+        // Startpositie van de NPC
+        npcRow = 0;
+        npcColumn = 10;
+        npc.setCharRow(npcRow);
+        npc.setCharColumn(npcColumn);
+
+        // NPC afbeelding wordt ingelezen
+        npcCharacterImageView = createImageView("ImagesAndSprites/NPC1/SpriteFront.gif", true);
+        npcCharacterImageView.setVisible(false);
+        gridPane.add(npcCharacterImageView, npcColumn, npcRow);
+
+        // Thread aanmaken & starten
+        Thread npcThread = new Thread(npc);
+        npcThread.start();
+
+
+
         // Speler wordt aangemaakt
         player = new PlayerCharacter(gridPane,"Soner", 'M');
 
         // Startpositie van de speler
-        characterRow = 9;
-        characterColumn = 7;
-
-        // Positie van de speler wordt geüpdatet op de gridpane
+        characterRow = 7;
+        characterColumn = 5;
         player.setCharRow(characterRow);
         player.setCharColumn(characterColumn);
 
-        characterImageView = createImageView("ImagesAndSprites/PlayerCharacterMale/SpriteFront0.png", true);
+        // Speler afbeelding wordt ingelezen
+        characterImageView = createImageView("ImagesAndSprites/PlayerCharacterMale/SpriteFront.gif", true);
         characterImageView.setFitWidth(100);
         characterImageView.setFitHeight(100);
         gridPane.add(characterImageView, characterColumn, characterRow);
@@ -121,17 +150,14 @@ public class World implements Initializable {
 
     }
 
-    private boolean isTallgrass(int row, int column) {
-        return (row >= 6 && row <= 8 && column >= 1 && column <= 4);
-    }
-
-    // Random encounter
+    // Random encounter calculator
     private boolean pokemonSpawn() {
         double spawnChance = 0.75;
         double random = Math.random();
         return random < spawnChance;
     }
 
+    // Checken op een random encounter
     public boolean checkWildPokemonEncounter() {
         int playerRow = player.getCharRow();
         int playerColumn = player.getCharColumn();
@@ -145,6 +171,10 @@ public class World implements Initializable {
         return bool;
     }
 
+    private boolean isTallgrass(int row, int column) {
+        return (row >= 6 && row <= 8 && column >= 1 && column <= 4);
+    }
+
     private boolean isPath(int row, int column) {
         return (row >= 0 && row <= 3 && column == 0) || (row == 3 && column >= 1 && column <= 5) ||
                 (row >= 0 && row <= 2 && column == 5) || (row >= 3 && row <= 9 && column == 7) ||
@@ -155,7 +185,7 @@ public class World implements Initializable {
     }
 
     private boolean isSandPath(int row, int column) {
-        return (row >= 0 && row <= 3 && column >= 10 && column <= 14);
+        return (row >= 0 && row <= 4 && column >= 10 && column <= 14);
     }
 
     private boolean isWater(int row, int column) {
@@ -171,13 +201,13 @@ public class World implements Initializable {
     public void handleKeyPressed(KeyEvent event) {
         KeyCode keyCode = event.getCode();
 
-        switch (keyCode) {
-            case UP:
-            case DOWN:
-            case LEFT:
-            case RIGHT:
-                player.handleKeyPressed(event);
-                break;
+    switch (keyCode) {
+        case UP:
+        case DOWN:
+        case LEFT:
+        case RIGHT:
+            player.handleKeyPressed(event);
+            break;
         }
     }
 
@@ -194,6 +224,20 @@ public class World implements Initializable {
         }
     }
 
+    private boolean canMoveToTile(int row, int column) {
+        TileType tileType = getTileType(row, column);
+
+        // Checken op water tile
+        if (tileType == TileType.WATER) {
+            return false;
+        }
+
+        // Checken op overige tiles
+        if (tileType == TileType.GRASS || tileType == TileType.TALLGRASS || tileType == TileType.PATH || tileType == TileType.SANDPATH) {
+            return true;
+        }
+        return true;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -260,5 +304,30 @@ public class World implements Initializable {
     }
     public PlayerCharacter getPlayer() {
         return player;
+    }
+
+    // Enum voor de verschillende tiles in de wereld
+    enum TileType {
+        GRASS,
+        TALLGRASS,
+        PATH,
+        SANDPATH,
+        WATER
+    }
+
+    // Getter om de juiste tile te vinden
+    private TileType getTileType(int row, int column) {
+        if (isPath(row, column)) {
+            return TileType.PATH;
+        } else if (isSandPath(row, column)) {
+            return TileType.SANDPATH;
+        } else if (isWater(row, column)) {
+            return TileType.WATER;
+        } else if (isTallgrass(row, column)) {
+            return TileType.TALLGRASS;
+        } else {
+            // Overige tiles zijn sowieso grass tiles
+            return TileType.GRASS;
+        }
     }
 }
