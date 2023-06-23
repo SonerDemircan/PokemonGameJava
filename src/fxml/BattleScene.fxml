@@ -62,5 +62,7 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
+      <ImageView fx:id="imgvTrainerPokemon" fitHeight="150.0" fitWidth="200.0" layoutX="55.0" layoutY="287.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgvEnemy" fitHeight="150.0" fitWidth="200.0" layoutX="744.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

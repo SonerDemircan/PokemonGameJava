@@ -2,6 +2,7 @@ package PokemonController;
 
 import PokemonGame.Pokemon;
 import PokemonGame.World;
+import SwitchScenes.SwitchScene;
 import WriterReader.CSVWriter;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -10,6 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
@@ -61,6 +64,12 @@ public class BattleSceneController {
 
     @FXML
     private ProgressBar prgsYourPokemon;
+
+    @FXML
+    private ImageView imgvEnemy;
+
+    @FXML
+    private ImageView imgvTrainerPokemon;
     Random random = new Random();
     private World _world;
     private Pokemon enemy;
@@ -96,6 +105,12 @@ public class BattleSceneController {
         enemy = randomPokemon();
         trainerPokemon = _world.getPlayer().getPokemons().get(0);
 
+        Image pokemon1 = new Image(getPokemonImagePath(trainerPokemon));
+        imgvTrainerPokemon.setImage(pokemon1);
+
+        Image pokemon2 = new Image(getPokemonImagePath(enemy));
+        imgvEnemy.setImage(pokemon2);
+
         lblBattleScene.setText("You've encountered a Wild " + enemy.getName() + "!" + "\nLet's battle!");
         startBattle(trainerPokemon,enemy);
         btnStartBattle.setVisible(false);
@@ -115,13 +130,12 @@ public class BattleSceneController {
         }
         lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
         btnNext.setVisible(false);
-        btnCatch.setVisible(false);
+        btnCatch.setVisible(true);
     }
 
     @FXML
     void btnRun(ActionEvent event) {
         saveCaughtPokemon();
-
         openWorldScene(event);
     }
 
@@ -250,13 +264,81 @@ public class BattleSceneController {
 
     private void openWorldScene(Event event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        OpenNewScene newScene = new OpenNewScene();
+        SwitchScene newScene = new SwitchScene();
 
         try {
             newScene.openNewScene("World", currentStage,"Gameworld");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void generatePokemonImage() {
+        Image pok1 = new Image("ImagesAndSprites/Haxorus.gif");
+        imgvTrainerPokemon.setImage(pok1);
+
+    }
+
+    private String getPokemonImagePath(Pokemon pok) {
+        int pokemonId = pok.getPokemonId();
+        String path = "";
+        switch (pokemonId) {
+            case 1:
+                path = "ImagesAndSprites/Venusaur.gif";
+                break;
+            case 2:
+                path = "ImagesAndSprites/Charizard.gif";
+                break;
+            case 3:
+                path = "ImagesAndSprites/Blastoise.gif";
+                break;
+            case 4:
+                path = "ImagesAndSprites/snorlax.gif";
+                break;
+            case 5:
+                path = "ImagesAndSprites/Pangoro.gif";
+                break;
+            case 6:
+                path = "ImagesAndSprites/Zoroark.gif";
+                break;
+            case 7:
+                path = "ImagesAndSprites/Mewtwo.gif";
+                break;
+            case 8:
+                path = "ImagesAndSprites/Haxorus.gif";
+                break;
+            case 9:
+                path = "ImagesAndSprites/sylveon.gif";
+                break;
+            case 10:
+                path = "ImagesAndSprites/lapras.gif";
+                break;
+            case 11:
+                path = "ImagesAndSprites/raichu.gif";
+                break;
+            case 12:
+                path = "ImagesAndSprites/krookodile.gif";
+                break;
+            case 13:
+                path = "ImagesAndSprites/scizor.gif";
+                break;
+            case 14:
+                path = "ImagesAndSprites/Aegislash.gif";
+                break;
+            case 15:
+                path = "ImagesAndSprites/Nidoking.gif";
+                break;
+            case 16:
+                path = "ImagesAndSprites/Tyranitar.gif";
+                break;
+            case 17:
+                path = "ImagesAndSprites/corviknight.gif";
+                break;
+            case 18:
+                path = "ImagesAndSprites/Gengar.gif";
+                break;
+        }
+        return path;
     }
 
 }
