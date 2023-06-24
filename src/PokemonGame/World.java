@@ -14,7 +14,7 @@
     import java.util.*;
     import java.net.URL;
 
-    public class World implements Initializable {
+    public class World {
 
         // Gridpane wordt geïnjecteerd in de wereld
         @FXML
@@ -61,7 +61,7 @@
                 for (int column = 0; column < numColumns; column++) {
                     ImageView imageView;
 
-                    if (isTallgrass(row, column)) {
+                    if (isTallGrass(row, column)) {
                         // Tall grass
                         imageView = new ImageView(new Image("ImagesAndSprites/Tallgrass.png"));
                     } else if (isWater(row, column)) {
@@ -165,7 +165,7 @@
             int playerColumn = player.getCharColumn();
             boolean bool = false;
 
-            if (isTallgrass(playerRow, playerColumn) && pokemonSpawn()) {
+            if (isTallGrass(playerRow, playerColumn) && pokemonSpawn()) {
             bool = true;
             } else {
                 bool = false;
@@ -173,7 +173,7 @@
             return bool;
         }
 
-        private boolean isTallgrass(int row, int column) {
+        private boolean isTallGrass(int row, int column) {
             return (row >= 6 && row <= 8 && column >= 1 && column <= 4);
         }
 
@@ -224,25 +224,6 @@
                     player.handleKeyReleased(event);
                     break;
             }
-        }
-
-        private boolean canMoveToTile(int row, int column) {
-            TileType tileType = getTileType(row, column);
-
-            // Checken op water tile
-            if (tileType == TileType.WATER) {
-                return false;
-            }
-
-            // Checken op overige tiles
-            if (tileType == TileType.GRASS || tileType == TileType.TALLGRASS || tileType == TileType.PATH || tileType == TileType.SANDPATH) {
-                return true;
-            }
-            return true;
-        }
-
-        @Override
-        public void initialize(URL url, ResourceBundle resourceBundle) {
         }
 
         public void createMoves(String[][] moves) {
@@ -326,7 +307,7 @@
                 return TileType.SANDPATH;
             } else if (isWater(row, column)) {
                 return TileType.WATER;
-            } else if (isTallgrass(row, column)) {
+            } else if (isTallGrass(row, column)) {
                 return TileType.TALLGRASS;
             } else {
                 // Overige tiles zijn sowieso grass tiles
