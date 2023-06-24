@@ -24,10 +24,10 @@ public class CSVReader {
         String line = "";
 
         try {
-            FileReader file = new FileReader(parameters.getFilePath());
+            FileReader file = new FileReader(parameters.filePath);
             BufferedReader bufferedReader = new BufferedReader(file);
 
-            if (parameters.isHasHeader()) {
+            if (parameters.hasHeader) {
                 line = bufferedReader.readLine();
                 line = null;
             }
@@ -38,12 +38,12 @@ public class CSVReader {
             }
             int recordCount = recordsList.size();
 
-            String[][] array = new String[recordCount][parameters.getAmountOfFields()];
+            String[][] array = new String[recordCount][parameters.amountOfFields];
             String[] data;
 
             for (int i = 0; i < recordCount; i++) {
 
-                data = recordsList.get(i).split(parameters.getDelimiter());
+                data = recordsList.get(i).split(parameters.delimiter);
 
                 for (int j = 0; j < data.length; j++) {
                     array[i][j] = data[j];

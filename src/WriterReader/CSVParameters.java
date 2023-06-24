@@ -11,10 +11,10 @@ public class CSVParameters
     hasHeader is als de CSV een hoofding heeft. indien true schrijft hij de eerste regel niet weg in de 2Darray
      */
 
-    private String filePath;
-    private int amountOfFields;
-    private String delimiter;
-    private boolean hasHeader;
+    protected String filePath;
+    protected int amountOfFields;
+    protected String delimiter;
+    protected boolean hasHeader;
 
     public CSVParameters(String filePath, int amountOfFields, String delimiter, boolean hasHeader) {
         this.filePath = filePath;
@@ -22,11 +22,4 @@ public class CSVParameters
         this.delimiter = delimiter;
         this.hasHeader = hasHeader;
     }
-
-
-    public String getDelimiter() { return this.delimiter; }
-    public String getFilePath() { return this.filePath; }
-    public int getAmountOfFields() { return this.amountOfFields; }
-    public boolean isHasHeader() { return this.hasHeader; }
-
 }

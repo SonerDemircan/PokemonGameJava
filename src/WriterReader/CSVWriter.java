@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CSVWriter implements ICSVWriter {
 
-    BufferedWriter writer;
+    private BufferedWriter writer;
 
 
     //fileName is naam van de CSV file waarom de savegame komt
