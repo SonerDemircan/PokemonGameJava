@@ -15,7 +15,6 @@ import java.util.Random;
 
 public class PlayerCharacter implements ICharacter {
     private ImageView characterImageView;
-
     private boolean isMoving;
     private int moveRow;
     private int moveColumn;
@@ -28,8 +27,6 @@ public class PlayerCharacter implements ICharacter {
     private double charXpos;
     private double charYpos;
     public List<Pokemon> trainerPokemons;
-    private int experience;
-    private int catchCount;
 
     public PlayerCharacter(GridPane gridPane, String playerName, char playerGender) {
         this.gridPane = gridPane;
@@ -37,9 +34,7 @@ public class PlayerCharacter implements ICharacter {
         this.gender = playerGender;
         this.charXpos = 250;
         this.charYpos = 250;
-        this.catchCount = 0;
         this.trainerPokemons = new ArrayList<>();
-        this.experience = 0;
         this.isMoving = false;
         this.moveRow = 0;
         this.moveColumn = 0;
@@ -128,9 +123,6 @@ public class PlayerCharacter implements ICharacter {
 
     @Override
     public void stopMoving() {
-        //isMoving = false;
-        //animationTimer.stop();
-        //characterImageView.setImage(new Image(getMovementImage("Front")));
 
         if (!isMoving) {
             return;

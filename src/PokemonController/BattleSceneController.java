@@ -149,7 +149,7 @@ public class BattleSceneController implements Initializable {
     void btnCatch(ActionEvent event) {
         boolean catched = _world.getPlayer().catchPokemon(enemy);
         if(catched) {
-            lblBattleScene.setText("You've caught a " + enemy.getName() + "!\nIs added to your party.");
+            lblBattleScene.setText("You've caught a " + enemy.getName() + "!\n" + enemy.getName() + " is added to your party.");
         } else {
             lblBattleScene.setText("Ohw, you didn't catch it!");
             btnNext.setVisible(true);

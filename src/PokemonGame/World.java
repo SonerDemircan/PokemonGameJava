@@ -141,11 +141,13 @@
             createMoves(moveList);
 
 
-            //CSV niet gevangen Pokemon lezen (kan nog in aparte methode gestoken worden
+            //CSV niet gevangen Pokemon lezen (kan nog in aparte methode gestoken worden)
             CSVParameters wildPokemonParameters = new CSVParameters("src/CSV/Pokemon.csv",12,",", true);
             CSVReader pokemonReader = new CSVReader(wildPokemonParameters);
             String[][] pokemonList = pokemonReader.CSVTo2DArray(wildPokemonParameters);
             createPokemon(pokemonList, pokemon);
+
+            //CSV gevangen Pokemon lezen
             CSVParameters trainerPokemonParameters = new CSVParameters("src/CSV/SaveGamePokemon.csv",12,",", false);
             CSVReader trainerPokemonReader = new CSVReader(trainerPokemonParameters);
             String[][] trainerPokemonList = trainerPokemonReader.CSVTo2DArray(trainerPokemonParameters);
@@ -225,32 +227,35 @@
 
         public void createMoves(String[][] moves) {
             for (String[] strings : moves) {
-                Attack newAttack = new Attack();
-                newAttack.moveId = Integer.parseInt(strings[0]);
-                newAttack.name = strings[1];
-                newAttack.power = Integer.parseInt(strings[2]);
-                newAttack.accuracy = Integer.parseInt(strings[3]);
-                newAttack.pp = Integer.parseInt(strings[4]);
+
+                int moveId = Integer.parseInt(strings[0]);
+                String name = strings[1];
+                int power = Integer.parseInt(strings[2]);
+                int accuracy = Integer.parseInt(strings[3]);
+                int pp = Integer.parseInt(strings[4]);
+
+                Attack newAttack = new Attack(moveId,name,power,accuracy,pp);
                 attackMoves.add(newAttack);
             }
         }
 
         public void createPokemon(String[][] pokemonList, List<Pokemon> pok) {
             for (String[] strings : pokemonList) {
-                Pokemon newPokemon = new Pokemon();
-                newPokemon.pokemonId = Integer.parseInt(strings[0]);
-                newPokemon.name = strings[1];
-                newPokemon.type = strings[2];
-                newPokemon.level = Integer.parseInt(strings[3]);
-                newPokemon.maxHitPoints = Integer.parseInt(strings[4]);
-                newPokemon.battleHitPoints = Integer.parseInt(strings[4]);
-                newPokemon.attack = Integer.parseInt(strings[5]);
-                newPokemon.defense = Integer.parseInt(strings[6]);
-                newPokemon.speed = Integer.parseInt(strings[7]);
-                newPokemon.moveOne = Integer.parseInt(strings[8]);
-                newPokemon.moveTwo = Integer.parseInt(strings[9]);
-                newPokemon.moveThree = Integer.parseInt(strings[10]);
-                newPokemon.moveFour = Integer.parseInt(strings[11]);
+
+                int pokemonId = Integer.parseInt(strings[0]);
+                String name = strings[1];
+                String type = strings[2];
+                int level = Integer.parseInt(strings[3]);
+                int maxHitPoints = Integer.parseInt(strings[4]);
+                int attack = Integer.parseInt(strings[5]);
+                int defense = Integer.parseInt(strings[6]);
+                int speed = Integer.parseInt(strings[7]);
+                int moveOne = Integer.parseInt(strings[8]);
+                int moveTwo = Integer.parseInt(strings[9]);
+                int moveThree = Integer.parseInt(strings[10]);
+                int moveFour = Integer.parseInt(strings[11]);
+
+                Pokemon newPokemon = new Pokemon(pokemonId, name, type, level, maxHitPoints, attack, defense, speed, moveOne, moveTwo, moveThree, moveFour);
                 pok.add(newPokemon);
             }
         }

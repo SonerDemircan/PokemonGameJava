@@ -21,7 +21,6 @@ public class PokemonApplication extends Application {
 
         primaryStage.setScene(scene);
 
-        //primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 

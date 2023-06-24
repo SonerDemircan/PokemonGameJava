@@ -48,6 +48,22 @@ public class Pokemon implements IPokemon {
         return moveSet;
     }
 
+    public Pokemon(int pokemonId, String name, String type, int level, int maxHitPoints, int attack, int defense, int speed, int moveOne, int moveTwo, int moveThree, int moveFour) {
+        this.pokemonId = pokemonId;
+        this.name = name;
+        this.type = type;
+        this.level = level;
+        this.maxHitPoints = maxHitPoints;
+        this.battleHitPoints = maxHitPoints;
+        this.attack = attack;
+        this.defense = defense;
+        this.speed = speed;
+        this.moveOne = moveOne;
+        this.moveTwo = moveTwo;
+        this.moveThree = moveThree;
+        this.moveFour = moveFour;
+    }
+
     @Override
     public int attack(Pokemon attackingPokemon, int attackMove, Pokemon pok, int isHit) {
         int damage = 0;
