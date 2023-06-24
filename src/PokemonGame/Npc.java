@@ -67,28 +67,24 @@ public class Npc implements Runnable, ICharacter {
         npcColumn = column;
     }
 
-    @Override
+
     public List<Pokemon> getPokemons() {
         // Implement the method to return the list of Npc's Pokemon
         return null;
     }
 
-    @Override
     public int getCharRow() {
         return npcRow;
     }
 
-    @Override
     public void setCharRow(int row) {
         npcRow = row;
     }
 
-    @Override
     public int getCharColumn() {
         return npcColumn;
     }
 
-    @Override
     public void setCharColumn(int column) {
         npcColumn = column;
     }
@@ -103,13 +99,11 @@ public class Npc implements Runnable, ICharacter {
         // Implement the method to move the Npc's character
     }
 
-    @Override
     public String getMovementImage(String spriteDirection) {
         // Implement the method to get the Npc's movement image based on the given sprite direction
         return null;
     }
 
-    //@Override
     public void run() {
 
         // Random tussen 1-4 aanmaken zodat de npc's random bewegen in een vierkant

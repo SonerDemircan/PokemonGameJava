@@ -45,16 +45,6 @@ public class PlayerCharacter implements ICharacter {
         this.moveColumn = 0;
     }
 
-    public void addPokemonToPlayerParty(Pokemon pokemon) {
-        Pokemon pok = pokemon;
-        int i = 0;
-        while (trainerPokemons.get(i) != null) {
-            i++;
-        }
-        trainerPokemons.get(i).isCaught = true;
-        trainerPokemons.add(pok);
-    }
-
     public boolean catchPokemon(Pokemon pokemon) {
         boolean catched = false;
         Random random = new Random();
@@ -136,6 +126,7 @@ public class PlayerCharacter implements ICharacter {
         animationTimer.start();
     }
 
+    @Override
     public void stopMoving() {
         //isMoving = false;
         //animationTimer.stop();
@@ -164,6 +155,7 @@ public class PlayerCharacter implements ICharacter {
         isMoving = false;
     }
 
+    @Override
     public void moveCharacter(int rowMove, int columnMove) {
         int newRow = getCharRow() + rowMove;
         int newColumn = getCharColumn() + columnMove;

@@ -61,6 +61,7 @@ public class Pokemon implements IPokemon {
         return damage;
     }
 
+    @Override
     public void healPokemon() {
         battleHitPoints = maxHitPoints;
     }
