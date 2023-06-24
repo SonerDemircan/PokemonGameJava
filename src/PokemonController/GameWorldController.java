@@ -1,3 +1,7 @@
+// CORRECTIE VERSIE 10.44u
+
+
+
 package PokemonController;
 
 import PokemonGame.World;
@@ -18,9 +22,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameWorldController implements Initializable {
-
-    @FXML
-    private Button btnExitGame;
 
     @FXML
     private GridPane gridPane;

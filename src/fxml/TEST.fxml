@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="964.0" prefWidth="998.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.TEST">
+   <children>
+      <Label layoutX="239.0" layoutY="329.0" prefHeight="179.0" prefWidth="280.0" text="fedgfsdgg">
+         <font>
+            <Font name="Didot" size="50.0" />
+         </font>
+      </Label>
+      <TextArea layoutX="111.0" layoutY="611.0" prefHeight="77.0" prefWidth="622.0" text="Hallo&#10;&#10;Hierboven staat enter&#10;">
+         <font>
+            <Font name="Didot" size="26.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="380.0" layoutY="82.0" prefHeight="53.0" prefWidth="238.0" text="FIGHTERZ">
+         <font>
+            <Font name="Optima Regular" size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

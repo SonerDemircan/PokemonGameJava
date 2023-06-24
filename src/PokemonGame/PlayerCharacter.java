@@ -1,5 +1,6 @@
 package PokemonGame;
 
+import Interfaces.ICharacter;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -7,30 +8,38 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class PlayerCharacter extends Character {
+
+public class PlayerCharacter implements ICharacter {
     private ImageView characterImageView;
 
-    // Checken of de speler nog beweegt
     private boolean isMoving;
-
-    // Checken welke richting de speler uitgaat voor de animatie
     private int moveRow;
-
-    // Checken welke richting de speler uitgaat voor de animatie
     private int moveColumn;
-
-    // Vertraging wanneer de speler beweegt
-    private final Duration MOVE_DELAY = Duration.millis(175);
-
-    // Zorgt ervoor dat de gif sprites worden afgespeeld
+    private final Duration MOVE_DELAY = Duration.millis(250);
     private AnimationTimer animationTimer;
-
     private long lastMoveTime;
+    private GridPane gridPane;
+    private String name;
+    private char gender;
+    private double charXpos;
+    private double charYpos;
+    public List<Pokemon> trainerPokemons;
+    private int experience;
+    private int catchCount;
 
     public PlayerCharacter(GridPane gridPane, String playerName, char playerGender) {
-        super(gridPane, playerName, playerGender);
+        this.gridPane = gridPane;
+        this.name = playerName;
+        this.gender = playerGender;
+        this.charXpos = 250;
+        this.charYpos = 250;
+        this.catchCount = 0;
+        this.trainerPokemons = new ArrayList<>();
+        this.experience = 0;
         this.isMoving = false;
         this.moveRow = 0;
         this.moveColumn = 0;
@@ -59,7 +68,6 @@ public class PlayerCharacter extends Character {
         return catched;
     }
 
-    // Keyboard controls voor movement
     public void handleKeyPressed(KeyEvent event) {
         KeyCode keyCode = event.getCode();
 
@@ -81,14 +89,12 @@ public class PlayerCharacter extends Character {
         }
     }
 
-    // Keyboard controls om movement te stoppen
     public void handleKeyReleased(KeyEvent event) {
         KeyCode keyCode = event.getCode();
 
         if (isMoving) {
             switch (keyCode) {
                 case UP:
-                    // Checken welke richting de speler uitgaat
                     stopMoving();
                     break;
                 case DOWN:
@@ -104,24 +110,16 @@ public class PlayerCharacter extends Character {
         }
     }
 
-    // Method start wanneer de speler beweegt, zorgt ervoor dat de animatie start
     private void startMoving(int rowMove, int columnMove, String spriteDirection) {
-
-        // Check om te zien of de speler al aan het bewegen is, als dit false is gaat die steeds een nieuwe animatie maken
         if (isMoving) {
             return;
         }
         moveRow = rowMove;
         moveColumn = columnMove;
-
-
-        String imagePath = getMovementImage(spriteDirection);
-        characterImageView.setImage(new Image(imagePath, 100, 100, false, false));
+        String movementImage = getMovementImage(spriteDirection);
+        characterImageView.setImage(new Image(movementImage));
         isMoving = true;
-
-        // Check om te zien hoeveel tijd er zit tussen de movement
         lastMoveTime = System.currentTimeMillis();
-
         animationTimer = new AnimationTimer() {
 
             @Override
@@ -138,9 +136,11 @@ public class PlayerCharacter extends Character {
         animationTimer.start();
     }
 
-    @Override
     public void stopMoving() {
-        // Checken welke richting de speler als laatste uitging & correcte sprite laten zien
+        //isMoving = false;
+        //animationTimer.stop();
+        //characterImageView.setImage(new Image(getMovementImage("Front")));
+
         if (!isMoving) {
             return;
         }
@@ -164,36 +164,39 @@ public class PlayerCharacter extends Character {
         isMoving = false;
     }
 
-    // Speler laten bewegen
-    @Override
     public void moveCharacter(int rowMove, int columnMove) {
         int newRow = getCharRow() + rowMove;
         int newColumn = getCharColumn() + columnMove;
-
-        if (inBounds(newRow, newColumn)) {
-
-            // Speler verwijderen van huidige positie
-            gridPane.getChildren().remove(characterImageView);
+        if (newRow >= 0 && newRow < gridPane.getRowCount() && newColumn >= 0 && newColumn < gridPane.getColumnCount()) {
             setCharRow(newRow);
             setCharColumn(newColumn);
-
-            // Positie updaten
             GridPane.setColumnIndex(characterImageView, newColumn);
             GridPane.setRowIndex(characterImageView, newRow);
-
-            // Speler toevoegen op nieuwe positie
-            gridPane.getChildren().add(characterImageView);
         }
     }
 
-    // Getter om de juiste sprite te tonen o.b.v. de richting die de speler uitkijkt
-    private String getMovementImage(String spriteDirection) {
+    public String getMovementImage(String spriteDirection) {
         return "ImagesAndSprites/PlayerCharacterMale/Sprite" + spriteDirection + ".gif";
     }
 
-    // Bounds van de gamewereld checken
-    private boolean inBounds(int row, int column) {
-        return row >= 0 && row < gridPane.getRowConstraints().size() && column >= 0 && column < gridPane.getColumnConstraints().size();
+    public List<Pokemon> getPokemons() {
+        return trainerPokemons;
+    }
+
+    public int getCharRow() {
+        return (int) (charYpos / 110);
+    }
+
+    public void setCharRow(int row) {
+        this.charYpos = row * 110;
+    }
+
+    public int getCharColumn() {
+        return (int) (charXpos / 110);
+    }
+
+    public void setCharColumn(int column) {
+        this.charXpos = column * 110;
     }
 
     public void setCharacterImageView(ImageView characterImageView) {

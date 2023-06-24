@@ -1,3 +1,6 @@
+//CORRECTE VERSIE 10.47u
+
+
 package SwitchScenes;
 
 import PokemonController.BattleSceneController;
@@ -5,21 +8,24 @@ import PokemonGame.World;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
 
 // Deze method laat ons toe om bij een actie (bv. klikken op een button) een nieuwe scene (fxml) te openen
 // 3 parameters nodig:
 // fxmlFilename is de nieuwe fxml wat geopend moet worden
 // currentStage om te switchen tussen de scenes
-// stageTitle (spreekt voor zich :D)
+// stageTitle (spreekt voor zich)
 public class SwitchScene {
+
+    private MediaPlayer mediaPlayer;
+
     public void openNewScene(String fxmlFilename, Stage currentStage, String stageTitle) throws IOException {
 
-        //CONSTRUCTOR MAKEN
-        //openNewScene (String fxmlFilename, Stage currentStage, String stageTitle)
-        //METHOD
-        //openNewScene
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/" + fxmlFilename + ".fxml"));
 
         Scene newScene = new Scene(root);
@@ -29,6 +35,7 @@ public class SwitchScene {
         currentStage.setFullScreen(false);
         currentStage.setTitle(stageTitle);
         currentStage.show();
+        mediaPlayer.stop();
     }
 
     //om onze world object door te geven aan de volgende scene, zo kunnen we de objecten aangemaakt in deze controller aanspreken in andere controllers
@@ -47,5 +54,24 @@ public class SwitchScene {
         currentStage.setTitle(stageTitle);
 
         currentStage.show();
+    }
+
+    public void startSceneThemeSong(String themePath) {
+        String musicFile = "src/Audio/" + themePath + ".mp3";
+        Media themeSong = new Media(new File(musicFile).toURI().toString());
+        mediaPlayer = new MediaPlayer(themeSong);
+
+        // Theme blijven herhalen
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        // Volume
+        mediaPlayer.setVolume(0.5);
+
+        // Afspelen
+        mediaPlayer.play();
+    }
+
+    public void stopSceneThemeSong() {
+        mediaPlayer.stop();
     }
 }

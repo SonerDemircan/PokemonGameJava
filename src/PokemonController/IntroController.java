@@ -18,8 +18,7 @@ public class IntroController {
             ,"But despite our closeness, we don't know everything about Pokémon. \nIn fact, there are many, many secrets surrounding Pokémon. To unravel Pokémon mysteries, \nI've been undertaking research. That's what I do."
             ,"Your very own Pokemon adventure is about to unfold!"
             ,"A world of dreams and adventures with pokemon awaits!"
-            ,"Let's go!"
-            ,"Door Soner en Daniel"};
+            ,"Let's go!"};
 
     private World world;
 
@@ -30,9 +29,6 @@ public class IntroController {
     private ImageView gifPangoro;
 
     @FXML
-    private ImageView pngBag;
-
-    @FXML
     private Button btnPrevious;
 
     @FXML
@@ -41,9 +37,7 @@ public class IntroController {
     @FXML
     private Button btnContinue;
 
-    @FXML
-    private ImageView pngPokeballs;
-
+    SwitchScene newScene = new SwitchScene();
 
     // Switchen tussen tekst
     // Index moet op 0 staan, anders komen we nooit in de String array
@@ -53,35 +47,31 @@ public class IntroController {
     @FXML
     public void initialize() {
         lblIntroText.setText(introText[currentIntroIndex]);
-        btnContinue.setVisible(false);
+        newScene.startSceneThemeSong("IntroTheme");
     }
 
     private void updateIntroText() {
-        //Initialize kunnen we hier gebruiken omdat deze altijd de tekst van de huidige index in de String array teruggeeft
-        initialize();
+        lblIntroText.setText(introText[currentIntroIndex]);
 
-        // Als Oak over Pokémon begint, zien we een pokémon: in dit geval Haxorus
+
+        // Als Oak over Pokémon begint, zien we een pokémon
         if (currentIntroIndex > 0) {
             gifPangoro.setVisible(true);
         } else {
             gifPangoro.setVisible(false);
         }
 
-        // Button continue verschijnt pas als de speler de volledige tekst heeft gelezen
-        if (currentIntroIndex == 6) {
+        // Buttons previous & continue verdwijnen als de speler de volledige tekst heeft gelezen
+        if (currentIntroIndex == 5) {
             btnNext.setVisible(false);
             btnPrevious.setVisible(false);
-            btnContinue.setVisible(true);
-        } else {
-            btnContinue.setVisible(false);
         }
     }
 
     // -1 om te starten met index 0
     // currentIntroIndex wordt verhoogd zodat we kunnen loopen door de String array
-    // ActionEvent event is overbodig omdat we die nooit gebruiken, maar heb ik toch laten staan (als we bv. met de keycontrols gaan werken ofzo)
     @FXML
-    public void btnNext(/*ActionEvent event*/) {
+    public void btnNext() {
         if (currentIntroIndex < introText.length - 1) {
             currentIntroIndex++;
             updateIntroText();
@@ -90,7 +80,7 @@ public class IntroController {
 
     // Idem als btnNext, enkel wordt hier de currentIntroIndex verlaagd
     @FXML
-    public void btnPrevious(/*ActionEvent event*/) {
+    public void btnPrevious() {
         if (currentIntroIndex > 0) {
             currentIntroIndex--;
             updateIntroText();
@@ -100,9 +90,9 @@ public class IntroController {
     @FXML
     public void btnContinue(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        SwitchScene newScene = new SwitchScene();
 
         try {
+            newScene.stopSceneThemeSong();
             newScene.openNewScene("World", currentStage,"Gameworld");
         } catch (IOException ex) {
             ex.printStackTrace();
