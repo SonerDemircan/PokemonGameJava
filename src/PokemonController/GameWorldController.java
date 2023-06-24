@@ -21,7 +21,7 @@ public class GameWorldController implements Initializable {
     private GridPane gridPane;
     private World world;
     private Stage stage;
-    SwitchScene newScene = new SwitchScene();
+    private SwitchScene newScene = new SwitchScene();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,10 +61,7 @@ public class GameWorldController implements Initializable {
 
     private void openBattleScene(Event event) {
         if(world.checkWildPokemonEncounter()) {
-
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            //SwitchScene newScene = new SwitchScene();
-
             try {
                 newScene.stopSceneThemeSong();
                 newScene.openNewSceneWithParam("BattleScene", currentStage,"Gameworld",world);

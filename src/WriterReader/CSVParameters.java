@@ -1,7 +1,5 @@
 package WriterReader;
 
-import java.io.FileReader;
-
 public class CSVParameters
 {
     /*klasse om eender welk CSV file in te lezen en in een 2D array terug te sturen zodat hiervan objecten gemaakt kunnen worden.
@@ -10,7 +8,6 @@ public class CSVParameters
     delimiter is de scheiding.
     hasHeader is als de CSV een hoofding heeft. indien true schrijft hij de eerste regel niet weg in de 2Darray
      */
-
     protected String filePath;
     protected int amountOfFields;
     protected String delimiter;

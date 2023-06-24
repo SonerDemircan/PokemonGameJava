@@ -20,34 +20,6 @@ public class Pokemon implements IPokemon {
     protected int moveFour;
     protected Attack[] moveSet = new Attack[4];
 
-    public int getPokemonId() {
-        return pokemonId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getMaxHitPoints() {
-        return maxHitPoints;
-    }
-
-    public int getBattleHitPoints() {
-        return battleHitPoints;
-    }
-
-    public void setBattleHitPoints(int battleHitPoints) {
-        this.battleHitPoints = battleHitPoints;
-    }
-
-    public Attack[] getMoveSet() {
-        return moveSet;
-    }
-
     public Pokemon(int pokemonId, String name, String type, int level, int maxHitPoints, int attack, int defense, int speed, int moveOne, int moveTwo, int moveThree, int moveFour) {
         this.pokemonId = pokemonId;
         this.name = name;
@@ -70,7 +42,6 @@ public class Pokemon implements IPokemon {
         if (attackingPokemon.getMoveSet()[attackMove].power != 0) {
             if (attackingPokemon.moveSet[attackMove].accuracy >= isHit) {
                 damage = ((2 * attackingPokemon.level / 5 + 2) * attackingPokemon.moveSet[attackMove].power * (attackingPokemon.attack / pok.defense) / 50 + 2);
-
                 attackingPokemon.moveSet[attackMove].pp--;
             }
         }
@@ -83,7 +54,7 @@ public class Pokemon implements IPokemon {
     }
 
     public String getPokemonImagePath(Pokemon pok) {
-        int pokemonId = pok.getPokemonId();
+        int pokemonId = pok.pokemonId;
         String path = "";
         switch (pokemonId) {
             case 1:
@@ -142,5 +113,25 @@ public class Pokemon implements IPokemon {
                 break;
         }
         return path;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getMaxHitPoints() {
+        return maxHitPoints;
+    }
+
+    public int getBattleHitPoints() {
+        return battleHitPoints;
+    }
+
+    public void setBattleHitPoints(int battleHitPoints) {
+        this.battleHitPoints = battleHitPoints;
+    }
+
+    public Attack[] getMoveSet() {
+        return moveSet;
     }
 }

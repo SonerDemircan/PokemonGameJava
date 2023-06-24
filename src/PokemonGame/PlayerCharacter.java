@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 public class PlayerCharacter implements ICharacter {
     private ImageView characterImageView;
     private boolean isMoving;
@@ -23,21 +22,15 @@ public class PlayerCharacter implements ICharacter {
     private long lastMoveTime;
     private GridPane gridPane;
     private String name;
-    private char gender;
     private double charXpos;
     private double charYpos;
-    public List<Pokemon> trainerPokemons;
+    protected List<Pokemon> trainerPokemons;
 
-    public PlayerCharacter(GridPane gridPane, String playerName, char playerGender) {
+    public PlayerCharacter(GridPane gridPane, String playerName) {
         this.gridPane = gridPane;
         this.name = playerName;
-        this.gender = playerGender;
-        this.charXpos = 250;
-        this.charYpos = 250;
         this.trainerPokemons = new ArrayList<>();
         this.isMoving = false;
-        this.moveRow = 0;
-        this.moveColumn = 0;
     }
 
     public boolean catchPokemon(Pokemon pokemon) {
@@ -55,7 +48,6 @@ public class PlayerCharacter implements ICharacter {
 
     public void handleKeyPressed(KeyEvent event) {
         KeyCode keyCode = event.getCode();
-
         if (!isMoving) {
             switch (keyCode) {
                 case UP:
@@ -76,7 +68,6 @@ public class PlayerCharacter implements ICharacter {
 
     public void handleKeyReleased(KeyEvent event) {
         KeyCode keyCode = event.getCode();
-
         if (isMoving) {
             switch (keyCode) {
                 case UP:
@@ -106,12 +97,10 @@ public class PlayerCharacter implements ICharacter {
         isMoving = true;
         lastMoveTime = System.currentTimeMillis();
         animationTimer = new AnimationTimer() {
-
             @Override
             public void handle(long now) {
                 long elapsedMillis = System.currentTimeMillis() - lastMoveTime;
                 if (elapsedMillis >= MOVE_DELAY.toMillis()) {
-
                     // Speler kan bewegen als er genoeg tijd is gepasseerd
                     moveCharacter(rowMove, columnMove);
                     lastMoveTime = System.currentTimeMillis();
@@ -123,13 +112,11 @@ public class PlayerCharacter implements ICharacter {
 
     @Override
     public void stopMoving() {
-
         if (!isMoving) {
             return;
         }
         animationTimer.stop();
         animationTimer = null;
-
         String spriteDirection;
         if (moveColumn > 0) {
             spriteDirection = "Right";
@@ -140,7 +127,6 @@ public class PlayerCharacter implements ICharacter {
         } else {
             spriteDirection = "Back";
         }
-
         // Correcte sprite wordt getoond
         String standingStillImage = getMovementImage(spriteDirection);
         characterImageView.setImage(new Image(standingStillImage, 100, 100, false, false));

@@ -5,8 +5,6 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-
-import java.util.List;
 import java.util.Random;
 
 public class Npc implements Runnable, ICharacter {
@@ -23,7 +21,7 @@ public class Npc implements Runnable, ICharacter {
         this.name = playerName;
         this.npcId = npcId;
         this.npcCharacterImageView = new ImageView();
-        setNpcSpriteImage(npcId, "Front"); // Set initial sprite image
+        setNpcSpriteImage(npcId, "Front");
         npcCharacterImageView.setFitHeight(100);
         npcCharacterImageView.setFitWidth(100);
     }
@@ -63,7 +61,6 @@ public class Npc implements Runnable, ICharacter {
             // Speler toevoegen op nieuwe positie
             gridPane.getChildren().add(npcCharacterImageView);
         });
-
         try {
             Thread.sleep(moveDuration);
         } catch (InterruptedException e) {
@@ -75,22 +72,8 @@ public class Npc implements Runnable, ICharacter {
         npcColumn = column;
     }
 
-
-    public List<Pokemon> getPokemons() {
-        // Implement the method to return the list of Npc's Pokemon
-        return null;
-    }
-
-    public int getCharRow() {
-        return npcRow;
-    }
-
     public void setCharRow(int row) {
         npcRow = row;
-    }
-
-    public int getCharColumn() {
-        return npcColumn;
     }
 
     public void setCharColumn(int column) {
@@ -98,35 +81,13 @@ public class Npc implements Runnable, ICharacter {
     }
 
     @Override
-    public void stopMoving() {
-        // Implement the logic to stop the NPC's movement
-    }
+    public void stopMoving() {}
 
     @Override
     public void moveCharacter(int rowMove, int columnMove) {
-        // Implement the logic to move the NPC's character
         int newRow = npcRow + rowMove;
         int newColumn = npcColumn + columnMove;
         moveNPC(newRow, newColumn, 500, 100, npcId);
-    }
-
-    // Getter om de juiste image te krijgen
-    private String getMovementImage(String spriteDirection) {
-        String basePath = "ImagesAndSprites/NPC/Sprite";
-        String imageExtension = ".gif";
-
-        if (spriteDirection.equals("Right")) {
-            return basePath + "Right" + imageExtension;
-        } else if (spriteDirection.equals("Left")) {
-            return basePath + "Left" + imageExtension;
-        } else if (spriteDirection.equals("Front")) {
-            return basePath + "Front" + imageExtension;
-        } else if (spriteDirection.equals("Back")) {
-            return basePath + "Back" + imageExtension;
-        } else {
-            // Geen verandering in richting, behoud huidige sprite
-            return npcCharacterImageView.getImage().getUrl();
-        }
     }
 
     // Setter voor de juiste npc sprite
@@ -139,43 +100,31 @@ public class Npc implements Runnable, ICharacter {
 
     // Wordt uitgevoerd in de thread
     public void run() {
-
         // Random tussen 1-4 zodat de npc's bewegen in een vierkant
         Random random = new Random();
         int distance = random.nextInt(4) + 1;
         int moveDuration = 500;
         int moveDistance = 100;
-
         // Loop zodat de npc blijft bewegen
-        boolean keepMoving = true;
-        while (keepMoving) {
-
+        while (true) {
             int currentRow = npcRow;
             int currentColumn = npcColumn;
-
             // Rechts
             for (int i = 0; i < distance; i++) {
                 moveNPC(currentRow, ++currentColumn, moveDuration, moveDistance, npcId);
             }
-
             // Onder
             for (int i = 0; i < distance; i++) {
                 moveNPC(++currentRow, currentColumn, moveDuration, moveDistance, npcId);
             }
-
             // Links
             for (int i = 0; i < distance; i++) {
                 moveNPC(currentRow, --currentColumn, moveDuration, moveDistance, npcId);
             }
-
             // Boven
             for (int i = 0; i < distance; i++) {
                 moveNPC(--currentRow, currentColumn, moveDuration, moveDistance, npcId);
             }
         }
-    }
-
-    public String getName() {
-        return name;
     }
 }

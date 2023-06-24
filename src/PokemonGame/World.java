@@ -3,8 +3,6 @@
     import SwitchScenes.SwitchScene;
     import WriterReader.CSVParameters;
     import WriterReader.CSVReader;
-    import javafx.fxml.FXML;
-    import javafx.fxml.Initializable;
     import javafx.scene.image.Image;
     import javafx.scene.image.ImageView;
     import javafx.scene.input.KeyCode;
@@ -12,15 +10,10 @@
     import javafx.scene.layout.GridPane;
     import javafx.stage.Stage;
     import java.util.*;
-    import java.net.URL;
 
-    public class World implements Initializable {
-
+    public class World {
         // Gridpane wordt geïnjecteerd in de wereld
-        @FXML
         private GridPane gridPane;
-
-        // Npc
         private Npc npc1;
         private Npc npc2;
         private int npcRow1;
@@ -53,16 +46,13 @@
             // Bounds van de gridpane
             int numRows = gridPane.getRowConstraints().size();
             int numColumns = gridPane.getColumnConstraints().size();
-
             // Gras, water etc. wordt aangemaakt in de gridpane
             for (int row = 0; row < numRows; row++) {
                 for (int column = 0; column < numColumns; column++) {
                     ImageView imageView = new ImageView();
-                    imageView.setFitWidth(119);
+                    imageView.setFitWidth(132);
                     imageView.setFitHeight(107);
-
                     TileType tileType = getTileType(row, column);
-
                     switch (tileType) {
                         case TALLGRASS:
                             // Tall grass
@@ -84,11 +74,9 @@
                     gridPane.add(imageView, column, row);
                 }
             }
-
             // Npc wordt aangemaakt
             npc1 = new Npc(gridPane,"Rocco",1);
             npc2 = new Npc(gridPane, "Scarface",2);
-
             npcRow1 = 0;
             npcColumn1 = 10;
             npcRow2 = 0;
@@ -107,29 +95,24 @@
             gridPane.add(npcCharacterImageView2, npcColumn2, npcRow2);
 
             // Threads van de NPC's starten
-
             Thread npcThread1 = new Thread(npc1);
             npcThread1.start();
-
             Thread npcThread2 = new Thread(npc2);
             npcThread2.start();
 
             // Player wordt aangemaakt
-            player = new PlayerCharacter(gridPane,"Soner",'M');
-
+            player = new PlayerCharacter(gridPane,"Soner");
             // Startpositie van de speler
             characterRow = 9;
             characterColumn = 7;
             player.setCharRow(characterRow);
             player.setCharColumn(characterColumn);
-
             // Speler afbeelding wordt ingelezen
             characterImageView = createImageView("ImagesAndSprites/PlayerCharacterMale/SpriteFront.gif", true);
             characterImageView.setFitWidth(100);
             characterImageView.setFitHeight(100);
             gridPane.add(characterImageView, characterColumn, characterRow);
             player.setCharacterImageView(characterImageView);
-
             gridPane.setOnKeyPressed(this::handleKeyPressed);
             gridPane.setOnKeyReleased(this::handleKeyReleased);
             gridPane.requestFocus();
@@ -139,7 +122,6 @@
             CSVReader moveReader = new CSVReader(moveParameters);
             String[][] moveList = moveReader.CSVTo2DArray(moveParameters);
             createMoves(moveList);
-
 
             //CSV niet gevangen Pokemon lezen (kan nog in aparte methode gestoken worden)
             CSVParameters wildPokemonParameters = new CSVParameters("src/CSV/Pokemon.csv",12,",", true);
@@ -153,28 +135,6 @@
             String[][] trainerPokemonList = trainerPokemonReader.CSVTo2DArray(trainerPokemonParameters);
             createPokemon(trainerPokemonList,player.trainerPokemons);
             addMoveToPokemon();
-
-        }
-
-        // Random encounter calculator
-        private boolean pokemonSpawn() {
-            double spawnChance = 0.75;
-            double random = Math.random();
-            return random < spawnChance;
-        }
-
-        // Checken op een random encounter
-        public boolean checkWildPokemonEncounter() {
-            int playerRow = player.getCharRow();
-            int playerColumn = player.getCharColumn();
-            boolean bool = false;
-
-            if (isTallgrass(playerRow, playerColumn) && pokemonSpawn()) {
-            bool = true;
-            } else {
-                bool = false;
-            }
-            return bool;
         }
 
         private boolean isTallgrass(int row, int column) {
@@ -197,20 +157,18 @@
 
         public void handleKeyPressed(KeyEvent event) {
             KeyCode keyCode = event.getCode();
-
-        switch (keyCode) {
-            case UP:
-            case DOWN:
-            case LEFT:
-            case RIGHT:
-                player.handleKeyPressed(event);
-                break;
+            switch (keyCode) {
+                case UP:
+                case DOWN:
+                case LEFT:
+                case RIGHT:
+                    player.handleKeyPressed(event);
+                    break;
             }
         }
 
         public void handleKeyReleased(KeyEvent event) {
             KeyCode keyCode = event.getCode();
-
             switch (keyCode) {
                 case UP:
                 case DOWN:
@@ -221,19 +179,33 @@
             }
         }
 
-        @Override
-        public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Random encounter calculator
+        private boolean pokemonSpawn() {
+            double spawnChance = 0.75;
+            double random = Math.random();
+            return random < spawnChance;
+        }
+
+        // Checken op een random encounter
+        public boolean checkWildPokemonEncounter() {
+            int playerRow = player.getCharRow();
+            int playerColumn = player.getCharColumn();
+            boolean bool = false;
+            if (isTallgrass(playerRow, playerColumn) && pokemonSpawn()) {
+            bool = true;
+            } else {
+                bool = false;
+            }
+            return bool;
         }
 
         public void createMoves(String[][] moves) {
             for (String[] strings : moves) {
-
                 int moveId = Integer.parseInt(strings[0]);
                 String name = strings[1];
                 int power = Integer.parseInt(strings[2]);
                 int accuracy = Integer.parseInt(strings[3]);
                 int pp = Integer.parseInt(strings[4]);
-
                 Attack newAttack = new Attack(moveId,name,power,accuracy,pp);
                 attackMoves.add(newAttack);
             }
@@ -241,7 +213,6 @@
 
         public void createPokemon(String[][] pokemonList, List<Pokemon> pok) {
             for (String[] strings : pokemonList) {
-
                 int pokemonId = Integer.parseInt(strings[0]);
                 String name = strings[1];
                 String type = strings[2];
@@ -254,7 +225,6 @@
                 int moveTwo = Integer.parseInt(strings[9]);
                 int moveThree = Integer.parseInt(strings[10]);
                 int moveFour = Integer.parseInt(strings[11]);
-
                 Pokemon newPokemon = new Pokemon(pokemonId, name, type, level, maxHitPoints, attack, defense, speed, moveOne, moveTwo, moveThree, moveFour);
                 pok.add(newPokemon);
             }
@@ -300,11 +270,9 @@
             WATER("ImagesAndSprites/WorldTiles/Water.png");
 
             private final String imagePath;
-
             TileType(String imagePath) {
                 this.imagePath = imagePath;
             }
-
             public String getImagePath() {
                 return imagePath;
             }

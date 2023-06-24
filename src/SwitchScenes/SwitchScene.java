@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -34,7 +33,6 @@ public class SwitchScene {
         currentStage.setFullScreen(false);
         currentStage.setTitle(stageTitle);
         currentStage.show();
-
         if (mediaPlayer != null) {
             stopSceneThemeSong();
         }
@@ -42,7 +40,6 @@ public class SwitchScene {
 
     //om onze world object door te geven aan de volgende scene, zo kunnen we de objecten aangemaakt in deze controller aanspreken in andere controllers
     public void openNewSceneWithParam(String fxmlFilename, Stage currentStage, String stageTitle, World world) throws IOException {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFilename + ".fxml"));
         BattleSceneController controller = new BattleSceneController(world);
         loader.setController(controller);
@@ -54,26 +51,26 @@ public class SwitchScene {
         currentStage.setScene(newScene);
         currentStage.setFullScreen(false);
         currentStage.setTitle(stageTitle);
-
         currentStage.show();
     }
 
     public void startSceneThemeSong(String themePath) {
-        String musicFile = "src/Audio/" + themePath + ".mp3";
-        Media themeSong = new Media(new File(musicFile).toURI().toString());
-        mediaPlayer = new MediaPlayer(themeSong);
-
-        // Theme blijven herhalen
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-        // Volume
-        mediaPlayer.setVolume(0.5);
-
-        // Afspelen
-        mediaPlayer.play();
+        if(mediaPlayer == null) {
+            String musicFile = "src/Audio/" + themePath + ".mp3";
+            Media themeSong = new Media(new File(musicFile).toURI().toString());
+            mediaPlayer = new MediaPlayer(themeSong);
+            // Theme blijven herhalen
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            // Volume
+            mediaPlayer.setVolume(0.3);
+            // Afspelen
+            mediaPlayer.play();
+        }
     }
 
     public void stopSceneThemeSong() {
-        mediaPlayer.stop();
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 }

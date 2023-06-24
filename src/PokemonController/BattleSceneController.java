@@ -7,7 +7,6 @@ import WriterReader.CSVWriter;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,14 +16,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Random;
-import java.util.ResourceBundle;
 
 public class BattleSceneController {
-
-    SwitchScene newScene = new SwitchScene();
+    private  SwitchScene newScene = new SwitchScene();
 
     @FXML
     private Button btnAttack1;
@@ -120,13 +116,10 @@ public class BattleSceneController {
         newScene.startSceneThemeSong("BattleSceneTheme");
         enemy = randomPokemon();
         trainerPokemon = _world.getPlayer().getPokemons().get(0);
-
         Image pokemon1 = new Image(trainerPokemon.getPokemonImagePath(trainerPokemon));
         imgvTrainerPokemon.setImage(pokemon1);
-
         Image pokemon2 = new Image(enemy.getPokemonImagePath(enemy));
         imgvEnemy.setImage(pokemon2);
-
         lblBattleScene.setText("You've encountered a Wild " + enemy.getName() + "!" + "\nLet's battle!");
         startBattle(trainerPokemon,enemy);
         btnStartBattle.setVisible(false);
@@ -161,12 +154,10 @@ public class BattleSceneController {
     }
 
     public void startBattle(Pokemon trainerPok, Pokemon enemy) {
-
         lblPlayerPokemon.setText(trainerPok.getName());
         lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
         lblEnemyPokemon.setText(enemy.getName());
         lblEnemyHP.setText(updateEnemyHP());
-
         updateAttackButtons();
         setAttackButtonsVisible();
         setRectanglesVisible();
@@ -174,7 +165,6 @@ public class BattleSceneController {
     }
 
     private void trainerPokemonAttack(int attackNumber) {
-
         int damage = trainerPokemon.attack(trainerPokemon,attackNumber,enemy,isHit());
         if(damage < 1) {
             lblBattleScene.setText("That did nothing!");
@@ -187,18 +177,15 @@ public class BattleSceneController {
         int damage = enemy.attack(enemy,attackNumber,trainerPokemon, isHit());
         trainerPokemon.setBattleHitPoints(trainerPokemon.getBattleHitPoints() - damage);
 
-        lblBattleScene.setText(enemy.getName() + " used " + enemy.getMoveSet()[attackNumber].getName());
-
         if(damage < 1) {
-            lblBattleScene.setText("That did nothing!");
+            lblBattleScene.setText(enemy.getName() + " used " + enemy.getMoveSet()[attackNumber].getName() + "\nThat did nothing!");
             setAttackButtonsVisible();
         } else if (isPokemonDefeated(trainerPokemon)) {
             lblBattleScene.setText("Enemy " + enemy.getName() + " has won the fight!");
             trainerPokemon.setBattleHitPoints(0);
             updateTrainerPokemonHP();
-            trainerPokemon.healPokemon();
-            enemy.healPokemon();
         } else {
+            lblBattleScene.setText(enemy.getName() + " used " + enemy.getMoveSet()[attackNumber].getName());
             lblTrainerPokemonHP.setText(updateTrainerPokemonHP());
             btnNext.setVisible(false);
             btnCatch.setVisible(true);
@@ -208,12 +195,10 @@ public class BattleSceneController {
 
     public void yourattack(int attackNr) {
         trainerPokemonAttack(attackNr);
-
         lblBattleScene.setText(trainerPokemon.getName() + " used " + trainerPokemon.getMoveSet()[attackNr].getName());
-
         lblEnemyHP.setText(updateEnemyHP());
         if(isPokemonDefeated(enemy)) {
-            lblBattleScene.setText("you've won!");
+            lblBattleScene.setText(trainerPokemon.getName() + " used " + trainerPokemon.getMoveSet()[attackNr].getName() + "\nYou've won!");
             btnNext.setVisible(false);
             enemy.setBattleHitPoints(0);
             updateEnemyHP();
@@ -258,14 +243,12 @@ public class BattleSceneController {
 
     private void saveCaughtPokemon() {
         List<String> saveParty = _world.presentPokemon(_world.getPlayer().getPokemons());
-
         writer = new CSVWriter();
         writer.writeFile(saveParty,"SaveGamePokemon");
     }
 
     private void openWorldScene(Event event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
         try {
             newScene.openNewScene("World", currentStage,"Gameworld");
         } catch (IOException ex) {

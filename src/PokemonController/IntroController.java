@@ -1,6 +1,5 @@
 package PokemonController;
 
-import PokemonGame.World;
 import SwitchScenes.SwitchScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class IntroController {
@@ -19,8 +17,6 @@ public class IntroController {
             ,"Your very own Pokemon adventure is about to unfold!"
             ,"A world of dreams and adventures with pokemon awaits!"
             ,"Let's go!"};
-
-    private World world;
 
     @FXML
     private Label lblIntroText;
@@ -37,7 +33,7 @@ public class IntroController {
     @FXML
     private Button btnContinue;
 
-    SwitchScene newScene = new SwitchScene();
+    private SwitchScene newScene = new SwitchScene();
 
     // Switchen tussen tekst
     // Index moet op 0 staan, anders komen we nooit in de String array
@@ -52,15 +48,12 @@ public class IntroController {
 
     private void updateIntroText() {
         lblIntroText.setText(introText[currentIntroIndex]);
-
-
         // Als Oak over Pokémon begint, zien we een pokémon
         if (currentIntroIndex > 0) {
             gifPangoro.setVisible(true);
         } else {
             gifPangoro.setVisible(false);
         }
-
         // Buttons previous & continue verdwijnen als de speler de volledige tekst heeft gelezen
         if (currentIntroIndex == 5) {
             btnNext.setVisible(false);
@@ -90,7 +83,6 @@ public class IntroController {
     @FXML
     public void btnContinue(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
         try {
             newScene.stopSceneThemeSong();
             newScene.openNewScene("World", currentStage,"Gameworld");
