@@ -15,21 +15,23 @@ public class Npc implements Runnable, ICharacter {
     private int npcRow;
     private int npcColumn;
     private ImageView npcCharacterImageView;
+    private int npcId;
 
     // Imageview van de npc wordt in de constructor aangemaakt
-    public Npc(GridPane gridPane, String playerName) {
+    public Npc(GridPane gridPane, String playerName, int npcId) {
         this.gridPane = gridPane;
         this.name = playerName;
+        this.npcId = npcId;
         this.npcCharacterImageView = new ImageView();
-        this.npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteFront.gif"));
+        setNpcSpriteImage(npcId, "Front"); // Set initial sprite image
         npcCharacterImageView.setFitHeight(100);
         npcCharacterImageView.setFitWidth(100);
     }
 
     // Correcte sprite wordt getoond
-    private void moveNPC(int row, int column, int moveDuration, int moveDistance) {
+    // Parameter npcId zorgt voor de correcte sprites
+    private void moveNPC(int row, int column, int moveDuration, int moveDistance, int npcId) {
         Platform.runLater(() -> {
-
             // Npc verwijderen van huidige positie
             gridPane.getChildren().remove(npcCharacterImageView);
 
@@ -37,16 +39,22 @@ public class Npc implements Runnable, ICharacter {
             GridPane.setRowIndex(npcCharacterImageView, row);
             GridPane.setColumnIndex(npcCharacterImageView, column);
 
-            // Setter om de juiste sprite te tonen o.b.v. de richting die de speler uitkijkt
+            // Bepaal de richting van de NPC
+            String spriteDirection;
             if (column > npcColumn) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteRight.gif"));
+                spriteDirection = "Right";
             } else if (column < npcColumn) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteLeft.gif"));
+                spriteDirection = "Left";
             } else if (row > npcRow) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteFront.gif"));
+                spriteDirection = "Front";
             } else if (row < npcRow) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteBack.gif"));
+                spriteDirection = "Back";
+            } else {
+                spriteDirection = ""; // Geen verandering in richting
             }
+
+            // Setter om de juiste sprite te tonen
+            setNpcSpriteImage(npcId, spriteDirection);
 
             // Positie updaten
             GridPane.setRowIndex(npcCharacterImageView, row);
@@ -91,55 +99,78 @@ public class Npc implements Runnable, ICharacter {
 
     @Override
     public void stopMoving() {
+        // Implement the logic to stop the NPC's movement
     }
 
     @Override
     public void moveCharacter(int rowMove, int columnMove) {
+        // Implement the logic to move the NPC's character
+        int newRow = npcRow + rowMove;
+        int newColumn = npcColumn + columnMove;
+        moveNPC(newRow, newColumn, 500, 100, npcId);
     }
 
-    public String getMovementImage(String spriteDirection) {
-        // Implement the method to get the Npc's movement image based on the given sprite direction
-        return null;
+    // Getter om de juiste image te krijgen
+    private String getMovementImage(String spriteDirection) {
+        String basePath = "ImagesAndSprites/NPC/Sprite";
+        String imageExtension = ".gif";
+
+        if (spriteDirection.equals("Right")) {
+            return basePath + "Right" + imageExtension;
+        } else if (spriteDirection.equals("Left")) {
+            return basePath + "Left" + imageExtension;
+        } else if (spriteDirection.equals("Front")) {
+            return basePath + "Front" + imageExtension;
+        } else if (spriteDirection.equals("Back")) {
+            return basePath + "Back" + imageExtension;
+        } else {
+            // Geen verandering in richting, behoud huidige sprite
+            return npcCharacterImageView.getImage().getUrl();
+        }
     }
 
+    // Setter voor de juiste npc sprite
+    private void setNpcSpriteImage(int npcId, String spriteDirection) {
+        String basePath = "ImagesAndSprites/NPC/Sprite";
+        String imageExtension = ".gif";
+        String imagePath = basePath + spriteDirection + npcId + imageExtension;
+        npcCharacterImageView.setImage(new Image(imagePath));
+    }
+
+    // Wordt uitgevoerd in de thread
     public void run() {
 
-        // Random tussen 1-4 aanmaken zodat de npc's random bewegen in een vierkant
+        // Random tussen 1-4 zodat de npc's bewegen in een vierkant
         Random random = new Random();
         int distance = random.nextInt(4) + 1;
+        int moveDuration = 500;
+        int moveDistance = 100;
 
-        // Loopen zodat de npc blijft bewegen
+        // Loop zodat de npc blijft bewegen
         boolean keepMoving = true;
-
         while (keepMoving) {
-
-            // Duur uitgedrukt in ms
-            int moveDuration = 500;
-
-            // Aantal pixels dat de npc beweegt
-            int moveDistance = 100;
 
             int currentRow = npcRow;
             int currentColumn = npcColumn;
 
-            // Naar rechts bewegen
+            // Rechts
             for (int i = 0; i < distance; i++) {
-                moveNPC(currentRow, ++currentColumn, moveDuration, moveDistance);
+                moveNPC(currentRow, ++currentColumn, moveDuration, moveDistance, npcId);
             }
 
-            // Naar onder bewegen
+            // Onder
             for (int i = 0; i < distance; i++) {
-                moveNPC(++currentRow, currentColumn, moveDuration, moveDistance);
+                moveNPC(++currentRow, currentColumn, moveDuration, moveDistance, npcId);
             }
 
-            // Naar links bewegen
+            // Links
             for (int i = 0; i < distance; i++) {
-                moveNPC(currentRow, --currentColumn, moveDuration, moveDistance);
+                moveNPC(currentRow, --currentColumn, moveDuration, moveDistance, npcId);
             }
 
-            // Naar boven bewegen
+            // Boven
             for (int i = 0; i < distance; i++) {
-                moveNPC(--currentRow, currentColumn, moveDuration, moveDistance);
+                moveNPC(--currentRow, currentColumn, moveDuration, moveDistance, npcId);
             }
         }
     }

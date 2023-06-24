@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class BattleSceneController implements Initializable {
+public class BattleSceneController {
 
     SwitchScene newScene = new SwitchScene();
 
@@ -117,6 +117,7 @@ public class BattleSceneController implements Initializable {
 
     @FXML
     void btnStartBattle(ActionEvent event) {
+        newScene.startSceneThemeSong("BattleSceneTheme");
         enemy = randomPokemon();
         trainerPokemon = _world.getPlayer().getPokemons().get(0);
 
@@ -298,10 +299,5 @@ public class BattleSceneController implements Initializable {
         rctOne.setVisible(true);
         rctTwo.setVisible(true);
         rctThree.setVisible(true);
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        newScene.startSceneThemeSong("BattleSceneTheme");
     }
 }

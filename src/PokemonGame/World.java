@@ -86,22 +86,22 @@
             }
 
             // Npc wordt aangemaakt
-            npc1 = new Npc(gridPane,"Rocco");
-            npc2 = new Npc(gridPane, "Scarface");
+            npc1 = new Npc(gridPane,"Rocco",1);
+            npc2 = new Npc(gridPane, "Scarface",2);
 
             npcRow1 = 0;
             npcColumn1 = 10;
-            npcRow2 = 4;
-            npcColumn2 = 10;
+            npcRow2 = 0;
+            npcColumn2 = 0;
 
             // Startpositie van de Npc's
             npc1.setCharRow(npcRow1);
             npc1.setCharColumn(npcColumn1);
             npc2.setCharRow(npcRow2);
             npc2.setCharColumn(npcColumn2);
-            npcCharacterImageView1 = createImageView("ImagesAndSprites/NPC/SpriteFront.gif", true);
+            npcCharacterImageView1 = createImageView("ImagesAndSprites/NPC/SpriteFront1.gif", true);
             npcCharacterImageView1.setVisible(false);
-            npcCharacterImageView2 = createImageView("ImagesAndSprites/NPC/SpriteFront.gif", true);
+            npcCharacterImageView2 = createImageView("ImagesAndSprites/NPC/SpriteFront2.gif", true);
             npcCharacterImageView2.setVisible(false);
             gridPane.add(npcCharacterImageView1, npcColumn1, npcRow1);
             gridPane.add(npcCharacterImageView2, npcColumn2, npcRow2);
