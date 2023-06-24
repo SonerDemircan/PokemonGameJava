@@ -71,58 +71,58 @@ public class Pokemon implements IPokemon {
         String path = "";
         switch (pokemonId) {
             case 1:
-                path = "ImagesAndSprites/Venusaur.gif";
+                path = "ImagesAndSprites/PokemonSprites/Venusaur.gif";
                 break;
             case 2:
-                path = "ImagesAndSprites/Charizard.gif";
+                path = "ImagesAndSprites/PokemonSprites/Charizard.gif";
                 break;
             case 3:
-                path = "ImagesAndSprites/Blastoise.gif";
+                path = "ImagesAndSprites/PokemonSprites/Blastoise.gif";
                 break;
             case 4:
-                path = "ImagesAndSprites/snorlax.gif";
+                path = "ImagesAndSprites/PokemonSprites/snorlax.gif";
                 break;
             case 5:
-                path = "ImagesAndSprites/Pangoro.gif";
+                path = "ImagesAndSprites/PokemonSprites/Pangoro.gif";
                 break;
             case 6:
-                path = "ImagesAndSprites/Zoroark.gif";
+                path = "ImagesAndSprites/PokemonSprites/Zoroark.gif";
                 break;
             case 7:
-                path = "ImagesAndSprites/Mewtwo.gif";
+                path = "ImagesAndSprites/PokemonSprites/Mewtwo.gif";
                 break;
             case 8:
-                path = "ImagesAndSprites/Haxorus.gif";
+                path = "ImagesAndSprites/PokemonSprites/Haxorus.gif";
                 break;
             case 9:
-                path = "ImagesAndSprites/sylveon.gif";
+                path = "ImagesAndSprites/PokemonSprites/sylveon.gif";
                 break;
             case 10:
-                path = "ImagesAndSprites/lapras.gif";
+                path = "ImagesAndSprites/PokemonSprites/lapras.gif";
                 break;
             case 11:
-                path = "ImagesAndSprites/raichu.gif";
+                path = "ImagesAndSprites/PokemonSprites/raichu.gif";
                 break;
             case 12:
-                path = "ImagesAndSprites/krookodile.gif";
+                path = "ImagesAndSprites/PokemonSprites/krookodile.gif";
                 break;
             case 13:
-                path = "ImagesAndSprites/scizor.gif";
+                path = "ImagesAndSprites/PokemonSprites/scizor.gif";
                 break;
             case 14:
-                path = "ImagesAndSprites/Aegislash.gif";
+                path = "ImagesAndSprites/PokemonSprites/Aegislash.gif";
                 break;
             case 15:
-                path = "ImagesAndSprites/Nidoking.gif";
+                path = "ImagesAndSprites/PokemonSprites/Nidoking.gif";
                 break;
             case 16:
-                path = "ImagesAndSprites/Tyranitar.gif";
+                path = "ImagesAndSprites/PokemonSprites/Tyranitar.gif";
                 break;
             case 17:
-                path = "ImagesAndSprites/corviknight.gif";
+                path = "ImagesAndSprites/PokemonSprites/corviknight.gif";
                 break;
             case 18:
-                path = "ImagesAndSprites/Gengar.gif";
+                path = "ImagesAndSprites/PokemonSprites/Gengar.gif";
                 break;
         }
         return path;

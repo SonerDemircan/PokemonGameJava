@@ -21,7 +21,7 @@ public class Npc implements Runnable, ICharacter {
         this.gridPane = gridPane;
         this.name = playerName;
         this.npcCharacterImageView = new ImageView();
-        this.npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC1/SpriteFront.gif"));
+        this.npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteFront.gif"));
         npcCharacterImageView.setFitHeight(100);
         npcCharacterImageView.setFitWidth(100);
     }
@@ -39,13 +39,13 @@ public class Npc implements Runnable, ICharacter {
 
             // Setter om de juiste sprite te tonen o.b.v. de richting die de speler uitkijkt
             if (column > npcColumn) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC1/SpriteRight.gif"));
+                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteRight.gif"));
             } else if (column < npcColumn) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC1/SpriteLeft.gif"));
+                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteLeft.gif"));
             } else if (row > npcRow) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC1/SpriteFront.gif"));
+                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteFront.gif"));
             } else if (row < npcRow) {
-                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC1/SpriteBack.gif"));
+                npcCharacterImageView.setImage(new Image("ImagesAndSprites/NPC/SpriteBack.gif"));
             }
 
             // Positie updaten
@@ -91,12 +91,10 @@ public class Npc implements Runnable, ICharacter {
 
     @Override
     public void stopMoving() {
-        // Implement the method to stop the Npc's movement
     }
 
     @Override
     public void moveCharacter(int rowMove, int columnMove) {
-        // Implement the method to move the Npc's character
     }
 
     public String getMovementImage(String spriteDirection) {

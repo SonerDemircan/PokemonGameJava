@@ -1,68 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <String fx:value="/CssBattleScene/battleSceneStyle.css" />
+   </stylesheets>
    <children>
-      <ImageView fx:id="imgPokeballs" fitHeight="570.0" fitWidth="1000.0" layoutY="2.0" pickOnBounds="true">
-         <Image url="@../ImagesAndSprites/battleSceneBackGround.png" />
+      <ImageView fx:id="imgBackground" fitHeight="570.0" fitWidth="1000.0" layoutY="2.0" pickOnBounds="true">
+         <Image url="@../ImagesAndSprites/Backgrounds/battleSceneBackGround.png" />
       </ImageView>
-      <Button fx:id="btnAttack1" layoutX="741.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnAttack1" prefHeight="56.0" prefWidth="103.0" textFill="RED" visible="false">
+      <Button fx:id="btnAttack1" layoutX="547.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnAttack1" prefHeight="56.0" prefWidth="200.0" styleClass="custom-button" visible="false">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="Copperplate" size="15.0" />
          </font></Button>
-      <Button fx:id="btnAttack2" layoutX="844.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnAttack2" prefHeight="56.0" prefWidth="103.0" textFill="RED" visible="false">
+      <Button fx:id="btnAttack2" layoutX="747.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnAttack2" prefHeight="56.0" prefWidth="200.0" styleClass="custom-button" visible="false">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="Copperplate" size="15.0" />
          </font></Button>
-      <Button fx:id="btnAttack4" layoutX="844.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnAttack4" prefHeight="56.0" prefWidth="103.0" textFill="RED" visible="false">
+      <Button fx:id="btnAttack4" layoutX="747.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnAttack4" prefHeight="56.0" prefWidth="200.0" styleClass="custom-button" visible="false">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="Copperplate" size="15.0" />
          </font></Button>
-      <Button fx:id="btnAttack3" layoutX="741.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnAttack3" prefHeight="56.0" prefWidth="103.0" textFill="RED" visible="false">
+      <Button fx:id="btnAttack3" layoutX="547.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnAttack3" prefHeight="56.0" prefWidth="200.0" styleClass="custom-button" visible="false">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="Copperplate" size="15.0" />
          </font></Button>
-      <Label fx:id="lblPlayerPokemon" layoutX="26.0" layoutY="447.0" prefHeight="31.0" prefWidth="109.0" textFill="RED">
+      <Label fx:id="lblPlayerPokemon" layoutX="47.0" layoutY="447.0" prefHeight="31.0" prefWidth="130.0" styleClass="custom-label">
          <font>
-            <Font name="Comic Sans MS Bold" size="14.0" />
+            <Font name="Copperplate" size="20.0" />
          </font></Label>
-      <Label fx:id="lblEnemyPokemon" layoutX="744.0" layoutY="48.0" prefHeight="31.0" prefWidth="109.0" textFill="RED">
+      <Label fx:id="lblEnemyPokemon" layoutX="765.0" layoutY="49.0" prefHeight="31.0" prefWidth="130.0" styleClass="custom-label">
          <font>
-            <Font name="Comic Sans MS Bold" size="14.0" />
+            <Font name="Copperplate" size="20.0" />
          </font></Label>
       <ProgressBar fx:id="prgsYourPokemon" layoutX="26.0" layoutY="514.0" prefWidth="200.0" progress="1.0" />
       <ProgressBar fx:id="prgsEnemyHP" layoutX="744.0" layoutY="121.0" prefWidth="200.0" progress="1.0" />
-      <Label fx:id="lblBattleScene" layoutX="14.0" layoutY="131.0" prefHeight="139.0" prefWidth="336.0" textFill="RED">
+      <Label fx:id="lblBattleScene" layoutX="47.0" layoutY="126.0" prefHeight="139.0" prefWidth="450.0" styleClass="custom-label">
          <font>
-            <Font name="Comic Sans MS Bold" size="14.0" />
+            <Font name="Copperplate" size="20.0" />
          </font></Label>
-      <Button fx:id="btnStartBattle" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnStartBattle" text="Start Battle" textFill="RED" />
-      <Label fx:id="lblEnemyHP" layoutX="744.0" layoutY="84.0" prefHeight="31.0" prefWidth="75.0" textFill="RED">
+      <Button fx:id="btnStartBattle" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnStartBattle" styleClass="custom-button" text="Start Battle">
          <font>
-            <Font size="13.0" />
-         </font></Label>
-      <Label fx:id="lblTrainerPokemonHP" layoutX="26.0" layoutY="478.0" prefHeight="31.0" prefWidth="109.0" textFill="RED">
-         <font>
-            <Font size="14.0" />
-         </font></Label>
-      <Button fx:id="btnNext" layoutX="632.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnNext" prefHeight="56.0" prefWidth="103.0" text="Next" textFill="RED" visible="false">
-         <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="Copperplate" size="25.0" />
          </font></Button>
-      <Button fx:id="btnRun" layoutX="14.0" layoutY="51.0" mnemonicParsing="false" onAction="#btnRun" text="RUN" textFill="RED" />
-      <Button fx:id="btnCatch" layoutX="632.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnCatch" prefHeight="56.0" prefWidth="103.0" text="Catch!" textFill="RED" visible="false">
+      <Label fx:id="lblEnemyHP" layoutX="765.0" layoutY="85.0" prefHeight="31.0" prefWidth="109.0" styleClass="custom-label">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="Copperplate" size="18.0" />
+         </font></Label>
+      <Label fx:id="lblTrainerPokemonHP" layoutX="47.0" layoutY="478.0" prefHeight="31.0" prefWidth="109.0" styleClass="custom-label">
+         <font>
+            <Font name="Copperplate" size="18.0" />
+         </font></Label>
+      <Button fx:id="btnNext" layoutX="420.0" layoutY="419.0" mnemonicParsing="false" onAction="#btnNext" prefHeight="56.0" prefWidth="121.0" styleClass="custom-button" text="Next" visible="false">
+         <font>
+            <Font name="Copperplate" size="25.0" />
+         </font></Button>
+      <Button fx:id="btnRun" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#btnRun" prefHeight="42.0" prefWidth="115.0" styleClass="custom-button" text="RUN">
+         <font>
+            <Font name="Copperplate" size="25.0" />
+         </font></Button>
+      <Button fx:id="btnCatch" layoutX="420.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnCatch" prefHeight="56.0" prefWidth="121.0" styleClass="custom-button" text="Catch!" visible="false">
+         <font>
+            <Font name="Copperplate" size="25.0" />
          </font>
       </Button>
       <ImageView fx:id="imgvTrainerPokemon" fitHeight="150.0" fitWidth="200.0" layoutX="55.0" layoutY="287.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgvEnemy" fitHeight="150.0" fitWidth="200.0" layoutX="744.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true" />
+      <Rectangle fx:id="rctOne" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="26.0" layoutY="131.0" styleClass="custom-rectangle" visible="false" width="488.0" />
+      <Rectangle fx:id="rctTwo" arcHeight="5.0" arcWidth="5.0" height="70.0" layoutX="26.0" layoutY="443.0" styleClass="custom-rectangle" visible="false" width="144.0" />
+      <Rectangle fx:id="rctThree" arcHeight="5.0" arcWidth="5.0" height="70.0" layoutX="744.0" layoutY="45.0" styleClass="custom-rectangle" visible="false" width="136.0" />
    </children>
 </AnchorPane>

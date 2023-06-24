@@ -7,18 +7,24 @@ import WriterReader.CSVWriter;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 
-public class BattleSceneController {
+public class BattleSceneController implements Initializable {
+
+    SwitchScene newScene = new SwitchScene();
 
     @FXML
     private Button btnAttack1;
@@ -67,6 +73,15 @@ public class BattleSceneController {
 
     @FXML
     private ImageView imgvEnemy;
+
+    @FXML
+    private Rectangle rctOne;
+
+    @FXML
+    private Rectangle rctTwo;
+
+    @FXML
+    private Rectangle rctThree;
 
     @FXML
     private ImageView imgvTrainerPokemon;
@@ -125,6 +140,7 @@ public class BattleSceneController {
 
     @FXML
     void btnRun(ActionEvent event) {
+        newScene.stopSceneThemeSong();
         saveCaughtPokemon();
         openWorldScene(event);
     }
@@ -152,6 +168,7 @@ public class BattleSceneController {
 
         updateAttackButtons();
         setAttackButtonsVisible();
+        setRectanglesVisible();
         btnCatch.setVisible(true);
     }
 
@@ -247,7 +264,6 @@ public class BattleSceneController {
 
     private void openWorldScene(Event event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        SwitchScene newScene = new SwitchScene();
 
         try {
             newScene.openNewScene("World", currentStage,"Gameworld");
@@ -278,4 +294,14 @@ public class BattleSceneController {
         btnAttack4.setVisible(false);
     }
 
+    private void setRectanglesVisible() {
+        rctOne.setVisible(true);
+        rctTwo.setVisible(true);
+        rctThree.setVisible(true);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        newScene.startSceneThemeSong("BattleSceneTheme");
+    }
 }

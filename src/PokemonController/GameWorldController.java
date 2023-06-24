@@ -1,17 +1,11 @@
-// CORRECTIE VERSIE 10.44u
-
-
-
 package PokemonController;
 
 import PokemonGame.World;
 import SwitchScenes.SwitchScene;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -27,6 +21,7 @@ public class GameWorldController implements Initializable {
     private GridPane gridPane;
     private World world;
     private Stage stage;
+    SwitchScene newScene = new SwitchScene();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -34,6 +29,7 @@ public class GameWorldController implements Initializable {
         gridPane.setOnKeyPressed(this::handleKeyPressed);
         gridPane.setOnKeyReleased(this::handleKeyReleased);
         gridPane.requestFocus();
+        newScene.startSceneThemeSong("WorldTheme");
     }
 
     private void handleKeyPressed(KeyEvent event) {
@@ -67,9 +63,10 @@ public class GameWorldController implements Initializable {
         if(world.checkWildPokemonEncounter()) {
 
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SwitchScene newScene = new SwitchScene();
+            //SwitchScene newScene = new SwitchScene();
 
             try {
+                newScene.stopSceneThemeSong();
                 newScene.openNewSceneWithParam("BattleScene", currentStage,"Gameworld",world);
             } catch (IOException ex) {
                 ex.printStackTrace();

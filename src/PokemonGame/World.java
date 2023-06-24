@@ -14,7 +14,7 @@
     import java.util.*;
     import java.net.URL;
 
-    public class World {
+    public class World implements Initializable {
 
         // Gridpane wordt geïnjecteerd in de wereld
         @FXML
@@ -39,6 +39,7 @@
         protected List<Pokemon> pokemon;
         private List<Attack> attackMoves;
 
+
         public World(GridPane gridPane, SwitchScene openNewScene, Stage stage) {
             this.gridPane = gridPane;
             this.openNewScene = openNewScene;
@@ -49,9 +50,6 @@
         }
 
         public void initializeWorld() {
-
-            
-
             // Bounds van de gridpane
             int numRows = gridPane.getRowConstraints().size();
             int numColumns = gridPane.getColumnConstraints().size();
@@ -59,26 +57,30 @@
             // Gras, water etc. wordt aangemaakt in de gridpane
             for (int row = 0; row < numRows; row++) {
                 for (int column = 0; column < numColumns; column++) {
-                    ImageView imageView;
-
-                    if (isTallGrass(row, column)) {
-                        // Tall grass
-                        imageView = new ImageView(new Image("ImagesAndSprites/Tallgrass.png"));
-                    } else if (isWater(row, column)) {
-                        // Water
-                        imageView = new ImageView(new Image("ImagesAndSprites/Water.png"));
-                    } else if (isPath(row, column)) {
-                        // Path
-                        imageView = new ImageView(new Image("ImagesAndSprites/Path.png"));
-                    } else if (isSandPath(row, column)) {
-                        // Zand
-                        imageView = new ImageView(new Image("ImagesAndSprites/SandPath.png"));
-                    } else {
-                        // Al de overige tiles zijn grass
-                        imageView = new ImageView(new Image("ImagesAndSprites/Grass.png"));
-                    }
+                    ImageView imageView = new ImageView();
                     imageView.setFitWidth(119);
                     imageView.setFitHeight(107);
+
+                    TileType tileType = getTileType(row, column);
+
+                    switch (tileType) {
+                        case TALLGRASS:
+                            // Tall grass
+                            imageView.setImage(new Image(tileType.getImagePath()));
+                            break;
+                        case WATER:
+                            // Water
+                            imageView.setImage(new Image(tileType.getImagePath()));
+                            break;
+                        case SANDPATH:
+                            // Zand
+                            imageView.setImage(new Image(tileType.getImagePath()));
+                            break;
+                        case GRASS:
+                            // Al de overige tiles zijn grass
+                            imageView.setImage(new Image(tileType.getImagePath()));
+                            break;
+                    }
                     gridPane.add(imageView, column, row);
                 }
             }
@@ -89,7 +91,7 @@
 
             npcRow1 = 0;
             npcColumn1 = 10;
-            npcRow2 = 5;
+            npcRow2 = 4;
             npcColumn2 = 10;
 
             // Startpositie van de Npc's
@@ -97,9 +99,9 @@
             npc1.setCharColumn(npcColumn1);
             npc2.setCharRow(npcRow2);
             npc2.setCharColumn(npcColumn2);
-            npcCharacterImageView1 = createImageView("ImagesAndSprites/NPC1/SpriteFront.gif", true);
+            npcCharacterImageView1 = createImageView("ImagesAndSprites/NPC/SpriteFront.gif", true);
             npcCharacterImageView1.setVisible(false);
-            npcCharacterImageView2 = createImageView("ImagesAndSprites/NPC1/SpriteFront.gif", true);
+            npcCharacterImageView2 = createImageView("ImagesAndSprites/NPC/SpriteFront.gif", true);
             npcCharacterImageView2.setVisible(false);
             gridPane.add(npcCharacterImageView1, npcColumn1, npcRow1);
             gridPane.add(npcCharacterImageView2, npcColumn2, npcRow2);
@@ -116,8 +118,8 @@
             player = new PlayerCharacter(gridPane,"Soner",'M');
 
             // Startpositie van de speler
-            characterRow = 7;
-            characterColumn = 5;
+            characterRow = 9;
+            characterColumn = 7;
             player.setCharRow(characterRow);
             player.setCharColumn(characterColumn);
 
@@ -165,7 +167,7 @@
             int playerColumn = player.getCharColumn();
             boolean bool = false;
 
-            if (isTallGrass(playerRow, playerColumn) && pokemonSpawn()) {
+            if (isTallgrass(playerRow, playerColumn) && pokemonSpawn()) {
             bool = true;
             } else {
                 bool = false;
@@ -173,17 +175,8 @@
             return bool;
         }
 
-        private boolean isTallGrass(int row, int column) {
+        private boolean isTallgrass(int row, int column) {
             return (row >= 6 && row <= 8 && column >= 1 && column <= 4);
-        }
-
-        private boolean isPath(int row, int column) {
-            return (row >= 0 && row <= 3 && column == 0) || (row == 3 && column >= 1 && column <= 5) ||
-                    (row >= 0 && row <= 2 && column == 5) || (row >= 3 && row <= 9 && column == 7) ||
-                    (row >= 6 && row <= 9 && column == 0) || (row == 9 && column >= 1 && column <= 7) ||
-                    (row == 3 && column == 6) || (row == 7 && column == 5) || (row == 8 && column == 5) ||
-                    (row == 4 && column == 0) || (row == 5 && column == 0) || (row == 5 && column >= 1 && column <= 5) ||
-                    (row == 6 && column == 5);
         }
 
         private boolean isSandPath(int row, int column) {
@@ -191,7 +184,7 @@
         }
 
         private boolean isWater(int row, int column) {
-            return (row >= 0 && row <= 2 && column >= 1 && column <= 4);
+            return (row >= 0 && row <= 4 && column >= 0 && column <= 4);
         }
 
         private ImageView createImageView(String imagePath, boolean preserveRatio) {
@@ -224,6 +217,10 @@
                     player.handleKeyReleased(event);
                     break;
             }
+        }
+
+        @Override
+        public void initialize(URL url, ResourceBundle resourceBundle) {
         }
 
         public void createMoves(String[][] moves) {
@@ -292,22 +289,29 @@
 
         // Enum voor de verschillende tiles in de wereld
         enum TileType {
-            GRASS,
-            TALLGRASS,
-            PATH,
-            SANDPATH,
-            WATER
+            GRASS("ImagesAndSprites/WorldTiles/Grass.png"),
+            TALLGRASS("ImagesAndSprites/WorldTiles/Tallgrass.png"),
+            SANDPATH("ImagesAndSprites/WorldTiles/SandPath.png"),
+            WATER("ImagesAndSprites/WorldTiles/Water.png");
+
+            private final String imagePath;
+
+            TileType(String imagePath) {
+                this.imagePath = imagePath;
+            }
+
+            public String getImagePath() {
+                return imagePath;
+            }
         }
 
         // Getter om de juiste tile te vinden
         private TileType getTileType(int row, int column) {
-            if (isPath(row, column)) {
-                return TileType.PATH;
-            } else if (isSandPath(row, column)) {
+            if (isSandPath(row, column)) {
                 return TileType.SANDPATH;
             } else if (isWater(row, column)) {
                 return TileType.WATER;
-            } else if (isTallGrass(row, column)) {
+            } else if (isTallgrass(row, column)) {
                 return TileType.TALLGRASS;
             } else {
                 // Overige tiles zijn sowieso grass tiles

@@ -1,0 +1,14 @@
+.custom-button {
+    -fx-text-fill: rgb(79, 66, 181);
+}
+
+.custom-label {
+    -fx-text-fill: rgb(0, 0, 0);
+}
+
+.custom-rectangle {
+    -fx-fill: WHITE;
+    -fx-opacity: 0.30;
+    -fx-stroke: rgb(79, 66, 181);
+    -fx-stroke-type: inside;
+}

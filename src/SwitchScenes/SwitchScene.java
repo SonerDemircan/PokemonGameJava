@@ -27,7 +27,6 @@ public class SwitchScene {
     public void openNewScene(String fxmlFilename, Stage currentStage, String stageTitle) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/" + fxmlFilename + ".fxml"));
-
         Scene newScene = new Scene(root);
         currentStage.setMinWidth(1000);
         currentStage.setMinHeight(1000);
@@ -35,7 +34,10 @@ public class SwitchScene {
         currentStage.setFullScreen(false);
         currentStage.setTitle(stageTitle);
         currentStage.show();
-        mediaPlayer.stop();
+
+        if (mediaPlayer != null) {
+            stopSceneThemeSong();
+        }
     }
 
     //om onze world object door te geven aan de volgende scene, zo kunnen we de objecten aangemaakt in deze controller aanspreken in andere controllers
